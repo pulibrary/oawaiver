@@ -1,0 +1,173 @@
+<h1> Edit Waiver Info </h1>
+
+
+<div class="index waiver_infos">
+<p>
+  Requested by  <strong>  <%= @waiver_info.requester %> </strong> on <%= @waiver_info.created_at.strftime("%b %d %Y") %>
+</p>
+  <p>
+    <%= link_to "View Waiver", @waiver_info %>
+  </p>
+
+</div>
+
+<%= content_tag(:div, notice, class: notice) if notice and not notice.empty? %>
+
+<%= render "submit_errors" %>
+
+<section class="panel">
+  <div class="help-block"><span class="required">*</span> indicates required field</div>
+
+  <%= form_for(@waiver_info, :url => edit_by_admin_path, :method => :post,
+               html: {class: 'section-content disable_returns', id: 'waiver_info_form', 'accept-charset' => "UTF-8", autocomplete: "off"}) do |f| %>
+
+      <div class=container">
+
+        <div class="col-md-12">
+          <fieldset>
+            <legend>Article</legend>
+            <div class="form-group required">
+              <label for="waiver_info_title">Title</label>
+              <%= f.text_field :title,
+                               :placeholder => 'The title of article (expected or working title)',
+                               :class => 'form-control',
+                               :required => true %>
+            </div>
+            <div class="form-group required">
+              <label for="waiver_info_journal">Journal</label>
+              <%= f.text_field :journal,
+                               :placeholder => 'The full name of the journal in which you expect to publish this article',
+                               :class => 'form-control',
+                               :required => true %>
+            </div>
+
+            <div class="form-group">
+              <label for="waiver_info_journal_issn"> Journal ISSN </label>
+              <%= f.text_field :journal_issn,
+                               :placeholder => 'ISSN',
+                               :class => 'form-control'  %>
+            </div>
+
+            <div class="form-group">
+              <label for="waiver_info_notes">Notes</label>
+              <%= f.text_area :notes, :rows => 3, :class => "form-control" %>
+            </div>
+          </fieldset>
+        </div>
+
+        <fieldset class="col-md-12">
+          <legend>Author</legend>
+          <div class="col-md-6">
+            <div>
+              <%= directory_link(@waiver_info.author_email, "Search Princeton Directory") %>
+            </div>
+            <div class="form-group field required">
+              <%= f.label :author_first_name, 'First Name' %>
+              <%= f.text_field :author_first_name, class: 'first_name', size: 30, :required => true %>
+            </div>
+            <div class="form-group field required">
+              <%= f.label :author_last_name, 'Last Name' %>
+              <%= f.text_field :author_last_name, class: 'last_name', size: 30, :required => true %>
+            </div>
+            <div class="form-group field required">
+              <%= f.label :author_status, 'Status' %>
+              <%= f.select :author_status,
+                           options_for_select(AuthorStatus.StatusList(),:selected => @waiver_info.author_status),
+                           {class: 'status',  required: true} %>
+            </div>
+
+            <div class="form-group field required">
+              <%= f.label :author_department, 'Department' %>
+              <%= f.text_field :author_department, class: 'department', size: 30, :required => true %>
+            </div>
+            <div class="form-group field required">
+              <%= f.label :author_email, 'Author Email' %>
+              <%= f.text_field :author_email, class: 'email', size: 30, :required => true %>
+            </div>
+            <div class="form-group field">
+              <%= f.label :author_unique_id, 'Unique Id' %>
+              <%= f.text_field :author_unique_id, class: 'unique_id'%>
+            </div>
+          </div>
+
+          <div class="col-md-6" id="author_data">
+            <div id="author_select_with_ajax">
+              <div class="form-group required ui-widget">
+                <label for="author_data">Author</label>
+                <input placeholder="Search for Author" class="form-control">  </input>
+              </div>
+            </div>
+
+            <div class="left">
+              <strong>First Name:</strong>
+              <span class="first_name"> </span>
+            </div>
+            <div class="clear"></div>
+            <div class="left">
+              <strong>Last Name:</strong>
+              <span class="last_name"> </span>
+            </div>
+            <div class="clear"></div>
+            <div class="left"><strong>Email:</strong>
+              <span class="email"> </span>
+            </div>
+            <div class="clear"></div>
+            <div class="left">
+              <strong>Department:</strong>
+              <span class="department">  </span>
+            </div>
+            <div class="clear"></div>
+            <div class="left ">
+              <strong>Unique Id:</strong>
+              <span class="unique_id">  </span>
+            </div>
+            <div class="clear"></div>
+            <div class="left ">
+              <strong>Status:</strong>
+              <span class="status">  <%= AuthorStatus.StatusFaculty() %>  </span>
+            </div>
+            <div class="clear"></div>
+            <div class="left ">
+              <a href="#" onclick="copy_values();return false;"> Copy Values</a>
+            </div>
+
+            <div id="log" class="left">Ajax logging <br/></div>
+
+          </div>
+
+        </fieldset>
+
+        <div class="col-md-12">
+          <div class="actions">
+            <%= f.submit "Reset", :class => "btn" %>
+            <%= f.submit "Save", :class => "btn btn-orange" %>
+          </div>
+        </div>
+      </div>
+
+  <% end %>
+</section>
+
+  <script>
+    function copy_values() {
+      $("input.first_name").val($("#author_data .first_name").html());
+      $("input.last_name").val($("#author_data .last_name").html());
+      $("input.department").val($("#author_data .department").html());
+      $("input.email").val($("#author_data .email").html());
+      $("input.unique_id").val($("#author_data .unique_id").html());
+      $("select.status").val($("#author_data .status").html().trim());
+    }
+
+
+    function init_page() {
+      $("#log").hide();
+
+      AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_data', "<%= AuthorStatus.AjaxUrl %>", "<%= AuthorStatus.AjaxParams %>");
+    }
+
+    $(document).ready(init_page);
+
+  </script>
+
+
+

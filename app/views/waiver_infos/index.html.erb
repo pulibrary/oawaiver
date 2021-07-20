@@ -1,0 +1,36 @@
+
+
+  <% if @properties.empty? and @search_term.empty? then %>
+      <h1>All Granted Waiver</h1>
+  <% else %>
+      <h1> Waivers Granted </h1>
+  <% end %>
+
+  <%= render 'search_form' %>
+
+  <div class="index waiver_infos">
+    <div class="terms">
+        <%= content_tag(:div, "Matching words: #{@search_term}") unless (@search_term.empty?) %>
+        <%= properties_list(@properties) unless @properties.empty? %>
+        <div> <%= paginate_length(@waiver_infos) %> Matching Records </div>
+      </div>
+    <%= will_paginate @waiver_infos %>
+  </div>
+
+  <section class="panel">
+    <% if @waiver_infos.empty? then %>
+        <div class="section-content">
+          <div class="col-md-12">
+            <p>
+              Found no matching waivers.
+            </p>
+          </div>
+        </div>
+
+    <% else %>
+    <%= render 'index_table' %>
+    <% end %>
+  </section>
+
+</div>
+

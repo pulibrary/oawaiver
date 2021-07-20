@@ -1,0 +1,25 @@
+
+default: &default
+  solr:
+    hostname: localhost
+
+development:
+  <<: *default
+  solr:
+    port: 8983
+    log_level: DEBUG
+    path: /solr/oawaiver-development
+
+test:
+  <<: *default
+  solr:
+    port: 8983
+    log_level: INFO
+    path: /solr/oawaiver-test
+
+production:
+  <<: *default
+  solr:
+    port: 8080
+    log_level: INFO
+    path: /solr/oawaiver-production

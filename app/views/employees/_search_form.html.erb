@@ -1,0 +1,7 @@
+<%= form_tag("#{search_employees_url}" ) do -%>
+    <div class="form-group input-group">
+      <%= text_field_tag :search_term, @search_term,
+                       :class => 'form-control' %>
+      <div class="input-group-addon"><%= submit_tag 'Filter', :class => "btn btn-orange" %></div>
+    </div>
+<% end %>

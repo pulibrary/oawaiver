@@ -1,0 +1,78 @@
+<h1> Manage </h1>
+
+
+<section class="panel">
+  <div class="section-content callout-info">
+    <div class="col-md-12">
+      <p>
+        <% if WaiverMailer.mail_to_authors then %>
+          <p class="text-danger"> Mailing to Authors is Activated </p>
+      <% else %>
+          <p> Mailing to requester and cc only - <strong>no mail to authors. </strong></p>
+      <% end %>
+
+      <p>
+        <%= link_to "Test Author Search Service", author_search_status_path %>
+        -->
+        Contact the webmaster if this link does not lead to a page showing json formatted status information.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-heading">Review Waivers</div>
+  <div class="section-content">
+    <div class="col-md-6">
+      <%= link_to 'Waivers Search', search_waiver_infos_path  %> <br/>
+      <%= link_to "Waivers without Unique Ids", index_missing_unique_ids_waiver_infos_path %>   <br/>
+      <%= link_to "Waivers without journal", search_waiver_infos_path(waiver_info: {journal: 'unknown'}) %>  <br/>
+      <%= link_to "Waivers without department", search_waiver_infos_path(waiver_info: {author_department: 'unknown'}) %>
+    </div>
+    <div class="col-md-6">
+      Search Waivers imported from Provost's Qualtrics Database: <br/>
+      <%= link_to "All Legacy Waivers",
+                   search_waiver_infos_path(waiver_info: {requester: 'provost'}) %>  <br/>
+      <%= link_to "Legacy Waivers with faculty status",
+                  search_waiver_infos_path(waiver_info: {requster: 'provost', author_status: 'faculty'}) %>  <br/>
+      <%= link_to "Legacy Waivers with unknown status",
+                  search_waiver_infos_path(waiver_info: {requster: 'provost', author_status: 'unknown'}) %>  <br/>
+
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="panel-heading">Accounts</div>
+
+  <div class="section-content">
+    <div class="col-md-6">
+      <h3>Account List</h3>
+
+      <table class="index">
+        <thead>
+        <tr>
+          <th> NetId</th>
+          <th> &nbsp;</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @accounts.each do |user| %>
+            <tr>
+              <td><%= user.netid %></td>
+              <td>
+                <%= button_to "Delete",  account_path(user), method: 'delete'  %>
+            </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-6">
+      <h3>New Account</h3>
+      <p id="notice"><%= notice %></p>
+      <%= render 'accounts/form' %>
+    </div>
+  </div>
+</section>

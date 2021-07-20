@@ -1,0 +1,12 @@
+
+<% explain = 'Search for the given words in the author\'s name and department, ' +
+      'as well as the article\'s title, journal, and the contents of the notes.' %>
+
+<%= form_tag("#{match_waiver_infos_words_url}", :title =>  "#{explain}" ) do -%>
+    <div class="form-group input-group">
+      <%= text_field_tag :search_term, @search_term,
+                       :class => 'form-control' %>
+      <div class="input-group-addon"><%= submit_tag 'Filter', :class => "btn btn-orange" %></div>
+    </div>
+<% end %>
+

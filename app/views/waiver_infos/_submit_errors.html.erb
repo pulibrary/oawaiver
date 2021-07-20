@@ -1,0 +1,7 @@
+<% unless @waiver_info.errors.empty? then %>
+      <div class="col-md-12">
+        <% @waiver_info.errors.full_messages.each do |message| %>
+            <p class="error"><%= message %></p>
+        <% end %>
+      </div>
+<% end %>
