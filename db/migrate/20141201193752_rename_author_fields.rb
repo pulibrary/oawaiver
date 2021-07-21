@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RenameAuthorFields < ActiveRecord::Migration
   def change
     rename_column :authors, :firstName, :first_name

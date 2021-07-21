@@ -1,23 +1,20 @@
-class Account < ActiveRecord::Base
+# frozen_string_literal: true
 
+class Account < ActiveRecord::Base
   validates_presence_of :netid
   validates_uniqueness_of :netid
 
-  def to_s
-    return "#{netid}"
-  end
+  delegate :to_s, to: netid
 
   def self.roles(netid)
-    roles = [];
-    if (netid) then
-      roles.append("LOGGEDIN");
-      user = Account.find_by_netid(netid);
-      if (user) then
-        roles.append("ADMIN");
-      end
+    roles = []
+    if netid
+      roles.append('LOGGEDIN')
+      user = Account.find_by_netid(netid)
+      roles.append('ADMIN') if user
     else
-      roles = ["ANONYMOUS"];
+      roles = ['ANONYMOUS']
     end
-    return roles;
+    roles
   end
 end

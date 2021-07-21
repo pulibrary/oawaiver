@@ -1,10 +1,12 @@
-load "lib/author_status.rb"
+# frozen_string_literal: true
 
-init_file = "config/author_status.yml";
-options = YAML.load_file("#{::Rails.root.to_s}/#{init_file}");
+load 'lib/author_status.rb'
+
+init_file = 'config/author_status.yml'
+options = YAML.load_file("#{::Rails.root}/#{init_file}")
 
 begin
-  AuthorStatus::Bootstrap(options);
-rescue Exception => e
-  raise "could not initialize from " + init_file + ": " + e.message
+  AuthorStatus::Bootstrap(options)
+rescue StandardError => e
+  raise 'could not initialize from ' + init_file + ': ' + e.message
 end

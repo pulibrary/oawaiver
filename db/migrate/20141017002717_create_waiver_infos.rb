@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateWaiverInfos < ActiveRecord::Migration
   def change
     create_table :waiver_infos do |t|
