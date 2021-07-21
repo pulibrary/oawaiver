@@ -1,0 +1,66 @@
+<h1> Faculty Detail </h1>
+
+<% if (params['unique_id']) %>
+    <div class="index waiver_infos">
+      For employee with id  <%= params['unique_id'] %>
+    </div>
+<% end %>
+
+
+<%= link_to 'All Faculty', employees_path, class: 'back-button' %>
+
+<section class="panel">
+  <div class="section-content">
+    <div class="col-md-12">
+      <% if @employee.nil? then %>
+
+          <p id="error_explanation"> No Such Employee</p>
+
+      <% else %>
+
+          <p id="notice"><%= notice %></p>
+
+          <p>
+            <strong>First Name:</strong>
+            <%= @employee.first_name %>
+          </p>
+
+          <p>
+            <strong>Last Name:</strong>
+            <%= @employee.last_name %>
+          </p>
+
+          <p>
+            <strong>Preferred Name:</strong>
+            <%= @employee.preferred_name %>
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            <%= @employee.email %>
+          </p>
+
+          <p>
+            <strong>Netid:</strong>
+            <%= @employee.netid %>
+          </p>
+
+          <p>
+            <strong>Unique Id:</strong>
+            <%= @employee.unique_id %>
+          </p>
+
+          <p>
+            <strong>Department</strong>
+            <%= @employee.department %>
+          </p>
+
+          <p>
+             <%= waiver_infos_property_or_link( :author_unique_id, @employee.unique_id, "Show Waivers") %>
+          </p>
+
+
+      <% end %>
+    </div>
+  </div>
+</section>

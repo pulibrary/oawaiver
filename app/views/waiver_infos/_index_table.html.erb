@@ -1,0 +1,57 @@
+<table class="table table-hover table-boxed table-bordered">
+  <thead>
+  <tr>
+    <th>Author <br/> &nbsp;</th>
+    <th>Title <br/> Journal</th>
+    <th>Request Date <br/> &nbsp; </th>
+    <th> &nbsp;</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @waiver_infos.each do |waiver_info| %>
+      <tr>
+        <td>
+          <div>
+            <%= waiver_infos_property_or_link(:author_last_name, waiver_info.author_last_name) %>,
+            <%= waiver_info.author_first_name %>
+          </div>
+          <div class="author_department">
+            <%= waiver_infos_property_or_link(:author_department, waiver_info.author_department) %>
+          </div>
+        </td>
+
+        <td>
+          <div>
+            <%= google_scholar_link(waiver_info.title) %>
+            <%= waiver_info.title %>
+          </div>
+          <div>
+            <%= sherpa_romeo_journal(waiver_info.journal) %>
+            <%= waiver_info.journal %>
+          </div>
+
+        </td>
+
+        <td>
+          <div>
+            <%= waiver_info.created_at.strftime("%b %d %Y") %>
+          </div>
+        </td>
+
+        <td>
+          <div>  <%= link_to "Waiver Email", show_mail_waiver_info_path(waiver_info) if waiver_info.mail_records.any? %> </div>
+          <div>
+            <%= link_to 'View', url_for(waiver_info), :class => "admin_actions" %>
+            <%= link_to 'Edit', url_for(:action => :edit_by_admin,
+                                        :id => waiver_info.id), :class => "admin_actions" %> </div>
+        </td>
+
+      </tr>
+
+  <% end %>
+
+  </tbody>
+
+</table>
+
+

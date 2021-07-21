@@ -1,0 +1,19 @@
+
+<section class="panel">
+
+  <table class="table table-hover table-boxed table-bordered">  <thead>
+  <tr>
+    <th>Departments</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @departments.each do |department| %>
+      <tr>
+        <td><%= department %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+</section>

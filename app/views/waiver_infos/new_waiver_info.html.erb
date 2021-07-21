@@ -1,0 +1,167 @@
+<section class="panel" xmlns="http://www.w3.org/1999/html">
+  <div class="section-content open-access callout-info">
+    <div class="col-md-12">
+      <p>
+        The <a href="http://www.princeton.edu/dof/policies/publ/fac/open-access-policy/">
+        Open Access Policy</a> approved by faculty in September of 2011 grants Princeton University a license to all journal articles and conference proceedings authored by Princeton faculty members with the intent of making the content freely accessible to the public. The policy does not apply to students or staff.
+      </p>
+      <p> If you wish to prevent an article from being made publicly accessible, then you must request a waiver for that article.
+      </p>
+    </div>
+  </div>
+</section>
+
+<h1> Request A Waiver </h1>
+
+<%= render "submit_errors" %>
+
+  <div class="help-block"><span class="required">*</span> indicates required field</div>
+
+  <%= form_for(@waiver_info, url: create_waiver_info_path, html: {class: 'section-content disable_returns', id: 'waiver_info_form', 'accept-charset' => "UTF-8"}) do |f| %>
+    <div class="col-md-12">
+    <fieldset>
+      <legend>Author</legend>
+      <div id="author_form_fields">
+        <span> init_page replaces this  by #ajax_author_data or  #free_form_author_data  </span>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend>Article</legend>
+      <div class="form-group required">
+        <%= f.label :title, 'Title' %>
+        <%= f.text_field :title,
+                         :placeholder => 'The title of article (expected or working title)',
+                         :class => 'form-control',
+                         :required => true %>
+      </div>
+      <div class="form-group required">
+        <%= f.label :journal, 'Journal' %>
+        <%= f.text_field :journal, :placeholder => 'The full name of the journal in which you expect to publish this article',
+               :class => 'form-control', :required => true %>
+      </div>
+      <div class="form-group">
+        <label for="waiver_info_notes">Notes</label>
+        <%= f.text_area :notes,  :rows => 3, :class => "form-control" %>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>E-mail Recipient</legend>
+      <p class="help-block">
+        An email confirmation including the waiver will be sent to the email address listed for the author above.
+        If you are not the author, a copy will also be sent to you.
+        If you wish that the waiver be sent to additional recipients, please enter the additional email addresses separated with commas in the field below.
+      </p>
+      <div class="form-group">
+        <label for="waiver_info_cc_email">E-mail</label>
+        <%= f.text_field :cc_email, :type => 'email', :placeholder => 'Email address where waiver should be sent',
+                         :class => 'form-control' %>
+      </div>
+    </fieldset>
+      <div class="actions">
+        <%= f.submit "Cancel", :name => "CANCEL", :class => "btn" %>
+        <%= f.submit "Confirm", :name => "CONFIRM-WAIVER", :class => "btn btn-orange" %>
+      </div>
+    </div>
+  <% end %>
+</section>
+
+  <section class="hidden" id="templates">
+
+    <%= form_for(@waiver_info, url: create_waiver_info_path, html: {id: 'waiver_info_form', 'accept-charset' => "UTF-8"}) do |f| %>
+        <div> ajax form </div>
+        <div class='ajax_author_data'>
+          <p class="help-block">Please enter the faculty author's first or last name in the search box below and choose
+            from the drop down list that appears.</p>
+          <p class="help-block">If the author does not appear in the drop down list,
+            <button type="button" onclick="author_free_entry_form()" id="author_free_entry_click" class="btn btn-link">
+              enter author details
+            </button>.
+          </p>
+          <% error_class = @waiver_info.errors.include?(:author_first_name) ? "field_with_errors" : "" %>
+          <div id="author_select_with_ajax">
+            <div class="form-group required ui-widget <%= error_class %>">
+              <label for="author_data">Author</label>
+              <input  class="form-control"  value="<%= @waiver_info['author_preferred_name'] %>" required="required">
+            </div>
+          </div>
+          <div class="field hidden">
+            <%= hidden_author_form_fields %>
+            <input type="hidden" name="waiver_info[author_status]" value="<%= AuthorStatus.StatusFaculty %>">
+          </div>
+          <div class="form-group">
+            <h4>Author Details</h4>
+            <dl>
+              <dt>First Name:</dt>
+              <dd class="first_name"> <%= @waiver_info[:first_name] %> </dd>
+              <dt>Last Name:</dt>
+              <dd class="last_name"></dd>
+              <dt>E-mail:</dt>
+              <dd class="email"></dd>
+              <dt>Department:</dt>
+              <dd class="department"></dd>
+            </dl>
+          </div>
+        </div>
+
+        <div> free form author data </div>
+      <div class="free_form_author_data">
+        <p class="help-block">
+          <button type="button" onclick="author_ajax_form()" id="author_ajax_click" class="btn btn-link">Search for faculty author</button>
+        </p>
+        <div class="form-group field required">
+          <%= f.label :author_first_name, 'First Name' %>
+          <%= f.text_field :author_first_name, :placeholder =>  "Author's first name", :class => "form-control", :required => true %>
+        </div>
+        <div class="form-group field required">
+          <%= f.label :author_last_name, 'Last Name' %>
+          <%= f.text_field :author_last_name, :placeholder =>  "Author's last name", :class => "form-control", :required => true %>
+        </div>
+        <div class="form-group field required">
+          <%= f.label :author_email, 'Email' %>
+          <%= f.text_field :author_email, :placeholder =>  "Author's e-mail address", :class => "form-control", :required => true %>
+        </div>
+        <div class="form-group field required">
+          <%= f.label :author_department, 'Department' %>
+          <%= f.text_field :author_department, :placeholder =>  "Author's department", :class => "form-control", :required => true %>
+         </div>
+        <input type="hidden" name="waiver_info[author_status]" value="<%= AuthorStatus.StatusOther %>">
+      </div>
+
+    <% end %>
+  </section>
+</section>
+
+<section id="log">
+</section>
+
+<script>
+var ajax_author_form;
+var free_author_form;
+
+function author_ajax_form() {
+  $("#author_form_fields").children().last().replaceWith(ajax_author_form);
+  AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_form_fields', "<%= AuthorStatus.AjaxUrl %>", "<%= AuthorStatus.AjaxParams %>");
+  $('#author_select_with_ajax  input').val("").attr("placeholder", "Search for Author");
+  AjaxAutoCompleter.clear_ajax_form('#author_select_with_ajax');
+}
+
+function author_free_entry_form() {
+$("#author_form_fields").children().last().replaceWith(free_author_form);
+}
+
+function init_form(form_selector) {
+active_form = $("#author_form_fields").children().last().replaceWith($("#templates " + form_selector ));
+}
+
+function init_page() {
+  ajax_author_form = $("#templates .ajax_author_data");
+  free_author_form = $("#templates .free_form_author_data");
+
+  $("#log").hide();
+
+  author_ajax_form();
+}
+
+$(document).ready(init_page);
+</script>

@@ -1,0 +1,26 @@
+<% if Rails.env() != "production" then %>
+#
+# THIS MAIL WAS SENT FROM A TEST SYSTEM
+# It has no legal value.
+#
+<% end %>
+
+  To whom it may concern:
+
+  As per request, Princeton University hereby waives the rights that would otherwise flow to it pursuant to the policy
+  on copyrights approved at its faculty meeting of September 19, 2011. This waiver applies to the following article:
+
+  '<%= @waiver_info.title %>' in <%= @waiver_info.journal %>
+
+  If the article specified above arose from NIH-funded research, please note that the University's waiver
+  of its own copyrights in no way diminishes your obligations under the NIH Public Access Policy.
+  You must accordingly take care that your contracts with publishers reserve rights sufficient to comply with the NIH
+  policy.
+
+  If you have any questions about the University copyright policy visit http://www.princeton.edu/dof/policies/publ/fac/open-access-policy.
+  You are encouraged to contact the Office of the Dean of the Faculty at dof@princeton.edu.
+
+  Sincerely,
+
+  Deborah Prentice
+  Provost

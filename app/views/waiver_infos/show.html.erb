@@ -1,0 +1,90 @@
+
+  <% if @request_granted then %>
+      <h1> Waiver Granted </h1>
+  <% else %>
+      <h1> Granted Waiver </h1>
+      <div class="index waiver_infos">
+        <p> This waiver was granted on <%= @waiver_info.created_at.strftime("%b %d %Y") %>. </p>
+        <p class="admin_actions"><%= link_to "Edit Waiver", edit_by_admin_path(:id => @waiver_info.id) %> </p>
+      </div>
+  <% end %>
+
+  <% if notice then %>
+      <p id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="panel">
+    <div class="section">
+      <div class="section-content">
+        <div class="col-md-12">
+
+
+          <div class="article">
+            <h2> Article </h2>
+
+            <p>
+              <strong>Title:</strong>
+              <%= google_scholar_link(@waiver_info.title) %>
+              <%= @waiver_info.title %>
+            </p>
+            <p>
+              <strong>Journal Name:</strong>
+              <%= sherpa_romeo_journal(@waiver_info.journal) %>
+              <%= @waiver_info.journal %>
+            </p>
+            <% if @waiver_info.journal_issn and not @waiver_info.journal_issn.empty?  then %>
+                <p>
+                  <strong>Journal issn:</strong>
+                  <%= @waiver_info.journal_issn %>
+                </p>
+            <% end %>
+          </div>
+
+          <div class="author">
+            <h2> Author</h2>
+
+            <p>
+              <%= name = "#{@waiver_info.author_last_name},#{ @waiver_info.author_first_name}";
+                  institution_site_search(name)  %>
+              <%= waiver_infos_property_or_link( :author_last_name, @waiver_info.author_last_name) %>, <%= @waiver_info.author_first_name %>,
+              <%= mail_to(@waiver_info.author_email) %>
+            </p>
+            <p>
+              <%= waiver_infos_property_or_link( :author_department, @waiver_info.author_department) %>
+            </p>
+            <p>
+              <strong>Status:</strong>
+              <%= @waiver_info.author_status %>
+            </p>
+            <p class="admin_actions">
+              <strong>Employee Id:</strong>
+              <%= waiver_infos_property_or_link( :author_unique_id, @waiver_info.author_unique_id) %>
+            </p>
+          </div>
+
+          <div class="email_recipients">
+            <h2> Email Recipients </h2>
+            <p><strong> Requester: </strong> <%= @waiver_info.requester_email %> </p>
+            <%  unless @waiver_info.legacy? then %>
+            <p><strong> Author: </strong> <%= @waiver_info.author_email %> </p>
+            <% if (@waiver_info.cc_email) then %>
+                <p><strong>Others:</strong>  <%= @waiver_info.cc_email %> </p>
+            <% end %>
+            <p> <%= link_to "View Waiver Email", show_mail_waiver_info_path(@waiver_info) %></p>
+            <% end %>
+          </div>
+
+
+          <% if @waiver_info.notes and not @waiver_info.notes.empty? then %>
+              <div class="notes">
+                <h2> Notes </h2>
+                <p>
+                  <%= simple_format(h(@waiver_info.notes), {class: 'left'}, wrapper_tag: "div"); %>
+                </p>
+              </div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>

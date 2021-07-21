@@ -1,0 +1,24 @@
+<h1> Granted Waiver Mail </h1>
+
+<p>
+Mail sent regarding:
+<%= link_to @waiver_info.citation, @waiver_info %>
+</p>
+
+<% @mail_records.each do |mail_record| %>
+    <div class="mail_block">
+   <pre>
+        <%= "\n" + mail_record.blob + "\n" %>
+    </pre>
+
+    </div>
+<% end %>
+
+<%if @mail_records.empty? then %>
+<p>
+No record of mail.
+</p>
+<p>
+  <%= simple_format(h(@waiver_info.notes), {class: 'left '}, wrapper_tag: "div"); %>
+</p>
+<% end %>

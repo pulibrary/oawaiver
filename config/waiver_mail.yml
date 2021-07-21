@@ -1,0 +1,28 @@
+
+development:
+  from: noreply@princeton.edu
+  url: http://localhost:3000/waiver/ID
+  send_to_author: false
+
+test:
+  from: noreply@princeton.edu
+  url: http://localhost:3000/waiver/ID
+  send_to_author: false
+
+production:
+  from: noreply@princeton.edu
+  reply_to: provres@princeton.edu
+  bcc: yl7@princeton.edu
+  url: https://oawaiver.princeton.edu/waiver/ID
+  send_to_author: true
+
+staging:
+  from: noreply@princeton.edu
+  url: https://oawaiver-staging.princeton.edu/waiver/ID
+  send_to_author: false
+
+# E-Mail Templates
+mail_templates:
+  granted:
+    body: waiver_mail/granted.txt.erb
+    subject: waiver_mail/granted_subject.txt.erb

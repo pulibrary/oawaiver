@@ -1,0 +1,84 @@
+<h1> Search Waivers </h1>
+
+<%= content_tag(:div, notice, class: notice) if notice and not notice.empty %>
+
+<section class="panel">
+  <%= form_for(@waiver_info, url: search_waiver_infos_path,
+               html: {class: 'section-content', id: 'waiver_info_form'},
+               method: 'get') do |f| %>
+      <div class="col-md-6 author">
+        <fieldset>
+          <legend> Author</legend>
+
+          <div class="field form-group">
+            <%= f.label :author_first_name, 'First Name' %>
+            <%= f.text_field :author_first_name, :class => 'form-control', placeholder: 'Author\'s first name' %>
+          </div>
+          <div class="field form-group">
+            <%= f.label :author_last_name, 'Last Name' %>
+            <%= f.text_field :author_last_name, :class => 'form-control', placeholder: 'Author\'s last name' %>
+          </div>
+          <div class="field form-group">
+            <%= f.label :author_status, 'Status' %>
+            <%= f.select :author_status, options_for_select(WaiverInfo.select(:author_status).uniq.collect { |w| w.author_status }.prepend(''),
+                                                            :selected => ''),
+                         {}, {:class => 'form-control'} %>
+          </div>
+
+          <div class="field form-group">
+            <%= f.label :author_department, 'Department' %>
+            <%= f.text_field :author_department, :class => 'form-control', placeholder: 'Author\'s department' %>
+          </div>
+          <div class="field form-group">
+            <%= f.label :author_email, 'Author Email' %>
+            <%= f.text_field :author_email, :class => 'form-control', placeholder: 'Author\'s email' %>
+          </div>
+          <div class="field ">
+            <%= f.label :author_unique_id, 'Unique Id' %>
+            <%= f.text_field :author_unique_id, class: 'unique_id', :class => 'form-control', placeholder: 'Author\'s unique id' %>
+          </div>
+
+        </fieldset>
+      </div>
+
+      <div class="col-md-6 article">
+        <fieldset>
+
+          <legend> Article</legend>
+
+          <div class="field form-group">
+            <%= f.label :title %>
+            <%= f.text_field :title, :class => 'form-control', placeholder: 'The title of article' %>
+          </div>
+          <div class="field form-group">
+            <%= f.label :journal %>
+            <%= f.text_field :journal, :class => 'form-control', placeholder: 'The full name of the journal' %>
+          </div>
+
+        </fieldset>
+
+        <fieldset>
+
+          <legend>Requester</legend>
+
+          <div class="field form-group">
+            <%= f.label :requester %>
+            <%= f.text_field :requester, :class => 'form-control', placeholder: 'Name of requester' %>
+          </div>
+          <div class="field form-group">
+
+            <%= f.label :notes %>
+            <%= f.text_field :notes, :class => 'form-control' %>
+          </div>
+
+        </fieldset>
+      </div>
+
+
+      <div class="actions col-md-12">
+        <%= f.submit "Search", :class => "btn btn-orange" %>
+      </div>
+
+
+  <% end %>
+</section>

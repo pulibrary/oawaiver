@@ -1,0 +1,27 @@
+<section class="panel">
+  <h1 class="section-heading text-highlight"></h1>
+  <div class="section-content">
+    <div class="col-md-12">
+      <p>
+        The <a href="http://www.princeton.edu/dof/policies/publ/fac/open-access-policy/">
+        Open Access Policy</a> approved by faculty in September of 2011 grants Princeton University a license to all journal articles and conference proceedings authored by Princeton faculty members with the intent of making the content freely accessible to the public. The policy does not apply to students or staff.
+      </p>
+      <p> If you wish to prevent an article from being made publicly accessible, you must request a waiver for that article.
+      </p>
+    </div>
+  </div>
+  <div class="section-content actions">
+    <form accept-charset="UTF-8" action="<%= new_waiver_info_path %>" method="get">
+      <div style="display:none">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+      </div>
+      <input name="commit" type="submit" value="Request a New Waiver" class="btn btn-cta" />
+    </form>
+    <form accept-charset="UTF-8" action="<%= mine_waiver_infos_path %>" class="actions" method="get">
+      <div style="display:none">
+        <input name="utf8" type="hidden" value="&#x2713;" />
+      </div>
+      <input name="commit" type="submit" value="Review Prior Waiver Requests" class="btn btn-cta" />
+    </form>
+  </div>
+</section>
