@@ -50,7 +50,7 @@ gem 'roo', '~> 1.13.2'
 gem 'lumberjack'
 
 # json api with documentation
-gem 'grape', '~> 0.6.1'
+gem 'grape', '~> 1.1.0'
 gem 'grape-entity', '~> 0.4.0'
 gem 'rack-contrib', '~> 1.1.0'
 gem 'grape-swagger', '~> 0.7.2'
