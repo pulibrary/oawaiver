@@ -1,0 +1,66 @@
+---
+version: 2.1
+executors:
+  oawaiver-executor:
+    docker:
+      - image: circleci/ruby:2.6.0-node-browsers
+        environment:
+          BUNDLER_VERSION: 1.17.3
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+      - image: circleci/mariadb:10.6
+        environment:
+          POSTGRES_USER: oawaiver
+          POSTGRES_DB: oawaiver
+          POSTGRES_HOST_AUTH_METHOD: trust
+    working_directory: ~/oawaiver
+
+commands:
+  setup-bundler:
+    description: "Install correct version of bundler and load from cache or bundle install"
+    steps:
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # Which version of bundler?
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+            - oawaiver-bundle-26-{{ checksum "Gemfile.lock" }}
+            - oawaiver-bundle-26-
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      # Store bundle cache
+      - save_cache:
+          key: oawaiver-bundle-v26-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+jobs:
+  build:
+    executor: oawaiver-executor
+    steps:
+      - attach_workspace:
+          at: '~/oawaiver'
+      - checkout
+      - setup-bundler
+
+      - persist_to_workspace:
+          root: '~/oawaiver'
+          paths: '*'
+
+workflows:
+  ci:
+    jobs:
+      - build

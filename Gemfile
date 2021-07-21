@@ -1,12 +1,10 @@
 source 'https://rubygems.org'
 
-
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
+gem 'bundler', '~> 1.17'
 gem 'rails', '~> 4.2'
 gem 'responders', '~> 2.0'
 
-# Use mysql as the database for Active Record  - execpt in testing
-gem 'mysql2', '~> 0.3.13'
+gem 'mysql2'
 
 group :assets do
   # Use SCSS for stylesheets
@@ -15,8 +13,6 @@ group :assets do
   gem 'uglifier', '>= 1.3.0'
   # Use CoffeeScript for .js.coffee assets and views
   gem 'coffee-rails', '~> 4.0.0'
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  # gem 'therubyracer',  platforms: :ruby
 end
 
 
@@ -31,30 +27,16 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
 
-# Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-# gem 'spring',        group: :development
-
-# Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-
 # Use Capistrano
 gem 'capistrano'
 gem 'capistrano-rails'
 gem 'capistrano-bundler'
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
 
 gem 'mail'
 gem 'will_paginate', '~> 3.0.6'
 
 gem 'rubycas-client', :git => 'https://github.com/ratliff/rubycas-client.git', :branch => 'rails4-fix'
 
-# index into solr
 gem 'kaminari'
 
 gem 'sunspot_rails'
@@ -67,7 +49,6 @@ gem 'roo', '~> 1.13.2'
 # rake tasks
 gem 'lumberjack'
 
-# used for employee/author-engine
 # json api with documentation
 gem 'grape', '~> 0.6.1'
 gem 'grape-entity', '~> 0.4.0'
@@ -99,7 +80,3 @@ group :production, :qa do
   gem 'execjs'
   gem 'therubyracer'
 end
-
-
-# See more at: http://everydayrails.com/2012/03/12/testing-series-rspec-setup.html#sthash.IMa5jPBk.dpuf
-
