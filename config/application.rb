@@ -9,6 +9,8 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module Waiver
+  VERSION = "0.0.1"
+
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -33,6 +35,6 @@ module Waiver
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
 
-    config.revision = File.open("#{::Rails.root}/REVISION").readline.strip
+    config.revision = Waiver::VERSION
   end
 end
