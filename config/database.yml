@@ -25,10 +25,10 @@ test:
 staging: &staging
   adapter: mysql2
   encoding: utf8
+  database: <%= ENV.fetch("APP_DB", 'oawaiver') %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   host: <%= ENV.fetch("APP_DB_HOST", 'localhost') %>
   port: <%= ENV.fetch("APP_DB_PORT", 3306) %>
-  database: <%= ENV.fetch("APP_DB", 'oawaiver') %>
   username: <%= ENV.fetch("APP_DB_USERNAME", 'oawaiver') %>
   password: <%= ENV.fetch("APP_DB_PASSWORD", 'oawaiver') %>
 
