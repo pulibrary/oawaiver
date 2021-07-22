@@ -7,19 +7,35 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 
 ### Dependencies Setup
 
-- MySQL (8.0)/MariaDB (10.6)
 - Ruby 2.6.0
+- Bundler 1.17.3
+
+```bash
+% bundle config --local build.mysql2 "--with-ldflags=-L$(brew --prefix openssl)/lib"
+% bundle install
+```
+
+#### Lando
+
+- Install Lando from https://github.com/lando/lando/releases (at least 3.x)
+- See .tool-versions for language version requirements (ruby)
+
+Then, please use Lando to run services required for both test and development environments.
+
+Start and initialize database services with `rake servers:start`
+
+To stop database services: `rake servers:stop` or `lando stop`
+
+#### MariaDB/MySQL
+
+Or, for running MySQL locally, please install the following:
+- MariaDB (10.6)/MySQL (8.0)
 
 ```bash
 % brew install mariadb
 % brew services start mariadb
 % sudo mysql_upgrade
 % sudo mariadb-secure-installation
-```
-
-```bash
-% bundle config --local build.mysql2 "--with-ldflags=-L$(brew --prefix openssl)/lib"
-% bundle install
 ```
 
 ### Running the Test Suites
