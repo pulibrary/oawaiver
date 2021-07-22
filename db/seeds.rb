@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-# seed the user table with one admin user
-
-Account.create(netid: admin_user, role: Account::ADMIN_ROLE)
+# Seed the user table with one admin user
+netid = "#{ENV['$USER']}@princeton.edu"
+Account.create(netid: netid, role: Account::ADMIN_ROLE)

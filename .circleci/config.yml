@@ -9,11 +9,18 @@ executors:
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
-      - image: circleci/mariadb:10.6
+          RAILS_ENV: test
+          APP_DB_HOST: 0.0.0.0
+          APP_SOLR_HOST: 0.0.0.0
+      - image: mariadb:10.6
         environment:
-          POSTGRES_USER: oawaiver
-          POSTGRES_DB: oawaiver
-          POSTGRES_HOST_AUTH_METHOD: trust
+          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
+          MARIADB_ROOT_HOST: localhost
+          MARIADB_DATABASE: oawaiver_test
+          MARIADB_USER: oawaiver
+          MARIADB_PASSWORD: oawaiver
+      - image: solr:8.4
+        command: bin/solr -cloud -noprompt -f -p 8983
     working_directory: ~/oawaiver
 
 commands:
@@ -47,6 +54,17 @@ commands:
           paths:
             - vendor/bundle
 
+  setup-solr:
+    description: "Create the Solr configurations"
+    steps:
+      - run:
+          name: Configure the Solr Configset
+          command: |
+            cd solr/solr_core/conf
+            zip -1 -r solr_config.zip ./*
+            curl -H "Content-Type: application/octet-stream" --data-binary @solr_config.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=oawaiver"
+            curl -H 'Content-Type: application/json' http://localhost:8983/api/collections/ -d '{create: {name: oawaiver-test, config: oawaiver, numShards: 1}}'
+
 jobs:
   build:
     executor: oawaiver-executor
@@ -71,10 +89,31 @@ jobs:
           name: Lint using RuboCop
           command: bundle exec rubocop --disable-pending-cops
 
+  test:
+    executor: oawaiver-executor
+    steps:
+      - attach_workspace:
+          at: '~/oawaiver'
+      - setup-bundler
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+      - run:
+          name: Wait for Solr
+          command: dockerize -wait tcp://localhost:8983 -timeout 1m
+      - setup-solr
+
+      - run:
+          name: Execute the test suites using RSpec
+          command: bundle exec rspec
+
 workflows:
   ci:
     jobs:
       - build
       - lint:
+          requires:
+            - build
+      - test:
           requires:
             - build

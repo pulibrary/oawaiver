@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 gem "actionpack", ">= 5.2.4.6"
 gem "actionview", ">= 5.2.4.4"
-gem 'bundler', '~> 2.2'
+gem 'bundler', '~> 2.1'
 gem "json", ">= 2.3.0"
 gem "rack", ">= 2.1.4"
 gem 'rails', '>= 5.2.6', '< 6.0'
@@ -60,6 +60,8 @@ gem 'grape-entity', '~> 0.4.0'
 gem 'grape-swagger', '~> 0.7.2'
 gem 'grape-swagger-rails', '~> 0.0.8'
 gem 'rack-contrib', '~> 1.1.0'
+
+gem 'sprockets', '~> 3.0'
 
 group :development do
   gem 'better_errors'

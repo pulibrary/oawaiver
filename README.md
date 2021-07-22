@@ -11,16 +11,21 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 - Ruby 2.7.4
 
 ```bash
-$ brew install mariadb
+% brew install mariadb
+% brew services start mariadb
+% sudo mysql_upgrade
+% sudo mariadb-secure-installation
 ```
 
 ```bash
-$ bundle config --local build.mysql2 "--with-ldflags=-L$(brew --prefix openssl)/lib"
-$ bundle install
+% bundle config --local build.mysql2 "--with-ldflags=-L$(brew --prefix openssl)/lib"
+% bundle install
 ```
 
 ### Running the Test Suites
-**To be drafted**
+```bash
+% bundle exec rake db:setup
+```
 
 ## Deployment
 **To be drafted**
