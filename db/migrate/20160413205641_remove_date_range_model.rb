@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RemoveDateRangeModel < ActiveRecord::Migration
+class RemoveDateRangeModel < ActiveRecord::Migration[5.2]
   def up
     drop_table 'date_ranges'
     add_column :employees, :department, :string

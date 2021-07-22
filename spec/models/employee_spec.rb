@@ -84,8 +84,8 @@ RSpec.describe Employee, type: :model do
     expect(obj.unique_id).to eq('000000001')
   end
 
-  # solr search test are unreliable
-  it 'search_all_by_name (unreliable solr test)' do
+  # Solr search test are unreliable
+  xit 'search_all_by_name (unreliable solr test)' do
     i = 0
     ['Chemistry', 'Future Past'].each do |dn|
       %w[David Maria Jane].each do |fn|
@@ -127,8 +127,8 @@ RSpec.describe Employee, type: :model do
     end
   end
 
-  # solr search test are unreliable
-  it 'all_by_department (unreliable solr test)' do
+  # Solr search test are unreliable
+  xit 'all_by_department (unreliable solr test)' do
     i = 0
     %w[Comedy Comedy Science].each do |dn|
       obj = FactoryGirl.build(:employee, department: dn,

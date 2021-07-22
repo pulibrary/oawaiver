@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Account < ActiveRecord::Base
+class Account < ApplicationRecord
   ADMIN_ROLE = 'ADMIN'
 
   validates_presence_of :netid

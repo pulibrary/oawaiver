@@ -8,7 +8,7 @@ default: &default
 
 development: &development
   <<: *default
-  database: oawaiver_development
+  database: <%= ENV["lando_oawaiver_database_creds_database"] || "oawaiver_development" %>
   host: <%= ENV["lando_oawaiver_database_conn_host"] || "localhost" %>
   port: <%= ENV["lando_oawaiver_database_conn_port"] || 3306 %>
   username: <%= ENV["lando_oawaiver_database_creds_user"] %>
@@ -16,7 +16,7 @@ development: &development
 
 test:
   <<: *development
-  database: oawaiver_test
+  database: <%= ENV["lando_oawaiver_database_creds_database"] || "oawaiver_test" %>
   host: <%= ENV["lando_oawaiver_database_conn_host"] || ENV.fetch("APP_DB_HOST", 'localhost') %>
   port: <%= ENV["lando_oawaiver_database_conn_port"] || ENV.fetch("APP_DB_PORT", 3306) %>
   username: <%= ENV["lando_oawaiver_database_creds_user"] || ENV.fetch("APP_DB_USERNAME", 'oawaiver') %>

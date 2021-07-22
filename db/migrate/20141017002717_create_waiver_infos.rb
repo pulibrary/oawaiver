@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateWaiverInfos < ActiveRecord::Migration
+class CreateWaiverInfos < ActiveRecord::Migration[5.2]
   def change
     create_table :waiver_infos do |t|
       t.string :requester

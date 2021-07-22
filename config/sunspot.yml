@@ -7,18 +7,18 @@ default: &default
 development:
   <<: *default
   solr:
-    hostname: <%= ENV["lando_oawaiver_solr_conn_host"] || ENV["APP_SOLR_HOST"] || "localhost" %>
-    port: 8983
+    hostname: <%= ENV["lando_oawaiver_development_solr_conn_host"] || ENV["APP_SOLR_HOST"] || "localhost" %>
+    port: <%= ENV["lando_oawaiver_development_solr_conn_port"] || ENV["APP_SOLR_PORT"] || 8983 %>
     log_level: DEBUG
-    path: /solr/oawaiver-development
+    path: /solr/oawaiver-core-dev
 
 test:
   <<: *default
   solr:
-    hostname: <%= ENV["lando_oawaiver_solr_conn_host"] || ENV["APP_SOLR_HOST"] || "localhost" %>
-    port: 8983
+    hostname: <%= ENV["lando_oawaiver_test_solr_conn_host"] || ENV["APP_SOLR_HOST"] || "localhost" %>
+    port: <%= ENV["lando_oawaiver_test_solr_conn_port"] || ENV["APP_SOLR_PORT"] || 8983 %>
     log_level: DEBUG
-    path: /solr/oawaiver-test
+    path: /solr/oawaiver-core-test
 
 staging: &staging
   <<: *default
@@ -26,7 +26,7 @@ staging: &staging
     hostname: <%= ENV["APP_SOLR_HOST"] || "localhost" %>
     port: 8080
     log_level: INFO
-    path: /solr/oawaiver-production
+    path: /solr/oawaiver-core
 
 production:
   <<: *staging

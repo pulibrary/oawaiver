@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreateMailRecords < ActiveRecord::Migration
+class CreateMailRecords < ActiveRecord::Migration[5.2]
   def change
     create_table :mail_records do |t|
       t.belongs_to :waiver_info
