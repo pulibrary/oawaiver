@@ -3,7 +3,7 @@
 require 'faker'
 
 FactoryGirl.define do
-  factory :waiver_info do
+  factory(:waiver_info) do
     requester 'normal'
     requester_email 'requester@somewhere.do'
     author_first_name Faker::Name.first_name
@@ -17,7 +17,7 @@ FactoryGirl.define do
     notes 'something to say about waivers'
   end
 
-  factory :waiver_info_faculty_author, class: WaiverInfo do
+  factory(:waiver_info_faculty_author, class: WaiverInfo) do
     requester 'super'
     requester_email 'requester_admin@somewhere.do'
     author_first_name Faker::Name.first_name

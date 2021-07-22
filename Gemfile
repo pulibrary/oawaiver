@@ -10,7 +10,7 @@ gem 'mysql2'
 
 group :assets do
   # Use SCSS for stylesheets
-  gem 'sass-rails', '~> 4.0.3'
+  gem 'sass-rails', '~> 5.0'
   # Use Uglifier as compressor for JavaScript assets
   gem 'uglifier', '>= 1.3.0'
   # Use CoffeeScript for .js.coffee assets and views
@@ -56,6 +56,8 @@ gem 'grape-entity', '~> 0.4.0'
 gem 'grape-swagger', '~> 0.7.2'
 gem 'grape-swagger-rails', '~> 0.0.8'
 gem 'rack-contrib', '~> 1.1.0'
+
+gem 'sprockets', '~> 3.0'
 
 group :development do
   gem 'better_errors'
