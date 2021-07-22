@@ -1,0 +1,26 @@
+name: oawaiver
+services:
+  oawaiver_database:
+    type: mariadb:10.5
+    portforward: true
+    creds:
+      user: oawaiver
+      password: oawaiver
+      database: oawaiver
+  oawaiver_development_solr:
+    type: solr:8.4
+    portforward: true
+    core: oawaiver-core-dev
+    config:
+      dir: "solr/solr_core/conf"
+  oawaiver_test_solr:
+    type: solr:8.4
+    portforward: true
+    core: oawaiver-core-test
+    config:
+      dir: "solr/solr_core/conf"
+proxy:
+  oawaiver_development_solr:
+    - oawaiver.dev.solr.lndo.site:8983
+  oawaiver_test_solr:
+    - oawaiver.test.solr.lndo.site:8983

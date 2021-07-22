@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class NotesFieldAsText < ActiveRecord::Migration
+class NotesFieldAsText < ActiveRecord::Migration[5.2]
   def up
     change_column :waiver_infos, :notes, :text
     change_column :waiver_infos, :title, :string, limit: 512
