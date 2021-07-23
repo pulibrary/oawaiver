@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :regular_user, class: Account do
-    netid "normal"
+    netid 'normal'
   end
 
   factory :admin_user, class: Account do
-    netid "super"
+    netid 'super'
   end
-
 end

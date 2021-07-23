@@ -1,3 +1,5 @@
-# seed the user table with one admin user 
+# frozen_string_literal: true
 
-Account.create(:netid => admin_user, :role =>  Account::ADMIN_ROLE)
+# seed the user table with one admin user
+
+Account.create(netid: admin_user, role: Account::ADMIN_ROLE)

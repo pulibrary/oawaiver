@@ -60,7 +60,21 @@ jobs:
           root: '~/oawaiver'
           paths: '*'
 
+  lint:
+    executor: oawaiver-executor
+    steps:
+      - attach_workspace:
+          at: '~/oawaiver'
+      - setup-bundler
+
+      - run:
+          name: Lint using RuboCop
+          command: bundle exec rubocop --disable-pending-cops
+
 workflows:
   ci:
     jobs:
       - build
+      - lint:
+          requires:
+            - build

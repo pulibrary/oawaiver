@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class LongTitleJournal < ActiveRecord::Migration
   def up
     change_column :waiver_infos, :title, :string, limit: 512

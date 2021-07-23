@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AccountsController < ApplicationController
   respond_to :html
 
@@ -6,7 +8,7 @@ class AccountsController < ApplicationController
   # POST /accounts
   def create
     @account = Account.new(account_params)
-    if @account.save then
+    if @account.save
       redirect_to manage_url, notice: 'User was successfully created.'
     else
       redirect_to manage_url, error: 'Could not created user.'
@@ -24,6 +26,6 @@ class AccountsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def account_params
-    args = params.require(:account).permit(:netid)
+    params.require(:account).permit(:netid)
   end
 end

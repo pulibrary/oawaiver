@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddIndeces < ActiveRecord::Migration
   def change
     add_index :employees, :unique_id

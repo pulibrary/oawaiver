@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Application and WaiverInfosControllers include Waiver::Authentication as mixin
 #
 # The Application Controller uses the get_user method to display the currently
@@ -26,12 +28,12 @@ module Waiver
   # if authorised via B - user is set to User.first.netid
   # and the email is left empty
   module Authentication
-    @@ALLOWED_IPS = "0.0.0.0"
+    @@ALLOWED_IPS = '0.0.0.0'
 
     # Princeton CAS authentication
     CASClient::Frameworks::Rails::Filter.configure(
-      :cas_base_url => "https://fed.princeton.edu/cas",
-      :cas_destination_logout_param_name => 'url'
+      cas_base_url: 'https://fed.princeton.edu/cas',
+      cas_destination_logout_param_name: 'url'
     )
 
     # authenticate
@@ -40,17 +42,15 @@ module Waiver
     # assign @user and @user_email accordingly
     def authenticate
       success = false
-      if request.get? and not request.format.html? then
-        success = @@ALLOWED_IPS.include?(request.env["REMOTE_ADDR"])
-        if (success) then
+      if request.get? && !request.format.html?
+        success = @@ALLOWED_IPS.include?(request.env['REMOTE_ADDR'])
+        if success
           # just assign the first registered user
           @user = Account.first.netid
-          @user_email = ""
+          @user_email = ''
         end
       else
-        if (not session[:cas_user]) then
-          success = CASClient::Frameworks::Rails::Filter.filter(self)
-        end
+        success = CASClient::Frameworks::Rails::Filter.filter(self) unless session[:cas_user]
         get_user_data # set here to play nice with set_authorized_user method
       end
       logger.debug("authenticated #{success} as user='#{@user}'")
@@ -60,19 +60,17 @@ module Waiver
 
     # sets @user and  @user_email if a user is logged in
     def get_user_data
-      @user = session[:cas_user];
-      if (@user) then
-        @user_email = @user + "@princeton.edu";
-      end
+      @user = session[:cas_user]
+      @user_email = @user + '@princeton.edu' if @user
     end
 
     # cleans up session data
     def logout_redirect(destination_url)
-      CASClient::Frameworks::Rails::Filter.logout(self, destination_url);
+      CASClient::Frameworks::Rails::Filter.logout(self, destination_url)
     end
 
     # used in spec tests
-    def Authentication.set_allowed_ips(str)
+    def self.set_allowed_ips(str)
       old = @@ALLOWED_IPS
       @@ALLOWED_IPS = str
       old

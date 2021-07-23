@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDateRanges < ActiveRecord::Migration
   def change
     create_table :date_ranges do |t|

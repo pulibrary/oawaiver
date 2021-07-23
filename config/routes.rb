@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
-  resources :accounts, :only => [ :new, :create, :destroy ]
+  resources :accounts, only: %i[new create destroy]
 
-  root :to => "application#start"
+  root to: 'application#start'
 
-  [:start,  :login, :logout, :manage, :author_search_status].each do |action|
-    get  "/#{action}",
-       to: 'application#' + action.to_s,
-       as:  action.to_s
+  %i[start login logout manage author_search_status].each do |action|
+    get "/#{action}",
+        to: 'application#' + action.to_s,
+        as: action.to_s
   end
 
   get  '/waiver/requester/me',
@@ -17,9 +19,9 @@ Rails.application.routes.draw do
        to: 'waiver_infos#new',
        as: :new_waiver_info
 
-  post  "/waiver/create",
+  post  '/waiver/create',
         to: 'waiver_infos#create',
-        as: "create_waiver_info"
+        as: 'create_waiver_info'
 
   get '/waiver/:id(.:format)',
       to: 'waiver_infos#show',
@@ -32,7 +34,7 @@ Rails.application.routes.draw do
   get  '/admin/search',
        to: 'waiver_infos#search',
        as: 'search_waiver_infos',
-       constraints: { :format => /(html|json)/}
+       constraints: { format: /(html|json)/ }
 
   get  '/admin/waivers/match/:search_term',
        to: 'waiver_infos#solr_search_words',
@@ -46,9 +48,8 @@ Rails.application.routes.draw do
   get  '/admin/waiver/:id',
        to: 'waiver_infos#edit_by_admin',
        as: 'edit_by_admin'
-  post  '/admin/waiver/:id',
-         to: 'waiver_infos#edit_by_admin'
-
+  post '/admin/waiver/:id',
+       to: 'waiver_infos#edit_by_admin'
 
   get  '/admin/unique_id/:author_unique_id',
        to: 'waiver_infos#index_unique_id',
@@ -62,27 +63,26 @@ Rails.application.routes.draw do
       to: 'waiver_infos#index_missing_unique_ids',
       as: 'index_missing_unique_ids_waiver_infos'
 
-  if Rails.env() != "development" then
+  unless Rails.env.development?
     # when not doing development
     # simply route any unrecognized get or post to start
     get '/*',
         to: 'application#unknown'
     post '/*',
-        to: 'application#unknown'
+         to: 'application#unknown'
   end
-
 
   # employee/author engine routes
   post 'employees/search', to: 'employees#search', as: 'search_employees'
   get 'employees/search/:search_term', to: 'employees#search_get', as: 'search_get_employees'
   get 'employees/ajax_search/:style', to: 'employees#ajax_search',
-      :defaults => { :style => 'form' },
-      :constraints => { :style => /form|display/ },  as: 'ajax_search_employees'
+                                      defaults: { style: 'form' },
+                                      constraints: { style: /form|display/ }, as: 'ajax_search_employees'
 
   get 'employees/list/departments', to: 'employees#index_departments', as: 'index_departments'
 
-  resources :employees, :only => [ :index, :show ]
-  get 'employees/get/:unique_id', to: 'employees#get_uniqueId', as: "uniqueId_employee"
+  resources :employees, only: %i[index show]
+  get 'employees/get/:unique_id', to: 'employees#get_uniqueId', as: 'uniqueId_employee'
 
   # API+API Documentation
   mount API::Base => '/api'

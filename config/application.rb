@@ -1,4 +1,6 @@
-require File.expand_path('../boot', __FILE__)
+# frozen_string_literal: true
+
+require File.expand_path('boot', __dir__)
 
 require 'rails/all'
 
@@ -22,15 +24,15 @@ module Waiver
 
     config.generators do |g|
       g.test_framework :rspec,
-                       :fixtures => true,
-                       :helper_specs => false,
-                       :routing_specs => false,
-                       :controller_specs => true,
-                       :view_specs => false,
-                       :request_specs => true
-      g.fixture_replacement :factory_girl, :dir => "spec/factories"
+                       fixtures: true,
+                       helper_specs: false,
+                       routing_specs: false,
+                       controller_specs: true,
+                       view_specs: false,
+                       request_specs: true
+      g.fixture_replacement :factory_girl, dir: 'spec/factories'
     end
 
-    config.revision = File.open("#{::Rails.root.to_s}/REVISION").readline().strip
+    config.revision = File.open("#{::Rails.root}/REVISION").readline.strip
   end
 end

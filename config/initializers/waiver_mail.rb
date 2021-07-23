@@ -1,9 +1,11 @@
-init_file = "config/waiver_mail.yml"
+# frozen_string_literal: true
+
+init_file = 'config/waiver_mail.yml'
 
 begin
-  options = YAML.load_file("#{::Rails.root.to_s}/#{init_file}")
+  options = YAML.load_file("#{::Rails.root}/#{init_file}")
   Rails.application.config.waiver_mailer_parameters = options
   WaiverMailer::Bootstrap()
-rescue Exception => e
-  raise "could not initialize from " + init_file + ": " + e.message
+rescue StandardError => e
+  raise 'could not initialize from ' + init_file + ': ' + e.message
 end

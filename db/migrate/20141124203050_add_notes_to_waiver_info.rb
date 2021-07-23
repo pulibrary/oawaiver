@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddNotesToWaiverInfo < ActiveRecord::Migration
   def up
     add_column :waiver_infos, :notes, :string

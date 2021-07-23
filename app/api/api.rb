@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'grape'
 
 module API
@@ -9,8 +11,8 @@ module API
     mount API::About => '/about'
 
     add_swagger_documentation(
-        base_path: "/api",
-        hide_documentation_path: true
+      base_path: '/api',
+      hide_documentation_path: true
     )
   end
 end

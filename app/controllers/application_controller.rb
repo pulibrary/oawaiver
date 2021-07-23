@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
   include Waiver::Authentication
@@ -13,7 +14,8 @@ class ApplicationController < ActionController::Base
 
   def login
     authenticate
-    return false unless (@user)
+    return false unless @user
+
     # now we are back from authentication with a valid user
     get_user_data
     set_roles
@@ -28,12 +30,12 @@ class ApplicationController < ActionController::Base
     get_user_data
     set_roles
     return false unless ensure_admin_role
-    @notes = params['notes'] || '';
-    @accounts =  Account.all.where("netid != ?", @user)
-    @account = Account.new
-    render :controller => 'application', :action => 'manage'
-  end
 
+    @notes = params['notes'] || ''
+    @accounts = Account.all.where('netid != ?', @user)
+    @account = Account.new
+    render controller: 'application', action: 'manage'
+  end
 
   def author_search_status
     redirect_to AuthorStatus.StatusUrl
@@ -46,29 +48,28 @@ class ApplicationController < ActionController::Base
   end
 
   def set_roles
-    @roles = Account.roles(@user);
-    @is_admin = @roles.include?("ADMIN")
-    logger.debug "#{self.class}: @user=#{@user} @roles=#{@roles.inspect}";
+    @roles = Account.roles(@user)
+    @is_admin = @roles.include?('ADMIN')
+    logger.debug "#{self.class}: @user=#{@user} @roles=#{@roles.inspect}"
   end
 
   def ensure_admin_role
     logger.debug "ensure_admin_role for #{@user} with #{@roles}"
-    if not @is_admin then
+    unless @is_admin
       render nothing: true, status: :forbidden
       return false
     end
-    return true
+    true
   end
 
-  if Rails.env() != "development" then
+  unless Rails.env.development?
     rescue_from 'Exception' do |exception|
-      if exception.class == ActiveRecord::RecordNotFound then
-          render :controller => :application, :action => :start
+      if exception.class == ActiveRecord::RecordNotFound
+        render controller: :application, action: :start
       else
-          flash[:alert] = "An exception occurred: #{exception.message}";
-          render :controller => :application, :action => :error
+        flash[:alert] = "An exception occurred: #{exception.message}"
+        render controller: :application, action: :error
       end
     end
   end
 end
-

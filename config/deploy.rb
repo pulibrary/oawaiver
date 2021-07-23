@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 set :pty, true
 
 set :application, 'oawaiver'
 set :repo_url, 'https://github.com/pulibrary/oawaiver.git'
-set :branch, ENV["BRANCH"] || "main"
-set :deploy_to, "/opt/oawaiver"
+set :branch, ENV['BRANCH'] || 'main'
+set :deploy_to, '/opt/oawaiver'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
@@ -24,10 +26,10 @@ set :log_level, :debug
 # set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, %w{config/database.yml}
+set :linked_files, %w[config/database.yml]
 
 # Default value for linked_dirs is []
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
+set :linked_dirs, %w[bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system]
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
