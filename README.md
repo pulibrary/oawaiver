@@ -8,7 +8,7 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 ### Dependencies Setup
 
 - MySQL (8.0)/MariaDB (10.6)
-- Ruby 2.6.0
+- Ruby 2.7.4
 
 ```bash
 $ brew install mariadb

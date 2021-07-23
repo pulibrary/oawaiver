@@ -55,7 +55,7 @@ module ApplicationHelper
   def login_out_link(html_opts = {})
     link = @user ? logout_path : login_path
     label = @user ? "Logout #{@user}" : 'Login'
-    link_to(content_tag(:span, '', class: 'glyphicon glyphicon-user') + ' ' + label, link, html_opts)
+    link_to(tag.span('', class: 'glyphicon glyphicon-user') + ' ' + label, link, html_opts)
   end
 
   def paginate_length(objects)
