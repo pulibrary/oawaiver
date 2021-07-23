@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class MailRecord < ActiveRecord::Base
+class MailRecord < ApplicationRecord
   belongs_to :waiver_info
 
   validates_presence_of :waiver_info

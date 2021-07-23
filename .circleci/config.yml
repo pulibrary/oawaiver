@@ -3,9 +3,9 @@ version: 2.1
 executors:
   oawaiver-executor:
     docker:
-      - image: circleci/ruby:2.6.0-node-browsers
+      - image: circleci/ruby:2.7-node-browsers
         environment:
-          BUNDLER_VERSION: 1.17.3
+          BUNDLER_VERSION: 2.2.17
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
@@ -35,15 +35,15 @@ commands:
       # Restore bundle cache
       - restore_cache:
           keys:
-            - oawaiver-bundle-26-{{ checksum "Gemfile.lock" }}
-            - oawaiver-bundle-26-
+            - oawaiver-ruby27-{{ checksum "Gemfile.lock" }}
+            - oawaiver-ruby27-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
 
       # Store bundle cache
       - save_cache:
-          key: oawaiver-bundle-v26-{{ checksum "Gemfile.lock" }}
+          key: oawaiver-ruby27-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 

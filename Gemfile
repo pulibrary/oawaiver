@@ -2,19 +2,23 @@
 
 source 'https://rubygems.org'
 
-gem 'bundler', '~> 1.17'
-gem 'rails', '~> 4.2'
+gem "actionpack", ">= 5.2.4.6"
+gem "actionview", ">= 5.2.4.4"
+gem 'bundler', '~> 2.2'
+gem "json", ">= 2.3.0"
+gem "rack", ">= 2.1.4"
+gem 'rails', '>= 5.2.6', '< 6.0'
 gem 'responders', '~> 2.0'
 
 gem 'mysql2'
 
 group :assets do
   # Use SCSS for stylesheets
-  gem 'sass-rails', '~> 4.0.3'
+  gem 'sass-rails', '~> 5.1'
   # Use Uglifier as compressor for JavaScript assets
   gem 'uglifier', '>= 1.3.0'
   # Use CoffeeScript for .js.coffee assets and views
-  gem 'coffee-rails', '~> 4.0.0'
+  gem 'coffee-rails', '~> 5.0'
 end
 
 # Use jquery as the JavaScript library
@@ -26,7 +30,7 @@ gem 'modernizr-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 1.1', group: :doc
 
 # Use Capistrano
 gem 'capistrano'
