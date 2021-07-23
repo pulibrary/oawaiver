@@ -38,6 +38,21 @@ RSpec.describe WaiverInfosController, type: :controller do
       end
     end
 
+    describe '#index' do
+      let(:params) do
+        {}
+      end
+
+      before do
+        get(:index, params)
+      end
+
+      it "redirects for failed authentication attempts" do
+        expect(response).to have_http_status(:redirect)
+        expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
+      end
+    end
+
     %w[new create search].each do |action|
       it "POST #{action} -> redirect" do
         post action
