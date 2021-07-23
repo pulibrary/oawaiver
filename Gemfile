@@ -2,11 +2,11 @@
 
 source 'https://rubygems.org'
 
+gem "actionpack", ">= 5.2.4.6"
+gem "actionview", ">= 5.2.4.4"
 gem 'bundler', '~> 2.2'
 gem "json", ">= 2.3.0"
 gem "rack", ">= 2.1.4"
-gem "actionpack", ">= 5.2.4.6"
-gem "actionview", ">= 5.2.4.4"
 gem 'rails', '>= 5.2.6', '< 6.0'
 gem 'responders', '~> 2.0'
 
