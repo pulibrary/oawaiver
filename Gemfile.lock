@@ -402,6 +402,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionpack (>= 5.2.4.6)
+  actionview (>= 5.2.4.4)
   better_errors
   binding_of_caller
   bixby
@@ -430,6 +431,7 @@ DEPENDENCIES
   mysql2
   progress_bar
   pry-byebug
+  rack (>= 2.1.4)
   rack-contrib (~> 1.1.0)
   rails (>= 5.2.6, < 6.0)
   responders (~> 2.0)
