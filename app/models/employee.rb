@@ -2,7 +2,7 @@
 
 require 'csv'
 
-class Employee < ActiveRecord::Base
+class Employee < ApplicationRecord
   # USE THIS when searching for all employees / all employees in a department
   # this number should be big greater than both
   # * the number of employees with a given common name

@@ -32,7 +32,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       ['show_mail', { id: 'doesnotmatter' }]
     ].each do |action, params|
       it "GET #{action} params #{params} -> redirect" do
-        get action, params
+        get action, params: params
         expect(response).to have_http_status(:redirect)
         expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
       end
@@ -58,7 +58,7 @@ RSpec.describe WaiverInfosController, type: :controller do
      ['edit_by_admin', { id: 'doesnotmatter' }]].each do |action, params|
       it "GET #{action} params #{params} @user=#{FactoryGirl.build(:regular_user)} -> not success" do
         authenticate_with(:regular_user)
-        get action, params
+        get action, params: params
         expect(response).not_to have_http_status(:success)
       end
     end
@@ -71,7 +71,7 @@ RSpec.describe WaiverInfosController, type: :controller do
           authenticate_with(user)
           waiver = FactoryGirl.build(:waiver_info, requester: requester)
           waiver.save
-          get action, id: waiver.id
+          get action, params: { id: waiver.id }
           expect(response).to have_http_status(result)
           expect(response).to render_template(action) if result == :success
         end
@@ -85,7 +85,7 @@ RSpec.describe WaiverInfosController, type: :controller do
         authenticate_with(user)
         waiver = FactoryGirl.build(:waiver_info, requester: requester)
         waiver.save
-        get action, id: waiver.id
+        get action, params: { id: waiver.id }
         expect(response).to have_http_status(result)
         expect(response).to render_template(action) if result == :success
       end
@@ -106,12 +106,12 @@ RSpec.describe WaiverInfosController, type: :controller do
       Waiver::Authentication.set_allowed_ips(default)
     end
     it 'GET index_unique_id  -> success' do
-      get 'index_unique_id', author_unique_id: FactoryGirl.build(:waiver_info_faculty_author).author_unique_id, format: :json
+      get 'index_unique_id', params: { author_unique_id: FactoryGirl.build(:waiver_info_faculty_author).author_unique_id, format: :json }
       expect(response).to have_http_status(:success)
     end
     it 'GET index_unique_id  -> forbidden' do
       default = Waiver::Authentication.set_allowed_ips('8.8.8.8')
-      get 'index_unique_id', author_unique_id: FactoryGirl.build(:waiver_info_faculty_author).author_unique_id, format: :json
+      get 'index_unique_id', params: { author_unique_id: FactoryGirl.build(:waiver_info_faculty_author).author_unique_id, format: :json }
       expect(response).not_to have_http_status(:success)
       Waiver::Authentication.set_allowed_ips(default)
     end

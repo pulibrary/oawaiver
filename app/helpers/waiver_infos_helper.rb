@@ -15,10 +15,10 @@ module WaiverInfosHelper
     list = ''
     if @author
       props.delete('author_unique_id')
-      list = content_tag(:div, "Author: #{empl_short @author}", class: 'properties')
+      list = tag.div("Author: #{empl_short @author}", class: 'properties')
     end
     props.each do |k, v|
-      elem = content_tag(:div, "#{k.to_s.titleize}: #{v}", class: 'properties')
+      elem = tag.div("#{k.to_s.titleize}: #{v}", class: 'properties')
       list += elem
     end
     list.html_safe

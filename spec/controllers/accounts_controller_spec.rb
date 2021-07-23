@@ -28,7 +28,7 @@ RSpec.describe AccountsController, type: :controller do
   describe 'POST create' do
     describe 'with valid params' do
       it 'fail without authentication' do
-        post :create, { account: valid_attributes }
+        post :create, params: { account: valid_attributes }
         expect(response).to have_http_status(:redirect)
         expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
       end
@@ -36,20 +36,20 @@ RSpec.describe AccountsController, type: :controller do
       it 'creates a new User' do
         authenticate_with(:admin_user)
         expect do
-          post :create, { account: valid_attributes }
+          post :create, params: { account: valid_attributes }
         end.to change(Account, :count).by(1)
       end
 
       it 'assigns a newly created account as @account' do
         authenticate_with(:admin_user)
-        post :create, { account: valid_attributes }
+        post :create, params: { account: valid_attributes }
         expect(assigns(:account)).to be_a(Account)
         expect(assigns(:account)).to be_persisted
       end
 
       it 'redirects to the manage_url' do
         authenticate_with(:admin_user)
-        post :create, { account: valid_attributes }
+        post :create, params: { account: valid_attributes }
         expect(response).to redirect_to(manage_url)
       end
     end
@@ -57,13 +57,13 @@ RSpec.describe AccountsController, type: :controller do
     describe 'with invalid params' do
       it 'assigns a newly created and unsaved account as @account' do
         authenticate_with(:admin_user)
-        post :create, { account: invalid_attributes }
+        post :create, params: { account: invalid_attributes }
         expect(assigns(:account)).to be_a_new(Account)
       end
 
       it 'redirects to the manage_url' do
         authenticate_with(:admin_user)
-        post :create, { account: invalid_attributes }
+        post :create, params: { account: invalid_attributes }
         expect(response).to redirect_to(manage_url)
       end
     end
@@ -71,7 +71,7 @@ RSpec.describe AccountsController, type: :controller do
 
   describe 'DELETE destroy' do
     it 'fail without authentication' do
-      delete :destroy, { id: 'doesnotmatter' }
+      delete :destroy, params: { id: 'doesnotmatter' }
       expect(response).to have_http_status(:redirect)
       expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
     end
@@ -80,14 +80,14 @@ RSpec.describe AccountsController, type: :controller do
       authenticate_with(:admin_user)
       account = Account.create! valid_attributes
       expect do
-        delete :destroy, id: account.id
+        delete :destroy, params: { id: account.id }
       end.to change(Account, :count).by(-1)
     end
 
     it 'redirects to the manage_url' do
       authenticate_with(:admin_user)
       account = Account.create! valid_attributes
-      delete :destroy, id: account.id
+      delete :destroy, params: { id: account.id }
       expect(response).to redirect_to(manage_url)
     end
   end

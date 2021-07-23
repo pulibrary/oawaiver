@@ -27,7 +27,7 @@ RSpec.describe EmployeesController, type: :controller do
       end
       it "lists all for #{actn}" do
         authenticate_with(:admin_user)
-        get actn, {}
+        get actn
         expect(response).to have_http_status(:success)
       end
     end
