@@ -3,6 +3,8 @@
 source 'https://rubygems.org'
 
 gem 'bundler', '~> 2.2'
+gem "json", ">= 2.3.0"
+gem "actionpack", ">= 5.2.4.6"
 gem 'rails', '>= 5.2.6', '< 6.0'
 gem 'responders', '~> 2.0'
 
@@ -26,7 +28,7 @@ gem 'modernizr-rails'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
-gem 'sdoc', '~> 0.4.0', group: :doc
+gem 'sdoc', '~> 1.1', group: :doc
 
 # Use Capistrano
 gem 'capistrano'
