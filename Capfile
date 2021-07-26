@@ -9,6 +9,17 @@ require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require 'capistrano/rails/assets'
 
+# Load the SCM plugin appropriate to your project:
+#
+# require "capistrano/scm/hg"
+# install_plugin Capistrano::SCM::Hg
+# or
+# require "capistrano/scm/svn"
+# install_plugin Capistrano::SCM::Svn
+# or
+require "capistrano/scm/git"
+install_plugin Capistrano::SCM::Git
+
 # Includes tasks from other gems included in your Gemfile
 #
 # For documentation on these, see for example:
