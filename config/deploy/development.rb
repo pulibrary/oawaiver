@@ -33,14 +33,9 @@ set :pty, true
 set :default_shell, '/bin/bash --login'
 set :shell, '/bin/bash --login'
 
-# SSHKit.config.command_map[:ruby] = "/home/vagrant/.rvm/rubies/ruby-2.7.3/bin/ruby"
 SSHKit.config.command_map[:ruby] = "/usr/local/rvm/rubies/ruby-2.7.3/bin/ruby"
-#set :ruby_version, "/home/vagrant/.rvm/rubies/ruby-2.7.3/bin"
 set :ruby_version, "/usr/local/rvm/rubies/ruby-2.7.3/bin"
-  #'PATH' => "/home/vagrant/.rvm/rubies/ruby-2.7.3/bin/ruby:/home/vagrant/.rvm/gems/ruby-2.7.3/bin:$PATH",
 
-# source /usr/local/rvm/scripts/rvm
-# /usr/local/rvm/rubies/ruby-2.7.3/
 set :default_env, {
   'PATH' => "/usr/local/rvm/rubies/ruby-2.7.3/bin:/usr/local/rvm/gems/ruby-2.7.3/bin:$PATH",
   'RUBY_VERSION' => '2.7.3',
@@ -61,9 +56,7 @@ after "deploy", "rvm:trust_rvmrc"
 namespace :deploy do
   task :load_rvm do
     on roles(:all) do
-      #execute "source /home/vagrant/.rvm/scripts/rvm"
       execute "source /usr/local/rvm/scripts/rvm"
-      #SSHKit.config.command_map[:ruby] = "/home/vagrant/.rvm/rubies/ruby-2.7.3/bin/ruby"
       SSHKit.config.command_map[:ruby] = "/usr/local/rvm/rubies/ruby-2.7.3/bin/ruby"
     end
   end

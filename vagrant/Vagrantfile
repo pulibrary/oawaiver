@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
@@ -81,5 +82,6 @@ Vagrant.configure("2") do |config|
     rvm install 2.7.3
     rvm use 2.7.3 --default
     gem install bundler -v 2.2.17
+    apt-get install -y default-libmysqlclient-dev mariadb-server mariadb-client
   SHELL
 end

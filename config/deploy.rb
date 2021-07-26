@@ -5,10 +5,8 @@ set :repo_url, 'https://github.com/pulibrary/oawaiver.git'
 
 set :branch, ENV['BRANCH'] || 'main'
 
-set :deploy_to, '/opt/oawaiver'
-
 # Default branch is :master
-# ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+set :deploy_to, '/opt/oawaiver'
 
 # Default deploy_to directory is /var/www/my_app
 # set :deploy_to, '/var/www/my_app'
@@ -26,7 +24,6 @@ set :log_level, :debug
 set :linked_files, %w[config/database.yml]
 
 # Default value for linked_dirs is []
-# set :linked_dirs, %w[bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system]
 set :linked_files, fetch(:linked_dirs, []).push("log", "vendor/bundle")
 
 # Default value for default_env is {}
