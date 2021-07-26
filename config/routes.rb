@@ -5,6 +5,12 @@ Rails.application.routes.draw do
 
   root to: 'application#start'
 
+  devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
+  # devise_scope :account do
+  #  get "sign_in", to: "devise/sessions#new", as: :new_account_session
+  #  get "sign_out", to: "devise/sessions#destroy", as: :destroy_account_session
+  # end
+
   %i[start login logout manage author_search_status].each do |action|
     get "/#{action}",
         to: 'application#' + action.to_s,
