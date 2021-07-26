@@ -62,6 +62,14 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  def current_cas_user_email
+    return unless current_cas_user
+
+    "#{current_cas_user}@princeton.edu"
+  end
+  # This is to support a deprecated method
+  alias get_user_data current_cas_user_email
+
   unless Rails.env.development?
     rescue_from 'Exception' do |exception|
       if exception.class == ActiveRecord::RecordNotFound
@@ -71,5 +79,11 @@ class ApplicationController < ActionController::Base
         render controller: :application, action: :error
       end
     end
+  end
+
+  private
+
+  def current_cas_user
+    session[:cas_user]
   end
 end
