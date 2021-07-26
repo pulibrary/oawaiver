@@ -29,7 +29,6 @@ RSpec.describe AccountsController, type: :controller do
         post :create, params: { account: valid_attributes }
 
         expect(response).to have_http_status(:redirect)
-
         expect(response.location).to eq(new_account_session_url)
       end
 

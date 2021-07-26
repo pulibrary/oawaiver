@@ -6,7 +6,6 @@ FactoryGirl.define do
     provider 'cas'
   end
 
-  # This should be removed
   factory(:regular_user, class: Account) do
     netid 'normal'
     provider 'cas'
