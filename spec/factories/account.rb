@@ -7,7 +7,6 @@ FactoryBot.define do
     role { Account::AUTHENTICATED_ROLE }
   end
 
-  # This should be removed
   factory(:regular_user, class: Account) do
     netid { "normal" }
     provider { "cas" }

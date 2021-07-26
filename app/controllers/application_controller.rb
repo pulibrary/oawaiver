@@ -23,6 +23,14 @@ class ApplicationController < ActionController::Base
     redirect_to(AuthorStatus.status_url)
   end
 
+  def current_cas_user_email
+    return unless current_cas_user
+
+    "#{current_cas_user}@princeton.edu"
+  end
+  # This is to support a deprecated method
+  alias get_user_data current_cas_user_email
+
   unless Rails.env.development?
     rescue_from "Exception" do |exception|
       if exception.is_a?(ActiveRecord::RecordNotFound)
