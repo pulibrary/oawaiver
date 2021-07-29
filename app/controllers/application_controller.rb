@@ -23,14 +23,6 @@ class ApplicationController < ActionController::Base
     redirect_to(AuthorStatus.StatusUrl)
   end
 
-  def current_cas_user_email
-    return unless current_cas_user
-
-    "#{current_cas_user}@princeton.edu"
-  end
-  # This is to support a deprecated method
-  alias get_user_data current_cas_user_email
-
   unless Rails.env.development?
     rescue_from 'Exception' do |exception|
       if exception.is_a?(ActiveRecord::RecordNotFound)
@@ -43,6 +35,41 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def verify_roles
+    logger.debug("#{self.class}: @user=#{current_account} @roles=#{roles.inspect}")
+
+    @is_admin = admin_user?
+  end
+  alias set_roles verify_roles
+
+  # Is this needed?
+  def current_account_email
+    return unless current_account
+
+    "#{current_account}@princeton.edu"
+  end
+  # This is to support a deprecated method
+  alias get_user_data current_account_email
+
+  unless Rails.env.development?
+    rescue_from 'Exception' do |exception|
+      if exception.is_a?(ActiveRecord::RecordNotFound)
+        render controller: :application, action: :start
+      else
+        flash[:alert] = "An exception occurred: #{exception.message}"
+        render controller: :application, action: :error
+      end
+    end
+  end
+
+  def admin_user?
+    @is_admin ||= roles.include?('ADMIN')
+  end
+
+  def user
+    super || current_account
+  end
 
   def ensure_admin_role
     logger.debug("ensure_admin_role for #{current_account} with #{roles}")

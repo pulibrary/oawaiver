@@ -91,6 +91,7 @@ RSpec.describe WaiverInfosController, type: :controller do
           title: waiver1.title
         }
       end
+
       let(:params) do
         {
           waiver_info: waiver_info_params
@@ -231,12 +232,14 @@ RSpec.describe WaiverInfosController, type: :controller do
 
         it 'retrieves all waivers for a given unique ID' do
           get :index_unique_id, params: params
+
           expect(response).to have_http_status(:success)
         end
 
         context 'when requesting JSON responses' do
           it 'retrieves all waivers for a unique ID' do
             get :index_unique_id, params: { author_unique_id: author_waiver.author_unique_id, format: :json }
+
             expect(response).to have_http_status(:success)
           end
         end

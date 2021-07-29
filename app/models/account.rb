@@ -54,6 +54,25 @@ class Account < ApplicationRecord
     find_by(provider: access_token.provider, netid: access_token.uid)
   end
 
+  def admin?
+    role == ADMIN_ROLE
+  end
+
+  def roles
+    values = if netid
+               [AUTHENTICATED_ROLE]
+             else
+               [ANONYMOUS_ROLE]
+             end
+
+    values << ADMIN_ROLE if admin?
+    values
+  end
+
+  def authenticated?
+    roles.include?(AUTHENTICATED_ROLE)
+  end
+
   def email
     "#{netid}@princeton.edu"
   end
