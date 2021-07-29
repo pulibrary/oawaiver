@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class AccountsController < ApplicationController
-  respond_to :html
   before_action :authenticate_account!
+  respond_to :html
 
   # POST /accounts
   def create
@@ -29,7 +29,7 @@ class AccountsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def account_params
-    account_values = params.require(:account)
-    account_values.permit(:netid)
+    output = params.require(:account)
+    output.permit(:netid)
   end
 end

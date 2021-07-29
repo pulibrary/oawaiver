@@ -11,11 +11,21 @@ Rails.application.routes.draw do
   #  get "sign_out", to: "devise/sessions#destroy", as: :destroy_account_session
   # end
 
-  %i[start login logout manage author_search_status].each do |action|
-    get "/#{action}",
-        to: 'application#' + action.to_s,
-        as: action.to_s
+  unauthenticated do
+    as :account do
+      root to: 'accounts/omniauth_callbacks#passthru', as: :account_root
+    end
+
+    as :employee do
+      root to: 'accounts/omniauth_callbacks#passthru', as: :employee_root
+    end
   end
+
+  get("/start", to: 'application#start', as: 'start')
+  get("/login", to: 'application#start', as: 'login')
+  get("/logout", to: 'application#logout', as: 'logout')
+  get("/manage", to: 'application#manage', as: 'manage')
+  get("/author_search_status", to: 'application#author_search_status', as: 'author_search_status')
 
   get  '/waiver/requester/me',
        to: 'waiver_infos#index_mine',
@@ -69,15 +79,6 @@ Rails.application.routes.draw do
       to: 'waiver_infos#index_missing_unique_ids',
       as: 'index_missing_unique_ids_waiver_infos'
 
-  unless Rails.env.development?
-    # when not doing development
-    # simply route any unrecognized get or post to start
-    get '/*',
-        to: 'application#unknown'
-    post '/*',
-         to: 'application#unknown'
-  end
-
   # employee/author engine routes
   post 'employees/search', to: 'employees#search', as: 'search_employees'
   get 'employees/search/:search_term', to: 'employees#search_get', as: 'search_get_employees'
@@ -94,7 +95,11 @@ Rails.application.routes.draw do
   mount API::Base => '/api'
   mount GrapeSwaggerRails::Engine => '/apidoc'
 
-  # resources :waiver_infos
+  unless Rails.env.development?
+    # when not doing development, simply route any unrecognized get or post to start
+    get('/*', to: 'application#start')
+    post('/*', to: 'application#start')
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
