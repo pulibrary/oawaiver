@@ -25,7 +25,7 @@ FactoryGirl.define do
     author_status 'author_status'
     author_department 'department'
     author_email 'some@waivermail.com'
-    author_unique_id 'author_unique_id'
+    author_unique_id { Faker::Number.number(digits: 9) }
     title 'Some Title'
     journal 'Some Journal'
   end

@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class EmployeesController < ApplicationController
-  before_action :authenticate
-  before_action :set_roles
-  before_action :ensure_admin_role
-
-  before_action :set_employee, only: %i[show edit update destroy get_uniqueId]
+  before_action :authenticate_account!
 
   # GET /employees
   # params :page, :per_page
   def index
     @search_term = ''
-    @employees = Employee.all.paginate(page: params[:page], per_page: params[:per_page])
+
+    models = Employee.order(:id)
+    @employees = models.paginate(page: page_param, per_page: per_page_param)
   end
 
   # GET /employees/departments
@@ -48,14 +46,35 @@ class EmployeesController < ApplicationController
     render :index
   end
 
-  # GET /employees/1
-  def show; end
+  # GET /employees/:id
+  def show
+    @employee = Employee.find(id_param)
+  end
 
+  # GET /employees/list/:unique_id
   def get_uniqueId
+    Employee.find_by(unique_id: unique_id_param)
+
     render :show
   end
 
   private
+
+  def id_param
+    params[:id]
+  end
+
+  def unique_id_param
+    params[:unique_id]
+  end
+
+  def page_param
+    params[:page] || 1
+  end
+
+  def per_page_param
+    params[:per_page] || Employee.per_page
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_employee

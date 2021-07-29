@@ -6,7 +6,7 @@ gem "actionpack", ">= 5.2.4.6"
 gem "actionview", ">= 5.2.4.4"
 gem 'bundler', '~> 2.1'
 gem 'devise'
-# json api with documentation
+# JSON API with documentation
 gem 'grape', '~> 1.1.0'
 gem 'grape-entity', '~> 0.4.0'
 gem 'grape-swagger', '~> 0.7.2'

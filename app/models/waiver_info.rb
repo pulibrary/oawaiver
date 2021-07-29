@@ -81,7 +81,7 @@ class WaiverInfo < ApplicationRecord
   end
 
   # ---------------------
-  # search/solr
+  # Search/Solr
   # ---------------------
   def all_word_fields
     [citation, author_department, notes]

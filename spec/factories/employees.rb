@@ -4,13 +4,13 @@ require 'faker'
 
 FactoryGirl.define do
   factory(:employee_faked, class: Employee) do
-    first_name Faker::Name.first_name
-    last_name Faker::Name.last_name
-    preferred_name Faker::Name.last_name
-    unique_id Faker::Number.number(9)
-    email Faker::Internet.email
-    netid Faker::Internet.user_name
-    department Faker::Commerce.department
+    first_name { Faker::Name.first_name }
+    last_name { Faker::Name.last_name }
+    preferred_name { Faker::Name.last_name }
+    unique_id { Faker::Number.number(digits: 9) }
+    email { Faker::Internet.email }
+    netid { Faker::Internet.user_name }
+    department { Faker::Commerce.department }
   end
 
   factory(:employee) do

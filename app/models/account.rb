@@ -2,6 +2,9 @@
 
 class Account < ApplicationRecord
   ADMIN_ROLE = 'ADMIN'
+  AUTHENTICATED_ROLE = 'LOGGEDIN'
+  ANONYMOUS_ROLE = 'ANONYMOUS'
+
   # Include default devise modules
   # devise :rememberable, :omniauthable
   # devise :database_authenticatable, :registerable,
@@ -14,19 +17,33 @@ class Account < ApplicationRecord
   delegate :uid, to: :netid
 
   def self.roles(netid)
-    roles = []
-    if netid
-      roles.append('LOGGEDIN')
-      user = Account.find_by_netid(netid)
-      roles.append('ADMIN') if user
-    else
-      roles = ['ANONYMOUS']
-    end
-    roles
+    persisted = Account.find_by_netid(netid)
+    return persisted.roles if persisted
+
+    [ANONYMOUS_ROLE]
   end
 
   def self.from_cas(access_token)
     find_by(provider: access_token.provider, netid: access_token.uid)
+  end
+
+  def admin?
+    role == ADMIN_ROLE
+  end
+
+  def roles
+    values = if netid
+               [AUTHENTICATED_ROLE]
+             else
+               [ANONYMOUS_ROLE]
+             end
+
+    values << ADMIN_ROLE if admin?
+    values
+  end
+
+  def authenticated?
+    roles.include?(AUTHENTICATED_ROLE)
   end
 
   def email

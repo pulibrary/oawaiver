@@ -37,6 +37,7 @@ Metrics/BlockLength:
     - 'spec/models/employee_spec.rb'
     - 'spec/models/waiver_info_spec.rb'
     - 'spec/requests/accounts_spec.rb'
+    - 'spec/requests/employees_spec.rb'
 
 Metrics/ClassLength:
   Exclude:
@@ -66,3 +67,8 @@ Metrics/PerceivedComplexity:
     - 'app/models/employee.rb'
     - 'lib/author_status.rb'
 
+RSpec/ExampleLength:
+  Exclude:
+    - 'spec/controllers/waiver_infos_controller_spec.rb'
+    - 'spec/models/employee_spec.rb'
+    - 'spec/requests/employees_spec.rb'

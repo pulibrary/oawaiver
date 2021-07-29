@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 describe AccountsController, type: :request do
-  describe "#index" do
+  describe "GET /" do
     context 'when authenticated as a valid user' do
-      let(:valid_user) { FactoryGirl.create(:regular_user) }
+      let(:valid_user) { FactoryGirl.create(:admin_account) }
 
       before do
         login_as(valid_user)
@@ -22,7 +22,7 @@ describe AccountsController, type: :request do
     end
   end
 
-  describe "#create" do
+  describe "POST /accounts" do
     let(:valid_attributes) do
       {
         netid: Faker::Name.last_name
@@ -53,16 +53,17 @@ describe AccountsController, type: :request do
         sign_in(valid_user)
       end
 
-      it "creates and persists the new Account Model" do
+      it "creates and persists the new Account Model, and redirects to the management URL" do
         expect(Account.count).to eq(1)
         post(accounts_path, params: params)
 
+        expect(response).to redirect_to(manage_url)
         expect(Account.count).to eq(2)
       end
     end
   end
 
-  describe "#destroy" do
+  describe "DELETE /accounts/:id" do
     let(:valid_attributes) do
       {
         netid: Faker::Name.last_name
@@ -81,16 +82,18 @@ describe AccountsController, type: :request do
     end
 
     context 'when authenticated as a valid user' do
-      let(:valid_user) { FactoryGirl.create(:regular_user) }
-      let(:user1) { FactoryGirl.create(:regular_user) }
+      let(:valid_user) { FactoryGirl.create(:admin_account) }
+      let(:account1) { FactoryGirl.create(:account) }
+      let(:account1_path) { account_path(id: account1.id) }
 
       before do
+        account1
         sign_in(valid_user)
       end
 
       it "creates and persists the new Account Model" do
         expect(Account.count).to eq(2)
-        delete(accounts_path, params: { user: user1 })
+        delete(account1_path)
 
         expect(Account.count).to eq(1)
       end
