@@ -10,7 +10,7 @@ RSpec.describe AccountsController, type: :controller do
   end
   let(:invalid_attributes) do
     {
-      netid: ''
+      invalid: 'invalid'
     }
   end
   let(:admin_user) { FactoryGirl.create(:admin_user) }
@@ -87,12 +87,6 @@ RSpec.describe AccountsController, type: :controller do
   end
 
   describe 'DELETE destroy' do
-    let(:params) do
-      {
-        id: 'invalid'
-      }
-    end
-
     before do
       delete(:destroy, params: params)
     end

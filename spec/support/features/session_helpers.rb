@@ -15,7 +15,6 @@ module Features
       OmniAuth.config.test_mode = true
       OmniAuth.config.add_mock(:cas, uid: uid)
       visit(account_cas_omniauth_authorize_path)
-      # get(account_cas_omniauth_authorize_path)
     end
   end
 end

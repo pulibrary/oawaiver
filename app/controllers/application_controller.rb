@@ -2,7 +2,6 @@
 
 class ApplicationController < ActionController::Base
   before_action :authenticate_account!, only: [:start, :logout, :manage]
-  before_action :verify_roles, only: [:start, :manage]
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
@@ -38,39 +37,18 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def verify_roles
-    logger.debug("#{self.class}: @user=#{current_account} @roles=#{roles.inspect}")
-
-    @is_admin = admin_user?
-  end
-  alias set_roles verify_roles
-
   def ensure_admin_role
     logger.debug("ensure_admin_role for #{current_account} with #{roles}")
 
-    return true if admin_user?
+    return if current_user&.admin?
 
     render nothing: true, status: :forbidden
-    false
   end
-
-  # Is this needed?
-  def current_account_email
-    return unless current_account
-
-    "#{current_account}@princeton.edu"
-  end
-  # This is to support a deprecated method
-  alias get_user_data current_account_email
 
   def roles
     return [] unless current_account
 
-    @roles ||= Account.roles(current_account)
-  end
-
-  def admin_user?
-    @is_admin ||= roles.include?('ADMIN')
+    @roles ||= current_account.roles
   end
 
   def user
