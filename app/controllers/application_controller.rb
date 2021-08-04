@@ -49,8 +49,6 @@ class ApplicationController < ActionController::Base
 
     "#{current_account}@princeton.edu"
   end
-  # This is to support a deprecated method
-  alias get_user_data current_account_email
 
   unless Rails.env.development?
     rescue_from "Exception" do |exception|
