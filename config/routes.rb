@@ -6,10 +6,6 @@ Rails.application.routes.draw do
   root to: 'application#start'
 
   devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
-  # devise_scope :account do
-  #  get "sign_in", to: "devise/sessions#new", as: :new_account_session
-  #  get "sign_out", to: "devise/sessions#destroy", as: :destroy_account_session
-  # end
 
   unauthenticated do
     as :account do
@@ -65,7 +61,7 @@ Rails.application.routes.draw do
        to: 'waiver_infos#edit_by_admin',
        as: 'edit_by_admin'
   post '/admin/waiver/:id',
-       to: 'waiver_infos#edit_by_admin'
+       to: 'waiver_infos#update_by_admin'
 
   get  '/admin/unique_id/:author_unique_id',
        to: 'waiver_infos#index_unique_id',

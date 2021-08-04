@@ -7,22 +7,12 @@ RSpec.describe ApplicationController, type: :controller do
   let(:admin_user) { FactoryGirl.create(:admin_user) }
   let(:regular_user) { FactoryGirl.create(:regular_user) }
 
-  before(:all) do
-  end
-
-  after(:all) do
-  end
-
   before do
     Account.delete_all
   end
 
   after do
     Account.delete_all
-  end
-
-  def authenticate_with(user)
-    Waiver::Authentication.set_authorized_user(session, FactoryGirl.build(user).netid)
   end
 
   describe '#start' do
@@ -74,8 +64,6 @@ RSpec.describe ApplicationController, type: :controller do
       end
 
       it 'assigns all accounts as @accounts' do
-        # authenticate_with(:admin_user)
-        # accounts = Account.where('netid != ?', FactoryGirl.build(:admin_user).netid)
         get :manage
         expect(assigns(:accounts)).to eq(accounts)
       end

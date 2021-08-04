@@ -1,14 +1,10 @@
 # frozen_string_literal: true
 
 class WaiverInfosController < ApplicationController
-  respond_to :html
-
-  # before_action :authenticate_account!, except: [:index, :index_unique_id]
   before_action :authenticate_account!
-  # before_action :verify_roles, except: [:index, :index_unique_id]
-  before_action :verify_roles
   before_action :set_waiver_info, only: %i[show show_mail]
   before_action :ensure_user_owns_waiver_info, only: %i[show show_mail]
+  respond_to :html
 
   # GET waivers/search/:search_term
   # params :page, :per_page
@@ -21,7 +17,9 @@ class WaiverInfosController < ApplicationController
                    else
                      WaiverInfo.all.paginate(page: params[:page], per_page: params[:per_page] || WaiverInfo.per_page)
                    end
+
     do_solr_index(search_term, waiver_infos)
+    render(:index)
   end
 
   # GET waivers/search/:search_term
@@ -32,42 +30,46 @@ class WaiverInfosController < ApplicationController
 
   # GET waivers
   def index
-    do_index({}, WaiverInfo)
+    models = WaiverInfo.all
+
+    do_index({}, models)
+    render(:index)
   end
 
   # GET waiver/requester/me
   def index_mine
-    do_index({
-               'Requester or Author' => current_account.email
-             }, current_account)
+    models = WaiverInfo.where(requester: current_account.netid)
+
+    do_index(current_account_properties, models)
+    render(:index)
   end
 
   def index_unique_id
-    built_search = search_with_props({
-                                       author_unique_id: author_unique_id_param
-                                     })
+    models = search_with_props(unique_id_properties)
 
-    do_index({
-               author_unique_id: author_unique_id_param
-             }, built_search)
+    do_index(unique_id_properties, models)
+    render(:index)
   end
 
   def index_missing_unique_ids
     logger.debug("index_missing_unique_ids: authenticated as user='#{current_account}'")
+    models = WaiverInfo.find_by_missing_unique_id
 
-    do_index({ missing: 'unique_id' }, WaiverInfo.find_by_missing_unique_id)
+    do_index(missing_unique_ids_properties, models)
+    render(:index)
   end
 
   def search
     render status: :forbidden unless current_account.admin?
 
     if params['waiver_info']
-      args = waiver_info_params({})
-      props = args.reject { |_k, v| v.empty? }
-      do_index(props, search_with_props(props))
+      models = search_with_props(waiver_info_params)
+      do_index(waiver_info_params, models)
     else
       @waiver_info = WaiverInfo.new
     end
+
+    render(:index)
   end
 
   def show_mail
@@ -77,7 +79,8 @@ class WaiverInfosController < ApplicationController
 
   def new
     @waiver_info = WaiverInfo.new(author_status: AuthorStatus.StatusFaculty)
-    render :new_waiver_info
+
+    render(:new_waiver_info)
   end
 
   def create
@@ -106,33 +109,68 @@ class WaiverInfosController < ApplicationController
     render :new_waiver_info
   end
 
-  def edit_by_admin
-    @waiver_info = WaiverInfo.find(params[:id])
-
+  # POST /admin/waiver/:id
+  def update_by_admin
+    # This should be refactored into an exception (or, CanCanCan should be used)
     unless current_account.admin?
       head(:forbidden)
-      flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
-      return
+      return flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
     end
 
-    if params[:commit] == 'Save'
-      args = admin_edit_waiver_info_params
-      args.each do |k, v|
-        @waiver_info[k] = v
-      end
+    @waiver_info = WaiverInfo.find(waiver_id)
 
-      @waiver_info.author_unique_id = nil if @waiver_info.author_unique_id == ''
+    # This handles legacy support for the POST requests
+    redirect_to(:edit_by_admin) unless params[:commit] && params[:commit] == 'Save'
 
-      if @waiver_info.save
-        flash.now[:notice] = 'Waiver information successfully updated'
-        return render(:show)
-      end
+    if @waiver_info.update(update_waiver_info_params)
+      flash[:notice] = 'Waiver information successfully updated'
+      redirect_to(@waiver_info)
+    else
+      error_messages = @waiver_info.errors.full_messages.join('. ')
+      flash.now[:alert] = "Waiver information could not be successfully updated: #{error_messages}."
+      redirect_to(:edit_by_admin, id: @waiver_info.id)
+    end
+  end
+
+  # GET /admin/waiver/:id
+  def edit_by_admin
+    # This should be refactored into an exception (or, CanCanCan should be used)
+    unless current_account.admin?
+      head(:forbidden)
+      return flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
     end
 
-    render 'edit_by_admin'
+    @waiver_info = WaiverInfo.find(waiver_id)
+
+    # This handles the POST request, and should be refactored into a new action, #create_by_admin
+    redirect_to(:update_by_admin) if params[:commit] && params[:commit] == 'Save'
+
+    render(:edit_by_admin)
   end
 
   private
+
+  def waiver_id
+    params[:id]
+  end
+
+  def current_account_properties
+    {
+      'Requester or Author' => current_account.email
+    }
+  end
+
+  def unique_id_properties
+    {
+      author_unique_id: author_unique_id_param
+    }
+  end
+
+  def missing_unique_ids_properties
+    {
+      missing: 'unique_id'
+    }
+  end
 
   def author_unique_id_param
     params[:author_unique_id]
@@ -142,24 +180,25 @@ class WaiverInfosController < ApplicationController
     @properties = props
     @search_term = ''
     @waiver_infos = relation.paginate(page: params[:page], per_page: params[:per_page])
-    render :index
   end
 
   def do_solr_index(words, waivers)
     @properties = []
     @search_term = words
     @waiver_infos = waivers
-    render :index
   end
 
   def search_with_props(search_props)
     props = {}
+
     search_props.each do |k, v|
       props[k] = v.strip
     end
+
     title = props.delete('title')
     journal = props.delete('journal')
     notes = props.delete('notes')
+
     @waiver_infos = WaiverInfo.where(props)
     @author = Employee.find_by_unique_id(props['author_unique_id']) if props['author_unique_id']
     @waiver_infos = @waiver_infos.where('title LIKE ?', "%#{title}%") if title
@@ -177,16 +216,7 @@ class WaiverInfosController < ApplicationController
     return if current_account.admin?
 
     logger.debug "ensure_user_owns_waiver_info #{@waiver_info.id} #{current_account}"
-    # output = current_account.admin? || current_account.authenticated? && @waiver_info.requester == current_account
     render nothing: true, status: :forbidden unless account_owns_waiver?
-
-    # yes = @roles.include?('ADMIN')
-    # yes ||= (@roles.include?('LOGGEDIN') and @waiver_info.requester == @user)
-    # unless yes
-    #  render nothing: true, status: :forbidden
-    #  return false
-    # end
-    # true
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -195,39 +225,63 @@ class WaiverInfosController < ApplicationController
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def admin_edit_waiver_info_params
-    args = params.require(:waiver_info).permit(:author_unique_id, :author_first_name, :author_last_name,
-                                               :author_status, :author_department,
-                                               :author_email, :title, :journal, :journal_issn,
-                                               :notes)
-    hsh = stripped_args(args, :keep_empties)
-    args[:author_unique_id] = nil if args[:author_unique_id] == ''
-    hsh
+  def update_waiver_info_params
+    permitted_waiver_info_params = params.require(:waiver_info)
+    permitted = permitted_waiver_info_params.permit(
+      :author_unique_id,
+      :author_first_name,
+      :author_last_name,
+                                               :author_status,
+                                               :author_department,
+                                               :author_email,
+                                               :title,
+                                               :journal,
+                                               :journal_issn,
+                                               :notes
+    )
+
+    stripped_args(permitted, :keep_empties)
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def waiver_info_params(defaults = { 'requester' => @user,
-                                      'requester_email' => @user_email })
-    if !params['waiver_info']
-      hsh = {}
-    else
-      args = params.require(:waiver_info).permit(:requester, :requester_email,
-                                                 :author_unique_id, :author_first_name, :author_last_name,
-                                                 :author_preferred_name, :author_status, :author_department,
-                                                 :author_email, :title, :journal, :journal_issn,
-                                                 :cc_email, :notes, :search_term)
-      hsh = stripped_args(args, :dont_keep_empties)
-    end
-    results = defaults.merge(hsh)
-    results
+  def waiver_info_params
+    default_values = {
+      'requester' => current_account.netid,
+      'requester_email' => current_account.email
+    }
+
+    return default_values unless params['waiver_info']
+
+    permitted_waiver_info_params = params.require(:waiver_info)
+    permitted = permitted_waiver_info_params.permit(
+      :requester,
+      :requester_email,
+      :author_unique_id,
+      :author_first_name,
+      :author_last_name,
+      :author_preferred_name,
+      :author_status,
+      :author_department,
+      :author_email,
+      :title,
+      :journal,
+      :journal_issn,
+      :cc_email,
+      :notes,
+      :search_term
+    )
+
+    values = stripped_args(permitted, :dont_keep_empties)
+    default_values.merge(values)
   end
 
+  # I am not certain that this is needed
   def stripped_args(args, mode)
     hsh = {}
     keep = mode == :keep_empties
     args.each do |k, v|
       v = v.strip
-      hsh[k] = v if keep || !v.empty?
+      hsh[k] = v if keep || v.present?
     end
     hsh
   end

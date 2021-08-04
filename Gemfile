@@ -23,7 +23,6 @@ gem 'mail'
 # Modernizr
 gem 'modernizr-rails'
 gem 'mysql2'
-# gem 'rubycas-client', git: 'https://github.com/ratliff/rubycas-client.git', branch: 'rails4-fix'
 gem "omniauth-cas"
 gem 'progress_bar'
 gem "rack", ">= 2.1.4"
