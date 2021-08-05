@@ -44,4 +44,8 @@ $ bundle exec rake db:setup
 ```
 
 ## Deployment
-**To be drafted**
+
+In order to deploy the Rails app. to the `staging` environment, please invoke:
+```bash
+$ bundle exec cap staging deploy
+```
