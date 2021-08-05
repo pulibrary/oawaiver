@@ -29,4 +29,4 @@ staging: &staging
 production:
   <<: *staging
   solr:
-    path: <%= ENV["APP_SOLR_PATH"] || "/solr/oawaiver" %>
+    path: <%= ENV["APP_SOLR_PATH"] || "/solr/oawaiver-production" %>
