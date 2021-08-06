@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   unless Rails.env.development?
-    rescue_from 'Exception' do |exception|
+    rescue_from "Exception" do |exception|
       if exception.is_a?(ActiveRecord::RecordNotFound)
         render controller: :application, action: :start
       else
