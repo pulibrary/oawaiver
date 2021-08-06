@@ -20,14 +20,14 @@ class MailRecord < ApplicationRecord
       date: mail.date,
       message_id: mail.message_id
     )
-    record.to = mail.to.join(',') if mail.to
-    record.cc = mail.cc.join(',') if mail.cc
-    record.bcc = mail.bcc.join(',') if mail.bcc
+    record.to = mail.to.join(",") if mail.to
+    record.cc = mail.cc.join(",") if mail.cc
+    record.bcc = mail.bcc.join(",") if mail.bcc
     record
   end
 
   def recipients
-    tos = to.split(',')
+    tos = to.split(",")
     tos = tos.append(cc) if cc.present?
     tos.uniq
   end

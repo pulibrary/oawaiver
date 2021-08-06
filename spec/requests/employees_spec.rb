@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 describe EmployeesController do
-  let(:employee1) { FactoryGirl.create(:employee_faked) }
-  let(:employee2) { FactoryGirl.create(:employee_faked) }
-  let(:employee3) { FactoryGirl.create(:employee_faked) }
+  let(:employee1) { FactoryBot.create(:employee_faked) }
+  let(:employee2) { FactoryBot.create(:employee_faked) }
+  let(:employee3) { FactoryBot.create(:employee_faked) }
 
   before do
     employee1
@@ -13,7 +13,7 @@ describe EmployeesController do
     employee3
 
     Array.new(18) do
-      FactoryGirl.create(:employee_faked)
+      FactoryBot.create(:employee_faked)
     end
   end
 
@@ -24,8 +24,8 @@ describe EmployeesController do
       expect(response).to redirect_to(new_account_session_path)
     end
 
-    context 'when authenticated as an admin. user' do
-      let(:admin_account) { FactoryGirl.create(:admin_account) }
+    context "when authenticated as an admin. user" do
+      let(:admin_account) { FactoryBot.create(:admin_account) }
 
       before do
         sign_in(admin_account)
@@ -42,7 +42,7 @@ describe EmployeesController do
         expect(response.body).to include(employee2_first_name)
       end
 
-      context 'when requesting specific pages' do
+      context "when requesting specific pages" do
         let(:params) do
           {
             page: 1
@@ -67,7 +67,7 @@ describe EmployeesController do
         end
       end
 
-      context 'when requesting results per page' do
+      context "when requesting results per page" do
         let(:params) do
           {
             page: 1,
@@ -97,8 +97,8 @@ describe EmployeesController do
   end
 
   describe "GET /employees/list/departments" do
-    let(:employee1) { FactoryGirl.create(:employee_faked) }
-    let(:employee2) { FactoryGirl.create(:employee_faked) }
+    let(:employee1) { FactoryBot.create(:employee_faked) }
+    let(:employee2) { FactoryBot.create(:employee_faked) }
 
     before do
       employee1
@@ -111,8 +111,8 @@ describe EmployeesController do
       expect(response).to redirect_to(new_account_session_path)
     end
 
-    context 'when authenticated as an admin. user' do
-      let(:admin_account) { FactoryGirl.create(:admin_account) }
+    context "when authenticated as an admin. user" do
+      let(:admin_account) { FactoryBot.create(:admin_account) }
 
       before do
         sign_in(admin_account)
@@ -129,7 +129,7 @@ describe EmployeesController do
   end
 
   describe "GET /employees/:id" do
-    let(:employee1) { FactoryGirl.create(:employee_faked) }
+    let(:employee1) { FactoryBot.create(:employee_faked) }
     let(:employee1_path) { employee_path(id: employee1.id) }
 
     before do
@@ -142,8 +142,8 @@ describe EmployeesController do
       expect(response).to redirect_to(new_account_session_path)
     end
 
-    context 'when authenticated as a valid user' do
-      let(:admin_account) { FactoryGirl.create(:admin_account) }
+    context "when authenticated as a valid user" do
+      let(:admin_account) { FactoryBot.create(:admin_account) }
 
       before do
         sign_in(admin_account)

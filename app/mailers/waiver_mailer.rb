@@ -29,27 +29,27 @@ class WaiverMailer
 
     env_opts = options[Rails.env] || {}
 
-    @@GLOBALS[:url] = env_opts['url'] || ''
+    @@GLOBALS[:url] = env_opts["url"] || ""
 
-    @@GLOBALS[:from] = env_opts['from'] || ''
+    @@GLOBALS[:from] = env_opts["from"] || ""
     addresses = Mail::FromField.new(@@GLOBALS[:from])
     invalidEmails = addresses.addresses.reject { |e| validEmail(e) }
     raise "from contains invalid email #{invalidEmails}" unless invalidEmails.empty?
 
-    @@GLOBALS[:reply_to] = env_opts['reply_to'] || ''
+    @@GLOBALS[:reply_to] = env_opts["reply_to"] || ""
     addresses = Mail::ReplyToField.new(@@GLOBALS[:reply_to])
     invalidEmails = addresses.addresses.reject { |e| validEmail(e) }
     raise "reply_to contains invalid email #{invalidEmails}" unless invalidEmails.empty?
 
-    @@GLOBALS[:bcc] = env_opts['bcc'] || ''
+    @@GLOBALS[:bcc] = env_opts["bcc"] || ""
     addresses = Mail::BccField.new(@@GLOBALS[:bcc])
     invalidEmails = addresses.addresses.reject { |e| validEmail(e) }
     raise "bcc contains invalid emails: #{invalidEmails}" unless invalidEmails.empty?
 
-    @@GLOBALS[:send_to_author] = env_opts['send_to_author']
+    @@GLOBALS[:send_to_author] = env_opts["send_to_author"]
 
-    mail_templates = options['mail_templates'] || {}
-    ['granted'].each do |key|
+    mail_templates = options["mail_templates"] || {}
+    ["granted"].each do |key|
       raise "must define a '#{key}' mail template" if mail_templates[key].nil?
     end
     mail_templates.keys.each do |key|
@@ -65,7 +65,7 @@ class WaiverMailer
       end
     end
 
-    ActiveRecord::Base.logger.info('WaiverMailer.Initialize')
+    ActiveRecord::Base.logger.info("WaiverMailer.Initialize")
 
     nil
   end
@@ -81,7 +81,7 @@ class WaiverMailer
     if @@GLOBALS[:send_to_author]
       [@waiver_info.requester_email, @waiver_info.author_email]
     else
-      [@waiver_info.requester_email, 'author@princeton.edu']
+      [@waiver_info.requester_email, "author@princeton.edu"]
     end
   end
 

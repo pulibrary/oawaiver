@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require File.expand_path('boot', __dir__)
+require File.expand_path("boot", __dir__)
 
-require 'rails/all'
+require "rails/all"
 require_relative "lando_env"
 
 # Require the gems listed in Gemfile, including any gems
@@ -33,7 +33,7 @@ module Waiver
                        controller_specs: true,
                        view_specs: false,
                        request_specs: true
-      g.fixture_replacement :factory_girl, dir: 'spec/factories'
+      g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
 
     config.revision = Waiver::VERSION

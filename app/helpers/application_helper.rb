@@ -7,9 +7,9 @@ module ApplicationHelper
 
   def google_scholar_link(string)
     # articles
-    link_to('http://scholar.google.com/scholar?as_sdt=0,31&q=' + string.split.join('+'),
-            class: 'admin_actions') do
-      image_tag('googlescholar.ico', width: '16px')
+    link_to("http://scholar.google.com/scholar?as_sdt=0,31&q=" + string.split.join("+"),
+            class: "admin_actions") do
+      image_tag("googlescholar.ico", width: "16px")
     end
   end
 
@@ -20,53 +20,53 @@ module ApplicationHelper
     link_label
   end
 
-  def waiver_infos_select_by(hsh, link_text = 'W')
+  def waiver_infos_select_by(hsh, link_text = "W")
     link_args = search_waiver_infos_path(
       params: {
         waiver_info: hsh
       }
     )
 
-    link_to(link_args, class: 'admin_actions') do
+    link_to(link_args, class: "admin_actions") do
       link_text
     end
   end
 
-  def sherpa_romeo_journal(string, label = 'SR')
-    link_to('http://www.sherpa.ac.uk/romeo/search.php?versions=all&prule=ALL&jrule=CONTAINS&search=' + string.split.join('+'),
-            class: 'admin_actions') do
+  def sherpa_romeo_journal(string, label = "SR")
+    link_to("http://www.sherpa.ac.uk/romeo/search.php?versions=all&prule=ALL&jrule=CONTAINS&search=" + string.split.join("+"),
+            class: "admin_actions") do
       label
     end
   end
 
-  def directory_link(email, label = '?-DIR')
-    link_to('http://search.princeton.edu/search?e=' + Rack::Utils.escape(email),
-            class: 'admin_actions') do
+  def directory_link(email, label = "?-DIR")
+    link_to("http://search.princeton.edu/search?e=" + Rack::Utils.escape(email),
+            class: "admin_actions") do
       label
     end
   end
 
-  def institution_site_search(words, label = '?-PU')
-    link_to('http://www.princeton.edu/main/tools/search/?q=' + Rack::Utils.escape(words.split.join('+')),
-            class: 'admin_actions') do
+  def institution_site_search(words, label = "?-PU")
+    link_to("http://www.princeton.edu/main/tools/search/?q=" + Rack::Utils.escape(words.split.join("+")),
+            class: "admin_actions") do
       label
     end
   end
 
-  def employee_list(name, label = 'A')
-    link_to(search_get_employees_path(search_term: name), class: 'admin_actions') do
+  def employee_list(name, label = "A")
+    link_to(search_get_employees_path(search_term: name), class: "admin_actions") do
       label
     end
   end
 
   def sign_out_link(html_opts = {})
-    child_element = tag.span('', class: 'glyphicon glyphicon-user')
-    link_to(child_element + ' Logout', destroy_account_session_path, html_opts)
+    child_element = tag.span("", class: "glyphicon glyphicon-user")
+    link_to(child_element + " Logout", destroy_account_session_path, html_opts)
   end
 
   def sign_in_link(html_opts = {})
-    child_element = tag.span('', class: 'glyphicon glyphicon-user')
-    link_to(child_element + ' Login', account_cas_omniauth_authorize_path, html_opts)
+    child_element = tag.span("", class: "glyphicon glyphicon-user")
+    link_to(child_element + " Login", account_cas_omniauth_authorize_path, html_opts)
   end
 
   def devise_session_link(html_opts = {})
@@ -80,7 +80,7 @@ module ApplicationHelper
     return objects.total_count if objects.respond_to? :total_count
     return objects.length if objects.respond_to? :length
 
-    'unknown'
+    "unknown"
   end
 
   def current_roles
@@ -95,6 +95,6 @@ module ApplicationHelper
   end
 
   def current_account_admin?
-    current_roles.include?('ADMIN')
+    current_roles.include?("ADMIN")
   end
 end

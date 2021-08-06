@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class Account < ApplicationRecord
-  ADMIN_ROLE = 'ADMIN'
-  AUTHENTICATED_ROLE = 'LOGGEDIN'
-  ANONYMOUS_ROLE = 'ANONYMOUS'
+  ADMIN_ROLE = "ADMIN"
+  AUTHENTICATED_ROLE = "LOGGEDIN"
+  ANONYMOUS_ROLE = "ANONYMOUS"
 
   validates_presence_of :netid
   validates_uniqueness_of :netid
