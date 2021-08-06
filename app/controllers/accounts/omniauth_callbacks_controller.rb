@@ -2,21 +2,15 @@
 module Accounts
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def cas
-      @account = Account.from_cas(netid)
+      @account = Account.from_omniauth(access_token)
 
-      if @account.nil?
-        redirect_to root_path
-        flash[:error] = "You are not authorized"
-      else
-        sign_in_and_redirect @account, event: :authentication
-
-        set_flash_message(:success, :success, kind: "from Princeton Central Authentication Service") if is_navigational_format?
-      end
+      sign_in_and_redirect(@account, event: :authentication)
+      set_flash_message(:notice, :success, kind: "from Princeton Central Authentication Service") if is_navigational_format?
     end
 
     private
 
-    def netid
+    def access_token
       request.env["omniauth.auth"]
     end
   end

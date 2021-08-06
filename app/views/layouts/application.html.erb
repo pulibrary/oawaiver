@@ -89,7 +89,7 @@
             </li>
             <% end %>
             <li>
-              <%= login_out_link %>
+              <%= devise_session_link %>
             </li>
           </ul>
         </div>
@@ -97,12 +97,8 @@
     </nav>
   </header>
   <div class="waiver content container inner body" id="main-content">
-        <div class="panel env_marker">
-         <%= Rails.env() %> instance
-        </div>
     <%= yield %>
   </div>
-
 </div>
 <footer class="footer">
   <div class="bottom-bar">

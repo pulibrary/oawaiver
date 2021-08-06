@@ -16,15 +16,20 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe '#start' do
+    it 'responds successfully with an HTTP 200 status code' do
+      get(:start)
+
+      expect(response).to have_http_status(200)
+    end
+
     context 'when authenticated as an administrative user' do
       before do
         sign_in(admin_user)
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        get :start
+        get(:start)
 
-        expect(response).to be_success
         expect(response).to have_http_status(200)
       end
 
