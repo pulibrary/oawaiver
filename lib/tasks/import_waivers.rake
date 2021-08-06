@@ -8,12 +8,12 @@ namespace :import do
     Get_search_netid_path = { "json" => "/api/employees/get/netid.json?netid=MATCH" }.freeze
 
     def GetNameSearchUrl(name)
-      AuthorStatus.GetBaseUrl() +
+      AuthorStatus.base_url +
         Get_search_name_path["json"].gsub(/MATCH/, Rack::Utils.escape(name))
     end
 
     def GetNetIdSearchUrl(netid)
-      AuthorStatus.GetBaseUrl() +
+      AuthorStatus.base_url +
         Get_search_netid_path["json"].gsub(/MATCH/, netid)
     end
 
@@ -24,8 +24,10 @@ namespace :import do
         filename = args.filename
         run = args.run
         requester = args.requester
-        faculty_status = AuthorStatus.StatusFaculty
-        AuthorStatus.SetBaseUrl = args.base_url
+        # faculty_status = AuthorStatus.StatusFaculty
+        faculty_status = AuthorStatus.status_faculty
+        # AuthorStatus.SetBaseUrl = args.base_url
+        AuthorStatus.base_url = args.base_url
 
         if !filename || (run == "help")
           puts "usage: #{t.name}[filename,run,note]"
@@ -191,7 +193,7 @@ namespace :import do
       #
       def match_author(hsh)
         # if author_unique_id leads to record with same last name use that author_info
-        uri = URI(AuthorStatus.GetUniqueIdUrl(hsh[:author_unique_id], "json"))
+        uri = URI(AuthorStatus.generate_uid_url(hsh[:author_unique_id], "json"))
         puts "URI: " + uri.to_s
         res = Net::HTTP.get_response(uri)
         raise("No response from author engine") if res.response.code != "200"

@@ -47,7 +47,7 @@ RSpec.describe ApplicationController, type: :controller do
         get :author_search_status
 
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(AuthorStatus.StatusUrl)
+        expect(response).to redirect_to(AuthorStatus.status_url)
       end
     end
   end

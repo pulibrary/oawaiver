@@ -78,7 +78,8 @@ class WaiverInfosController < ApplicationController
   end
 
   def new
-    @waiver_info = WaiverInfo.new(author_status: AuthorStatus.StatusFaculty)
+    # @waiver_info = WaiverInfo.new(author_status: AuthorStatus.StatusFaculty)
+    @waiver_info = WaiverInfo.new(author_status: AuthorStatus.status_faculty)
 
     render(:new_waiver_info)
   end

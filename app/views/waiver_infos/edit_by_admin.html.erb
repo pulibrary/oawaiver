@@ -1,20 +1,10 @@
 <h1> Edit Waiver Info </h1>
-
-
 <div class="index waiver_infos">
-<p>
-  Requested by  <strong>  <%= @waiver_info.requester %> </strong> on <%= @waiver_info.created_at.strftime("%b %d %Y") %>
-</p>
-  <p>
-    <%= link_to "View Waiver", @waiver_info %>
-  </p>
-
+  <p>Requested by  <strong>  <%= @waiver_info.requester %> </strong> on <%= @waiver_info.created_at.strftime("%b %d %Y") %></p>
+  <p><%= link_to "View Waiver", @waiver_info %></p>
 </div>
-
 <%= content_tag(:div, notice, class: notice) if notice and not notice.empty? %>
-
 <%= render "submit_errors" %>
-
 <section class="panel">
   <div class="help-block"><span class="required">*</span> indicates required field</div>
 
@@ -72,7 +62,7 @@
             <div class="form-group field required">
               <%= f.label :author_status, 'Status' %>
               <%= f.select :author_status,
-                           options_for_select(AuthorStatus.StatusList(),:selected => @waiver_info.author_status),
+                           options_for_select(AuthorStatus.status_list, selected: @waiver_info.author_status),
                            {class: 'status',  required: true} %>
             </div>
 
@@ -124,7 +114,7 @@
             <div class="clear"></div>
             <div class="left ">
               <strong>Status:</strong>
-              <span class="status">  <%= AuthorStatus.StatusFaculty() %>  </span>
+              <span class="status">  <%= AuthorStatus.status_faculty %>  </span>
             </div>
             <div class="clear"></div>
             <div class="left ">
@@ -162,7 +152,7 @@
     function init_page() {
       $("#log").hide();
 
-      AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_data', "<%= AuthorStatus.AjaxUrl %>", "<%= AuthorStatus.AjaxParams %>");
+      AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_data', "<%= AuthorStatus.ajax_url %>", "<%= AuthorStatus.ajax_params %>");
     }
 
     $(document).ready(init_page);
