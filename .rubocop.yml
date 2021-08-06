@@ -43,6 +43,7 @@ Metrics/ClassLength:
   Exclude:
     - 'app/controllers/waiver_infos_controller.rb'
     - 'app/models/employee.rb'
+    - 'lib/author_status.rb'
 
 Metrics/CyclomaticComplexity:
   Exclude:

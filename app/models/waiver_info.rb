@@ -56,7 +56,8 @@ class WaiverInfo < ApplicationRecord
   end
 
   def faculty?
-    AuthorStatus.StatusFaculty == author_status
+    # AuthorStatus.StatusFaculty == author_status
+    AuthorStatus.faculty_status?(author_status)
   end
 
   def legacy?
@@ -76,9 +77,12 @@ class WaiverInfo < ApplicationRecord
     "#{title}, #{journal}, #{author_last_name}, #{author_first_name}"
   end
 
-  def self.AuthorStatusList
-    self.select(:author_status).uniq.collect(&:author_status)
-  end
+  # def self.AuthorStatusList
+  # self.select(:author_status).uniq.collect(&:author_status)
+  #  author_statuses = self.select(:author_status)
+  #  unique_author_statuses = author_statuses.uniq
+  #  unique_author_statuses.collect(&:author_status)
+  # end
 
   # ---------------------
   # Search/Solr

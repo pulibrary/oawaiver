@@ -17,7 +17,7 @@ RSpec.describe WaiverInfo, type: :model do
     end
   end
   it("can't create for faculty without unique_id") do
-    waiver = FactoryBot.build(:waiver_info, author_status: AuthorStatus.StatusFaculty, author_unique_id: nil)
+    waiver = FactoryBot.build(:waiver_info, author_status: AuthorStatus.status_faculty, author_unique_id: nil)
     expect(waiver.valid?).to eq(false)
     expect(waiver.errors.messages[:author_unique_id]).not_to eq(nil)
   end
@@ -30,7 +30,7 @@ RSpec.describe WaiverInfo, type: :model do
   end
 
   it("can create for non faculty without unique_id") do
-    waiver = FactoryBot.build(:waiver_info, author_status: AuthorStatus.StatusOther, author_unique_id: nil)
+    waiver = FactoryBot.build(:waiver_info, author_status: AuthorStatus.status_other, author_unique_id: nil)
     expect(waiver.valid?).to eq(true)
   end
 
