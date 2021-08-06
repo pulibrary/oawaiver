@@ -59,10 +59,20 @@ module ApplicationHelper
     end
   end
 
-  def login_out_link(html_opts = {})
-    link = @user ? logout_path : login_path
-    label = @user ? "Logout #{@user}" : 'Login'
-    link_to(tag.span('', class: 'glyphicon glyphicon-user') + ' ' + label, link, html_opts)
+  def sign_out_link(html_opts = {})
+    child_element = tag.span('', class: 'glyphicon glyphicon-user')
+    link_to(child_element + ' Logout', destroy_account_session_path, html_opts)
+  end
+
+  def sign_in_link(html_opts = {})
+    child_element = tag.span('', class: 'glyphicon glyphicon-user')
+    link_to(child_element + ' Login', account_cas_omniauth_authorize_path, html_opts)
+  end
+
+  def devise_session_link(html_opts = {})
+    return sign_out_link(html_opts) if current_account
+
+    sign_in_link(html_opts)
   end
 
   def paginate_length(objects)

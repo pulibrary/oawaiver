@@ -7,13 +7,13 @@ RSpec.describe Accounts::OmniauthCallbacksController do
 
   describe "logging in" do
     before do
-      allow(Account).to receive(:from_cas) { FactoryGirl.create(:account) }
+      allow(Account).to receive(:from_omniauth) { FactoryGirl.create(:account) }
 
-      get :cas
+      get(:cas)
     end
 
     it "redirects to home page with a successful alert" do
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
       expect(flash[:success]).to eq("Successfully authenticated from from Princeton Central Authentication Service account.")
     end
   end

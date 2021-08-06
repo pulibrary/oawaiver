@@ -3,23 +3,12 @@
 require 'rails_helper'
 
 describe AccountsController, type: :request do
-  describe "GET /" do
-    context 'when authenticated as a valid user' do
-      let(:valid_user) { FactoryGirl.create(:admin_account) }
+  before do
+    Account.delete_all
+  end
 
-      before do
-        login_as(valid_user)
-      end
-
-      it "renders the NetID for the authenticated user" do
-        get(root_path)
-
-        expect(response.status).to eq(200)
-        expect(response).to render_template('layouts/application')
-        expect(response.body).to include('Request a Waiver')
-        expect(response.body).to include('Review Requests')
-      end
-    end
+  after do
+    Account.delete_all
   end
 
   describe "POST /accounts" do
@@ -37,7 +26,7 @@ describe AccountsController, type: :request do
     it "redirects to the CAS authentication endpoint" do
       post(accounts_path, params: params)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as a valid user' do
@@ -78,7 +67,7 @@ describe AccountsController, type: :request do
     it "redirects to the CAS authentication endpoint" do
       post(accounts_path, params: params)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as a valid user' do

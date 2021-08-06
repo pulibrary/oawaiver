@@ -22,7 +22,7 @@ RSpec.describe EmployeesController, type: :controller do
       get :index
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do
@@ -43,7 +43,7 @@ RSpec.describe EmployeesController, type: :controller do
       get :index_departments
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do

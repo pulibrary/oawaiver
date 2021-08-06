@@ -38,6 +38,14 @@ $ sudo mysql_upgrade
 $ sudo mariadb-secure-installation
 ```
 
+#### Running the Application
+
+```bash
+$ bundle exec rails server
+```
+
+Then, please access the application using http://localhost:3000/
+
 ### Running the Test Suites
 ```bash
 $ bundle exec rake db:setup

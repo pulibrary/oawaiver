@@ -25,7 +25,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get(:index_mine)
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'while authenticated as an admin. user' do
@@ -60,7 +60,7 @@ RSpec.describe WaiverInfosController, type: :controller do
     it "redirects for failed authentication attempts" do
       get(:search)
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'while authenticated as an admin. user' do
@@ -133,7 +133,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get(:new)
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'while authenticated as an admin. user' do
@@ -158,7 +158,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :index
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'while authenticated as an admin. user' do
@@ -208,7 +208,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :index_unique_id, params: params
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated' do
@@ -255,7 +255,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :index_missing_unique_ids, params: params
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when requesting a unique author ID' do
@@ -299,7 +299,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :edit_by_admin, params: params
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when requesting a unique author ID' do
@@ -346,7 +346,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :update_by_admin, params: params
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do
@@ -414,7 +414,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :show, params: { id: waiver.id }
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do
@@ -436,7 +436,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :show_mail, params: { id: waiver.id }
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do
@@ -464,7 +464,7 @@ RSpec.describe WaiverInfosController, type: :controller do
       get :edit_by_admin, params: params
 
       expect(response).to have_http_status(:redirect)
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin user' do

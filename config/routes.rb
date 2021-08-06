@@ -1,12 +1,22 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :accounts, only: %i[new create destroy]
-
   root to: 'application#start'
 
-  devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
+  get("/start", to: 'application#start', as: 'start')
+  get("/manage", to: 'application#manage', as: 'manage')
+  get("/author_search_status", to: 'application#author_search_status', as: 'author_search_status')
 
+  devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
+  devise_scope :account do
+    get "sign_in", to: "accounts/sessions#new", as: :new_account_session
+    # Deprecated
+    get("/login", to: 'accounts/sessions#new', as: 'login')
+
+    get "sign_out", to: "accounts/sessions#destroy", as: :destroy_account_session
+    # Deprecated
+    get("/logout", to: 'accounts/sessions#destroy', as: 'logout')
+  end
   unauthenticated do
     as :account do
       root to: 'accounts/omniauth_callbacks#passthru', as: :account_root
@@ -17,11 +27,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get("/start", to: 'application#start', as: 'start')
-  get("/login", to: 'application#start', as: 'login')
-  get("/logout", to: 'application#logout', as: 'logout')
-  get("/manage", to: 'application#manage', as: 'manage')
-  get("/author_search_status", to: 'application#author_search_status', as: 'author_search_status')
+  resources :accounts, only: %i[new create destroy]
 
   get  '/waiver/requester/me',
        to: 'waiver_infos#index_mine',
@@ -93,6 +99,7 @@ Rails.application.routes.draw do
 
   unless Rails.env.development?
     # when not doing development, simply route any unrecognized get or post to start
+
     get('/*', to: 'application#start')
     post('/*', to: 'application#start')
   end

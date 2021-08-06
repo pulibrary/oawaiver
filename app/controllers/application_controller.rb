@@ -1,22 +1,21 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  before_action :authenticate_account!, only: [:start, :logout, :manage]
+  before_action :authenticate_account!, only: [:manage]
 
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
   def logout
-    logout_redirect(root_url)
+    redirect_to(destroy_account_session_path)
   end
 
   def manage
-    return unless current_account.admin?
-
     @notes = params['notes'] || ''
     @accounts = Account.where(netid: current_account.netid)
     @account = Account.new
+
     render controller: 'application', action: 'manage'
   end
 
@@ -57,5 +56,9 @@ class ApplicationController < ActionController::Base
 
   def current_cas_user
     session[:cas_user]
+  end
+
+  def after_sign_in_path_for(_resource)
+    request.env['omniauth.origin'] || new_account_session_path
   end
 end
