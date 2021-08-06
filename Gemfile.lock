@@ -460,7 +460,7 @@ DEPENDENCIES
   lumberjack
   mail
   modernizr-rails
-  mysql2
+  mysql2 (~> 0.5)
   omniauth-cas
   pg
   progress_bar
