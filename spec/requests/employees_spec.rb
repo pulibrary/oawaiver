@@ -21,7 +21,7 @@ describe EmployeesController do
     it "redirects to the CAS authentication endpoint" do
       get(employees_path)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do
@@ -108,7 +108,7 @@ describe EmployeesController do
     it "redirects to the CAS authentication endpoint" do
       get(index_departments_path)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as an admin. user' do
@@ -139,7 +139,7 @@ describe EmployeesController do
     it "redirects to the CAS authentication endpoint" do
       get(employee1_path)
 
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(new_account_session_path)
     end
 
     context 'when authenticated as a valid user' do

@@ -9,7 +9,7 @@ class Account < ApplicationRecord
   validates_uniqueness_of :netid
   delegate :to_s, to: :netid
   delegate :uid, to: :netid
-  devise :omniauthable
+  devise(:omniauthable)
 
   def self.roles(netid)
     persisted = Account.find_by_netid(netid)
@@ -18,8 +18,13 @@ class Account < ApplicationRecord
     [ANONYMOUS_ROLE]
   end
 
-  def self.from_cas(access_token)
-    find_by(provider: access_token.provider, netid: access_token.uid)
+  def self.from_omniauth(access_token)
+    models = where(provider: access_token.provider, netid: access_token.uid)
+    models.first_or_create do |account|
+      account.netid = access_token.uid
+      account.provider = access_token.provider
+      account.role = AUTHENTICATED_ROLE
+    end
   end
 
   def admin?
