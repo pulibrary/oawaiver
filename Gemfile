@@ -10,7 +10,7 @@ gem "devise"
 gem "grape", "~> 1.1.0"
 gem "grape-entity", "~> 0.4.0"
 gem "grape-swagger", "~> 0.7.2"
-gem "grape-swagger-rails", "~> 0.0.8"
+gem "grape-swagger-rails", "~> 0.3"
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.0"
 # Use jquery as the JavaScript library
@@ -22,7 +22,7 @@ gem "lumberjack"
 gem "mail"
 # Modernizr
 gem "modernizr-rails"
-gem "mysql2"
+gem "mysql2", "~> 0.5"
 gem "omniauth-cas"
 gem "progress_bar"
 gem "rack", ">= 2.1.4"

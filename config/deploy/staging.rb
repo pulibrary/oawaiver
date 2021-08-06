@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-set :rails_env, "production"
+set :rails_env, "staging"
 
 # Extended Server Syntax
 # ======================

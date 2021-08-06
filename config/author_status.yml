@@ -8,21 +8,24 @@ get_unique_id_path:
 
 # enter the base url of the site where the author app runs
 # or enter '' to indicate that the author app is part of this rails app
-production:
-  base_url: ""
 
-qa:
-  base_url: ""
-
-axa:
-  base_url: ""
+default: &default
+  ajax_path: "api/employees/get_all/name.json"
+  ajax_params: "search_term=MATCH"
+  status_path: "api/employees/get_all/name.json?search_term=hans"
+  get_unique_id_path:
+    html: "employees/get/MATCH"
+    json: "api/employees/get/unique_id.json?id=MATCH"
+  base_url: "/"
 
 development:
-  base_url: ""
-
-remote_dev:
-  base_url: ""
+  <<: *default
 
 test:
-  base_url: ""
+  <<: *default
 
+staging: &staging
+  <<: *default
+
+production:
+  <<: *staging

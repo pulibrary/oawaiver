@@ -20,7 +20,8 @@ class ApplicationController < ActionController::Base
   end
 
   def author_search_status
-    redirect_to(AuthorStatus.StatusUrl)
+    # redirect_to(AuthorStatus.StatusUrl)
+    redirect_to(AuthorStatus.status_url)
   end
 
   unless Rails.env.development?
