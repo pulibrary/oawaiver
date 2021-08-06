@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-require 'optparse'
-require 'lumberjack'
+require "optparse"
+require "lumberjack"
 
 namespace :report do
-  desc 'List recent waiver requests'
+  desc "List recent waiver requests"
   task :recent, [:max] => :environment do |_t, args|
-    args.with_defaults({ max: '25' })
+    args.with_defaults({ max: "25" })
     max_num = args[:max].to_i
 
     puts %w[created_at requester_email name title journal].join("\t")
@@ -21,19 +21,19 @@ namespace :report do
 
       faculty = nil
       if w .notes
-        uid = w.notes.gsub(/.*requested by user with emplId /m, '').split("\n")[0]
-        uid = uid.gsub(/[' ]*/, '')
+        uid = w.notes.gsub(/.*requested by user with emplId /m, "").split("\n")[0]
+        uid = uid.gsub(/[' ]*/, "")
         faculty = Employee.find_by(unique_id: uid)
       end
       !faculty.nil?
     end
 
-    desc 'count waivers with various properties'
+    desc "count waivers with various properties"
     task count_legacy_with_props: :environment do |_t, _args|
       author_status_list = WaiverInfo.select(:author_status).uniq.collect(&:author_status)
-      legacy_waivers = WaiverInfo.where(requester: 'provost')
+      legacy_waivers = WaiverInfo.where(requester: "provost")
       puts "Total Legacy Waivers: #{legacy_waivers.count}"
-      wemplid = legacy_waivers.where('notes LIKE ?', '%requested by user with emplId%')
+      wemplid = legacy_waivers.where("notes LIKE ?", "%requested by user with emplId%")
       author_status_list.each do |st|
         puts "\nLegacy Waivers author_status=#{st} Total: #{legacy_waivers.where(author_status: st).count}"
         requester_emplid = wemplid.where(author_status: st)
@@ -46,9 +46,9 @@ namespace :report do
       end
     end
 
-    desc 'print_faculty_waivers'
+    desc "print_faculty_waivers"
     task print_faculty_waivers: :environment do |_t, _args|
-      st = 'faculty'
+      st = "faculty"
       ws = WaiverInfo.where(author_status: st)
       ws.each do |w|
         puts [w.id, w.author_email, w.requester_email, w.journal, w.title].join("\t")

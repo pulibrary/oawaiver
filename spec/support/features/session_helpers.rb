@@ -8,7 +8,7 @@ module Features
       uid = if user.instance_of?(Account)
               user.netid
             else
-              persisted = FactoryGirl.create(:regular_user)
+              persisted = FactoryBot.create(:regular_user)
               persisted.netid
             end
 

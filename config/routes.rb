@@ -1,29 +1,29 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root to: 'application#start'
+  root to: "application#start"
 
-  get("/start", to: 'application#start', as: 'start')
-  get("/manage", to: 'application#manage', as: 'manage')
-  get("/author_search_status", to: 'application#author_search_status', as: 'author_search_status')
+  get("/start", to: "application#start", as: "start")
+  get("/manage", to: "application#manage", as: "manage")
+  get("/author_search_status", to: "application#author_search_status", as: "author_search_status")
 
   devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
   devise_scope :account do
     get "sign_in", to: "accounts/sessions#new", as: :new_account_session
     # Deprecated
-    get("/login", to: 'accounts/sessions#new', as: 'login')
+    get("/login", to: "accounts/sessions#new", as: "login")
 
     get "sign_out", to: "accounts/sessions#destroy", as: :destroy_account_session
     # Deprecated
-    get("/logout", to: 'accounts/sessions#destroy', as: 'logout')
+    get("/logout", to: "accounts/sessions#destroy", as: "logout")
   end
   unauthenticated do
     as :account do
-      root to: 'accounts/omniauth_callbacks#passthru', as: :account_root
+      root to: "accounts/omniauth_callbacks#passthru", as: :account_root
     end
 
     as :employee do
-      root to: 'accounts/omniauth_callbacks#passthru', as: :employee_root
+      root to: "accounts/omniauth_callbacks#passthru", as: :employee_root
     end
   end
 
@@ -39,75 +39,75 @@ Rails.application.routes.draw do
        to: 'waiver_infos#index_mine',
        as: 'mine_waiver_infos'
 
-  get  '/waiver/new',
-       to: 'waiver_infos#new',
+  get  "/waiver/new",
+       to: "waiver_infos#new",
        as: :new_waiver_info
 
-  post  '/waiver/create',
-        to: 'waiver_infos#create',
-        as: 'create_waiver_info'
+  post  "/waiver/create",
+        to: "waiver_infos#create",
+        as: "create_waiver_info"
 
-  get '/waiver/:id(.:format)',
-      to: 'waiver_infos#show',
-      as: 'waiver_info'
+  get "/waiver/:id(.:format)",
+      to: "waiver_infos#show",
+      as: "waiver_info"
 
-  get '/waiver/:id/mail',
-      to: 'waiver_infos#show_mail',
-      as: 'show_mail_waiver_info'
+  get "/waiver/:id/mail",
+      to: "waiver_infos#show_mail",
+      as: "show_mail_waiver_info"
 
-  get  '/admin/search',
-       to: 'waiver_infos#search',
-       as: 'search_waiver_infos',
+  get  "/admin/search",
+       to: "waiver_infos#search",
+       as: "search_waiver_infos",
        constraints: { format: /(html|json)/ }
 
-  get  '/admin/waivers/match/:search_term',
-       to: 'waiver_infos#solr_search_words',
-       as: 'match_waiver_infos_get_words'
-  get  '/admin/waivers/match',
-       to: 'waiver_infos#solr_search_words'
-  post '/admin/waivers/match',
-       to: 'waiver_infos#solr_search_words_post',
-       as: 'match_waiver_infos_words'
+  get  "/admin/waivers/match/:search_term",
+       to: "waiver_infos#solr_search_words",
+       as: "match_waiver_infos_get_words"
+  get  "/admin/waivers/match",
+       to: "waiver_infos#solr_search_words"
+  post "/admin/waivers/match",
+       to: "waiver_infos#solr_search_words_post",
+       as: "match_waiver_infos_words"
 
-  get  '/admin/waiver/:id',
-       to: 'waiver_infos#edit_by_admin',
-       as: 'edit_by_admin'
-  post '/admin/waiver/:id',
-       to: 'waiver_infos#update_by_admin'
+  get  "/admin/waiver/:id",
+       to: "waiver_infos#edit_by_admin",
+       as: "edit_by_admin"
+  post "/admin/waiver/:id",
+       to: "waiver_infos#update_by_admin"
 
-  get  '/admin/unique_id/:author_unique_id',
-       to: 'waiver_infos#index_unique_id',
-       as: 'index_unique_id_waiver_infos'
+  get  "/admin/unique_id/:author_unique_id",
+       to: "waiver_infos#index_unique_id",
+       as: "index_unique_id_waiver_infos"
 
-  get  '/admin/waivers',
-       to: 'waiver_infos#index',
-       as: 'waiver_infos'
+  get  "/admin/waivers",
+       to: "waiver_infos#index",
+       as: "waiver_infos"
 
-  get '/admin/missing_unique_ids',
-      to: 'waiver_infos#index_missing_unique_ids',
-      as: 'index_missing_unique_ids_waiver_infos'
+  get "/admin/missing_unique_ids",
+      to: "waiver_infos#index_missing_unique_ids",
+      as: "index_missing_unique_ids_waiver_infos"
 
   # employee/author engine routes
-  post 'employees/search', to: 'employees#search', as: 'search_employees'
-  get 'employees/search/:search_term', to: 'employees#search_get', as: 'search_get_employees'
-  get 'employees/ajax_search/:style', to: 'employees#ajax_search',
-                                      defaults: { style: 'form' },
-                                      constraints: { style: /form|display/ }, as: 'ajax_search_employees'
+  post "employees/search", to: "employees#search", as: "search_employees"
+  get "employees/search/:search_term", to: "employees#search_get", as: "search_get_employees"
+  get "employees/ajax_search/:style", to: "employees#ajax_search",
+                                      defaults: { style: "form" },
+                                      constraints: { style: /form|display/ }, as: "ajax_search_employees"
 
-  get 'employees/list/departments', to: 'employees#index_departments', as: 'index_departments'
+  get "employees/list/departments", to: "employees#index_departments", as: "index_departments"
 
   resources :employees, only: %i[index show]
-  get 'employees/get/:unique_id', to: 'employees#get_uniqueId', as: 'uniqueId_employee'
+  get "employees/get/:unique_id", to: "employees#get_uniqueId", as: "uniqueId_employee"
 
   # API+API Documentation
-  mount API::Base => '/api'
-  mount GrapeSwaggerRails::Engine => '/apidoc'
+  mount API::Base => "/api"
+  mount GrapeSwaggerRails::Engine => "/apidoc"
 
   unless Rails.env.development?
     # when not doing development, simply route any unrecognized get or post to start
 
-    get('/*', to: 'application#start')
-    post('/*', to: 'application#start')
+    get("/*", to: "application#start")
+    post("/*", to: "application#start")
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

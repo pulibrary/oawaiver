@@ -7,7 +7,7 @@ class WaiverInfo < ApplicationRecord
 
   has_many :mail_records
 
-  default_scope { order('created_at DESC') }
+  default_scope { order("created_at DESC") }
 
   before_save :lower_case_fields
 
@@ -26,7 +26,7 @@ class WaiverInfo < ApplicationRecord
 
   validates_format_of :author_unique_id,
                       with: /\b\d{9}\z/,
-                      message: 'id must be 9 digits',
+                      message: "id must be 9 digits",
                       allow_nil: true
 
   validates :author_unique_id, presence: true, if: :faculty?
@@ -65,7 +65,7 @@ class WaiverInfo < ApplicationRecord
 
   def self.find_by_email(email)
     email = email.downcase
-    where('requester_email = ? OR author_email = ?', email, email)
+    where("requester_email = ? OR author_email = ?", email, email)
   end
 
   def self.find_by_missing_unique_id

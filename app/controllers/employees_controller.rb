@@ -6,7 +6,7 @@ class EmployeesController < ApplicationController
   # GET /employees
   # params :page, :per_page
   def index
-    @search_term = ''
+    @search_term = ""
 
     models = Employee.order(:id)
     @employees = models.paginate(page: page_param, per_page: per_page_param)

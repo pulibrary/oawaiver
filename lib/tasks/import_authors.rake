@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'optparse'
-require 'lumberjack'
+require "optparse"
+require "lumberjack"
 
 namespace :import do
   namespace :authors do
     desc "Upload from csv file, :log #{Lumberjack::Severity::SEVERITY_LABELS}"
     task :csv, %i[filename log] => :environment do |t, args|
-      args.with_defaults({ log: 'INFO' })
+      args.with_defaults({ log: "INFO" })
       loglevel = Lumberjack::Severity::SEVERITY_LABELS.index(args[:log].upcase)
       logger = Lumberjack::Logger.new(STDOUT, { level: loglevel })
 
