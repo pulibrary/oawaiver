@@ -23,7 +23,7 @@ gem "lumberjack"
 gem "mail"
 # Modernizr
 gem "modernizr-rails"
-gem "mysql2"
+gem "mysql2", "~> 0.5"
 gem "omniauth-cas"
 gem "pg"
 gem "progress_bar"
