@@ -1,6 +1,6 @@
 default: &default
   adapter: mysql2
-  encoding: utf8
+  encoding: utf8mb4
   min_messages: warning
   pool: <%= Integer(ENV.fetch("DB_POOL", 40)) %>
   reaping_frequency: <%= Integer(ENV.fetch("DB_REAPING_FREQUENCY", 10)) %>
@@ -24,7 +24,7 @@ test:
 
 staging: &staging
   adapter: mysql2
-  encoding: utf8
+  encoding: utf8mb4
   database: <%= ENV.fetch("APP_DB", 'oawaiver') %>
   pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   host: <%= ENV.fetch("APP_DB_HOST", 'localhost') %>
