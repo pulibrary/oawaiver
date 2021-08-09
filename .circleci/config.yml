@@ -54,6 +54,25 @@ commands:
           paths:
             - vendor/bundle
 
+  setup-node:
+    description: "Install correct version of node.js and load from cache or yarn install"
+    steps:
+      # Restore yarn cache
+      - restore_cache:
+          keys:
+            - oawaiver-node14-{{ checksum "yarn.lock" }}
+            - oawaiver-node14-
+
+      - run:
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Store yarn / webpacker cache
+      - save_cache:
+          key: oawaiver-node14-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
   setup-solr:
     description: "Create the Solr configurations"
     steps:
@@ -73,6 +92,7 @@ jobs:
           at: '~/oawaiver'
       - checkout
       - setup-bundler
+      - setup-node
 
       - persist_to_workspace:
           root: '~/oawaiver'
@@ -95,6 +115,7 @@ jobs:
       - attach_workspace:
           at: '~/oawaiver'
       - setup-bundler
+      - setup-node
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:3306 -timeout 1m

@@ -38,6 +38,7 @@ gem "sunspot_rails"
 gem "sunspot_solr"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
+gem "webpacker"
 gem "will_paginate", "~> 3.0.6"
 
 group :assets do
