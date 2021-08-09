@@ -55,6 +55,7 @@ group :development do
   # Use Capistrano
   gem "capistrano"
   gem "capistrano-bundler"
+  gem "capistrano-passenger"
   gem "capistrano-rails"
 end
 
