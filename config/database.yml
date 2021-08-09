@@ -1,5 +1,5 @@
 default: &default
-  adapter: mysql2
+  adapter: pedant_mysql2
   encoding: utf8mb4
   min_messages: warning
   pool: <%= Integer(ENV.fetch("DB_POOL", 40)) %>
@@ -23,14 +23,14 @@ test:
   password: <%= ENV["lando_oawaiver_database_creds_password"] || ENV.fetch("APP_DB_PASSWORD", 'oawaiver') %>
 
 staging: &staging
-  adapter: mysql2
+  adapter: pedant_mysql2
   encoding: utf8mb4
-  database: <%= ENV.fetch("APP_DB", 'oawaiver') %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-  host: <%= ENV.fetch("APP_DB_HOST", 'localhost') %>
-  port: <%= ENV.fetch("APP_DB_PORT", 3306) %>
-  username: <%= ENV.fetch("APP_DB_USERNAME", 'oawaiver') %>
-  password: <%= ENV.fetch("APP_DB_PASSWORD", 'oawaiver') %>
+  database: <%= ENV["APP_DB"] %>
+  pool: <%= ENV["RAILS_MAX_THREADS"] || 5 %>
+  host: <%= ENV["APP_DB_HOST"] %>
+  port: <%= ENV["APP_DB_PORT"] || 3306 %>
+  username: <%= ENV["APP_DB_USERNAME"] %>
+  password: <%= ENV["APP_DB_PASSWORD"] %>
 
 production:
   <<: *staging

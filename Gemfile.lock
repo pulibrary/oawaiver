@@ -33,6 +33,9 @@ GEM
       activemodel (= 5.2.6)
       activesupport (= 5.2.6)
       arel (>= 9.0)
+    activerecord-pedantmysql2-adapter (1.2.0)
+      activerecord (>= 5.0)
+      mysql2 (>= 0.3.12)
     activestorage (5.2.6)
       actionpack (= 5.2.6)
       activerecord (= 5.2.6)
@@ -428,6 +431,7 @@ PLATFORMS
 DEPENDENCIES
   actionpack (>= 5.2.4.6)
   actionview (>= 5.2.4.4)
+  activerecord-pedantmysql2-adapter
   better_errors
   binding_of_caller
   bixby
@@ -455,7 +459,7 @@ DEPENDENCIES
   lumberjack
   mail
   modernizr-rails
-  mysql2 (~> 0.5)
+  mysql2
   omniauth-cas
   progress_bar
   pry-byebug
