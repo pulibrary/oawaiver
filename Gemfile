@@ -4,6 +4,7 @@ source "https://rubygems.org"
 
 gem "actionpack", ">= 5.2.4.6"
 gem "actionview", ">= 5.2.4.4"
+gem "activerecord-pedantmysql2-adapter"
 gem "bundler", "~> 2.1"
 gem "devise"
 # JSON API with documentation
