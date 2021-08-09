@@ -39,3 +39,15 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log",
 # set :keep_releases, 5
 
 set :passenger_restart_with_touch, true
+
+namespace :deploy do
+  desc "Run yarn install"
+  task :yarn_install do
+    on roles(:web) do
+      within release_path do
+        execute("cd #{release_path} && yarn install")
+      end
+    end
+  end
+end
+before "deploy:assets:precompile", "deploy:yarn_install"
