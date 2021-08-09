@@ -1,10 +1,3 @@
-GIT
-  remote: https://github.com/brianmario/mysql2
-  revision: 7f4e844fccf6afa888d0bd108d4707a2a7784484
-  ref: 7f4e844
-  specs:
-    mysql2 (0.5.3)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -229,6 +222,7 @@ GEM
       ruby2_keywords (~> 0.0.1)
     mustermann-grape (1.0.1)
       mustermann (>= 1.0.0)
+    mysql2 (0.5.3)
     nenv (0.3.0)
     net-scp (3.0.0)
       net-ssh (>= 2.6.5, < 7.0.0)
@@ -465,7 +459,7 @@ DEPENDENCIES
   lumberjack
   mail
   modernizr-rails
-  mysql2!
+  mysql2
   omniauth-cas
   progress_bar
   pry-byebug
