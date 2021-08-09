@@ -40,6 +40,6 @@ module Waiver
     config.revision = Waiver::VERSION
 
     $stderr.puts('Debugging the environment')
-    $stderr.puts(ENV['USER'])
+    $stderr.puts(ENV['APP_DB_HOST'])
   end
 end
