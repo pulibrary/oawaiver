@@ -33,9 +33,13 @@ module Waiver
                        controller_specs: true,
                        view_specs: false,
                        request_specs: true
-      g.fixture_replacement :factory_girl, dir: "spec/factories"
+
+      g.fixture_replacement :factory_bot, dir: "spec/factories"
     end
 
     config.revision = Waiver::VERSION
+
+    $stderr.puts('Debugging the environment')
+    $stderr.puts(ENV['USER'])
   end
 end
