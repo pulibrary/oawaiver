@@ -9,7 +9,7 @@ def set_branch
   return branch unless branch == "master"
   "main"
 end
-set :branch, 'jrgriffiniii-fix-deployments'
+set :branch, set_branch
 
 # Default deploy_to directory is /var/www/my_app
 # set :deploy_to, '/var/www/my_app'
