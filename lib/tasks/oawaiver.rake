@@ -1,21 +1,9 @@
 # frozen_string_literal: true
 
-class DatabaseMigrationService
+class DatabaseService
   def initialize(mysql_db_port: nil, postgresql_db_port: nil)
     @mysql_db_port = mysql_db_port
     @postgresql_db_port = postgresql_db_port
-  end
-
-  def import(sql_file_path:)
-    exec_import(sql_file_path)
-  end
-
-  def export(sql_file_path:)
-    exec_export(sql_file_path)
-  end
-
-  def migrate
-    exec_migrate
   end
 
   private
@@ -84,16 +72,8 @@ class DatabaseMigrationService
     "postgresql://#{db_user}:#{db_password}@#{db_host}:#{postgresql_db_port}/#{db_name}"
   end
 
-  def exec_migrate
-    `#{pgloader_bin_path} #{mysql_uri} #{postgresql_uri}`
-  end
-
   def mysql_bin_path
     "/usr/bin/env mysql"
-  end
-
-  def exec_import(sql_file_path)
-    `#{mysql_bin_path} --host=#{mysql_db_host} --port=#{mysql_db_port} --user=#{mysql_db_user} --password=#{mysql_db_password} --database=#{mysql_db_name} < #{sql_file_path}`
   end
 
   def pg_dump_bin_path
@@ -102,8 +82,50 @@ class DatabaseMigrationService
     "/usr/bin/env PGPASSWORD=#{db_password} pg_dump"
   end
 
+  def psql_bin_path
+    return "/usr/bin/env psql" if db_password.nil?
+
+    "/usr/bin/env PGPASSWORD=#{db_password} psql"
+  end
+end
+
+class DatabaseImportService < DatabaseService
+  def export(sql_file_path:)
+    exec_export(sql_file_path)
+  end
+
+  def import(sql_file_path:)
+    exec_import(sql_file_path)
+  end
+
+  private
+
   def exec_export(sql_file_path)
     `#{pg_dump_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} > #{sql_file_path}`
+  end
+
+  def exec_import(sql_file_path)
+    `#{psql_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} > #{sql_file_path}`
+  end
+end
+
+class DatabaseMigrationService < DatabaseService
+  def import(sql_file_path:)
+    exec_import(sql_file_path)
+  end
+
+  def migrate
+    exec_migrate
+  end
+
+  private
+
+  def exec_migrate
+    `#{pgloader_bin_path} #{mysql_uri} #{postgresql_uri}`
+  end
+
+  def exec_import(sql_file_path)
+    `#{mysql_bin_path} --host=#{mysql_db_host} --port=#{mysql_db_port} --user=#{mysql_db_user} --password=#{mysql_db_password} --database=#{mysql_db_name} < #{sql_file_path}`
   end
 end
 
@@ -129,7 +151,15 @@ namespace :oawaiver do
       sql_file = args[:sql_file]
       sql_file_path = Pathname.new(sql_file)
 
-      DatabaseMigrationService.new.export(sql_file_path: sql_file_path)
+      DatabaseImportService.new.export(sql_file_path: sql_file_path)
+    end
+
+    desc "Import an SQL export file into the PostgreSQL database"
+    task :import, [:sql_file] => :environment do |_t, args|
+      sql_file = args[:sql_file]
+      sql_file_path = Pathname.new(sql_file)
+
+      DatabaseImportService.new.import(sql_file_path: sql_file_path)
     end
   end
 

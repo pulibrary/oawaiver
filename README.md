@@ -76,6 +76,12 @@ $ bundle exec rake oawaiver:postgresql:export[oawaiver_export.psql.sql]
 $ bundle exec cap $RAILS_ENV oawaiver:postgresql:copy[oawaiver_export.psql.sql]
 ```
 
+For the import process, then invoke:
+
+```bash
+$ bundle exec cap $RAILS_ENV oawaiver:postgresql:import[oawaiver_export.psql.sql]
+```
+
 ### Solr Indexing
 
 In order to reindex the data models into the Solr Collection, please invoke the following:
