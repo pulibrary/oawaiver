@@ -23,7 +23,6 @@ gem "lumberjack"
 gem "mail"
 # Modernizr
 gem "modernizr-rails"
-#gem "mysql2", git: "https://github.com/brianmario/mysql2", ref: "7f4e844"
 gem "mysql2"
 gem "omniauth-cas"
 gem "pg"
