@@ -105,7 +105,7 @@ class DatabaseImportService < DatabaseService
   end
 
   def exec_import(sql_file_path)
-    `#{psql_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} > #{sql_file_path}`
+    `#{psql_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} < #{sql_file_path}`
   end
 end
 

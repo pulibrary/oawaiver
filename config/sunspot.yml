@@ -1,32 +1,31 @@
 
-default: &default
-  solr:
+default:
+  solr: &default
     hostname: <%= ENV["APP_SOLR_HOST"] || "localhost" %>
     port: <%= ENV["APP_SOLR_PORT"] || 8983 %>
 
 development:
-  <<: *default
-  solr:
+  solr: &development
+    <<: *default
     hostname: <%= ENV["lando_oawaiver_development_solr_conn_host"] || ENV["APP_SOLR_HOST"] || "localhost" %>
     port: <%= ENV["lando_oawaiver_development_solr_conn_port"] || ENV["APP_SOLR_PORT"] || 8983 %>
     log_level: DEBUG
     path: <%= ENV["APP_SOLR_PATH"] || "/solr/oawaiver-core-dev" %>
 
 test:
-  <<: *default
   solr:
+    <<: *development
     hostname: <%= ENV["lando_oawaiver_test_solr_conn_host"] || ENV["APP_SOLR_HOST"] || "localhost" %>
     port: <%= ENV["lando_oawaiver_test_solr_conn_port"] || ENV["APP_SOLR_PORT"] || 8983 %>
-    log_level: DEBUG
     path: <%= ENV["APP_SOLR_PATH"] || "/solr/oawaiver-core-test" %>
 
-staging: &staging
-  <<: *default
-  solr:
+staging:
+  solr: &staging
+    <<: *default
     log_level: INFO
     path: <%= ENV["APP_SOLR_PATH"] || "/solr/oawaiver-staging" %>
 
 production:
-  <<: *staging
   solr:
+    <<: *staging
     path: <%= ENV["APP_SOLR_PATH"] || "/solr/oawaiver-production" %>
