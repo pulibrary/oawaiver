@@ -9,7 +9,6 @@ class Employee < ApplicationRecord
   # * the number of employees in a given department
   @@MAX_EMPLOYEE_MATCH = 200
 
-  default_scope { order("preferred_name ASC") }
   self.per_page = 20
 
   before_validation :clean_strings

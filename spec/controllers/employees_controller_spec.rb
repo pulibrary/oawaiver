@@ -8,13 +8,13 @@ RSpec.describe EmployeesController, type: :controller do
   let(:admin_user) { FactoryBot.create(:admin_user) }
 
   before do
-    Employee.delete_all
-    Account.delete_all
+    Employee.all.map(&:destroy)
+    Account.all.map(&:destroy)
   end
 
   after do
-    Employee.delete_all
-    Account.delete_all
+    Employee.all.map(&:destroy)
+    Account.all.map(&:destroy)
   end
 
   describe "#index" do

@@ -12,13 +12,11 @@ executors:
           RAILS_ENV: test
           APP_DB_HOST: 0.0.0.0
           APP_SOLR_HOST: 0.0.0.0
-      - image: mariadb:10.6
+      - image: postgres:10
         environment:
-          MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: yes
-          MARIADB_ROOT_HOST: localhost
-          MARIADB_DATABASE: oawaiver_test
-          MARIADB_USER: oawaiver
-          MARIADB_PASSWORD: oawaiver
+          POSTGRES_USER: oawaiver
+          POSTGRES_DB: oawaiver_test
+          POSTGRES_HOST_AUTH_METHOD: trust
       - image: solr:8.4
         command: bin/solr -cloud -noprompt -f -p 8983
     working_directory: ~/oawaiver
@@ -116,9 +114,12 @@ jobs:
           at: '~/oawaiver'
       - setup-bundler
       - setup-node
+      # This is required for `rails db:schema:load`
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y postgresql-client || true
       - run:
           name: Wait for DB
-          command: dockerize -wait tcp://localhost:3306 -timeout 1m
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Wait for Solr
           command: dockerize -wait tcp://localhost:8983 -timeout 1m

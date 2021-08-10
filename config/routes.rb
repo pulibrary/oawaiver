@@ -29,15 +29,9 @@ Rails.application.routes.draw do
 
   resources :accounts, only: %i[new create destroy]
 
-  get("/start", to: 'application#start', as: 'start')
-  get("/login", to: 'application#start', as: 'login')
-  get("/logout", to: 'application#logout', as: 'logout')
-  get("/manage", to: 'application#manage', as: 'manage')
-  get("/author_search_status", to: 'application#author_search_status', as: 'author_search_status')
-
-  get  '/waiver/requester/me',
-       to: 'waiver_infos#index_mine',
-       as: 'mine_waiver_infos'
+  get  "/waiver/requester/me",
+       to: "waiver_infos#index_mine",
+       as: "mine_waiver_infos"
 
   get  "/waiver/new",
        to: "waiver_infos#new",

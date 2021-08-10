@@ -1,19 +1,9 @@
 # frozen_string_literal: true
 
-class DatabaseMigrationService
-  # attr_reader :mysql_db_port, :postgresql_db_port
+class DatabaseService
   def initialize(mysql_db_port: nil, postgresql_db_port: nil)
     @mysql_db_port = mysql_db_port
     @postgresql_db_port = postgresql_db_port
-  end
-
-  # def self.perform(import_file:)
-  def import(sql_file_path:)
-    exec_import(sql_file_path)
-  end
-
-  def migrate
-    exec_migrate
   end
 
   private
@@ -82,12 +72,56 @@ class DatabaseMigrationService
     "postgresql://#{db_user}:#{db_password}@#{db_host}:#{postgresql_db_port}/#{db_name}"
   end
 
-  def exec_migrate
-    `#{pgloader_bin_path} #{mysql_uri} #{postgresql_uri}`
-  end
-
   def mysql_bin_path
     "/usr/bin/env mysql"
+  end
+
+  def pg_dump_bin_path
+    return "/usr/bin/env pg_dump" if db_password.nil?
+
+    "/usr/bin/env PGPASSWORD=#{db_password} pg_dump"
+  end
+
+  def psql_bin_path
+    return "/usr/bin/env psql" if db_password.nil?
+
+    "/usr/bin/env PGPASSWORD=#{db_password} psql"
+  end
+end
+
+class DatabaseImportService < DatabaseService
+  def export(sql_file_path:)
+    exec_export(sql_file_path)
+  end
+
+  def import(sql_file_path:)
+    exec_import(sql_file_path)
+  end
+
+  private
+
+  def exec_export(sql_file_path)
+    `#{pg_dump_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} > #{sql_file_path}`
+  end
+
+  def exec_import(sql_file_path)
+    `#{psql_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} < #{sql_file_path}`
+  end
+end
+
+class DatabaseMigrationService < DatabaseService
+  def import(sql_file_path:)
+    exec_import(sql_file_path)
+  end
+
+  def migrate
+    exec_migrate
+  end
+
+  private
+
+  def exec_migrate
+    `#{pgloader_bin_path} #{mysql_uri} #{postgresql_uri}`
   end
 
   def exec_import(sql_file_path)
@@ -97,43 +131,80 @@ end
 
 namespace :oawaiver do
   namespace :mysql do
-    desc "Import the MySQL database export into MySQL"
+    desc "Import a MySQL database export into MySQL"
     task :import, [:sql_file] => :environment do |_t, args|
       sql_file = args[:sql_file]
       sql_file_path = Pathname.new(sql_file)
 
-      DatabaseMigrationService.import(sql_file_path: sql_file_path)
+      DatabaseMigrationService.new.import(sql_file_path: sql_file_path)
     end
 
     desc "Migrate the MySQL database export into PostgreSQL"
     task migrate: :environment do |_t, _args|
-      DatabaseMigrationService.migrate
+      DatabaseMigrationService.new.migrate
     end
   end
-end
 
-namespace :accounts do
-  desc "Add the administrator role to a user account"
-  task :add_admin_role, [:netid] => :environment do |_t, args|
-    netid = args[:netid]
+  namespace :postgresql do
+    desc "Export the PostgreSQL database into a SQL file"
+    task :export, [:sql_file] => :environment do |_t, args|
+      sql_file = args[:sql_file]
+      sql_file_path = Pathname.new(sql_file)
 
-    account = Account.find_by(netid: netid)
-    raise("Failed to find the user account: #{netid}") unless account
+      DatabaseImportService.new.export(sql_file_path: sql_file_path)
+    end
 
-    account.role = Account::ADMIN_ROLE
-    account.save
-    $stdout.puts("Successfully added the administrator role to the account for #{netid}")
+    desc "Import an SQL export file into the PostgreSQL database"
+    task :import, [:sql_file] => :environment do |_t, args|
+      sql_file = args[:sql_file]
+      sql_file_path = Pathname.new(sql_file)
+
+      DatabaseImportService.new.import(sql_file_path: sql_file_path)
+    end
   end
 
-  desc "Remove the administrator role to a user account"
-  task :remove_admin_role, [:netid] => :environment do |_t, args|
-    netid = args[:netid]
+  namespace :accounts do
+    desc "Add the administrator role to a user account"
+    task :add_admin_role, [:netid] => :environment do |_t, args|
+      netid = args[:netid]
 
-    account = Account.find_by(netid: netid)
-    raise("Failed to find the user account: #{netid}") unless account
+      account = Account.find_by(netid: netid)
+      raise("Failed to find the user account: #{netid}") unless account
 
-    account.role = Account::AUTHENTICATED_ROLE
-    account.save
-    $stdout.puts("Successfully removed the administrator role to the account for #{netid}")
+      account.role = Account::ADMIN_ROLE
+      account.save
+      $stdout.puts("Successfully added the administrator role to the account for #{netid}")
+    end
+
+    desc "Remove the administrator role to a user account"
+    task :remove_admin_role, [:netid] => :environment do |_t, args|
+      netid = args[:netid]
+
+      account = Account.find_by(netid: netid)
+      raise("Failed to find the user account: #{netid}") unless account
+
+      account.role = Account::AUTHENTICATED_ROLE
+      account.save
+      $stdout.puts("Successfully removed the administrator role to the account for #{netid}")
+    end
+  end
+
+  namespace :solr do
+    desc "Delete all data models indexed in Solr"
+    task delete: [:environment] do
+      Sunspot.remove_all
+    end
+
+    desc "Optimize the Solr Collection"
+    task optimize: [:environment] do
+      Sunspot.optimize
+    end
+
+    desc "Delete and reindex data models into Solr with optimization"
+    task reindex: [:environment] do
+      Rake::Task["oawaiver:solr:delete"].invoke
+      Rake::Task["sunspot:reindex"].invoke
+      Rake::Task["oawaiver:solr:optimize"].invoke
+    end
   end
 end

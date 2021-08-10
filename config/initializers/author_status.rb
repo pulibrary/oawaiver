@@ -3,7 +3,6 @@
 require Rails.root.join("lib", "author_status.rb")
 
 begin
-  # AuthorStatus::Bootstrap(config)
   config_file_path = Rails.root.join("config", "author_status.yml")
   AuthorStatus.build_from_config(file_path: config_file_path)
 rescue StandardError => error

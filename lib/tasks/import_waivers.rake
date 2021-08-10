@@ -24,9 +24,8 @@ namespace :import do
         filename = args.filename
         run = args.run
         requester = args.requester
-        # faculty_status = AuthorStatus.StatusFaculty
+
         faculty_status = AuthorStatus.status_faculty
-        # AuthorStatus.SetBaseUrl = args.base_url
         AuthorStatus.base_url = args.base_url
 
         if !filename || (run == "help")

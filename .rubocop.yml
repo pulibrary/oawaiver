@@ -38,6 +38,8 @@ Metrics/BlockLength:
     - 'spec/models/waiver_info_spec.rb'
     - 'spec/requests/accounts_spec.rb'
     - 'spec/requests/employees_spec.rb'
+    - 'lib/tasks/oawaiver.rake'
+    - 'lib/capistrano/tasks/oawaiver.rake'
 
 Metrics/ClassLength:
   Exclude:
