@@ -59,6 +59,16 @@ $ bundle exec cap staging deploy
 ```
 
 ## Administration
+### Importing from MySQL
+
+Please request the URL for the last database export from the MySQL database, and assuming that this is downloaded to `$HOME/Downloads/oawaiver_export.mysql.sql`, then invoke the following:
+
+```bash
+$ cp $HOME/Downloads/oawaiver_export.mysql.sql .
+$ bundle exec rake oawaiver:mysql:import[oawaiver_export.mysql.sql]
+$ bundle exec rake oawaiver:mysql:migrate
+```
+
 ### Managing Roles for User Accounts
 
 For adding administrative privileges, please use the following:

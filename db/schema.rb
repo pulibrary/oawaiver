@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2021_07_27_142554) do
 
-  create_table "accounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
     t.string "netid"
     t.string "role"
     t.datetime "created_at", null: false
@@ -21,7 +24,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.index ["provider"], name: "index_accounts_on_provider"
   end
 
-  create_table "employees", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "employees", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
     t.string "preferred_name"
@@ -34,7 +37,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.index ["unique_id"], name: "index_employees_on_unique_id"
   end
 
-  create_table "mail_records", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "mail_records", force: :cascade do |t|
     t.bigint "waiver_info_id"
     t.text "blob"
     t.string "to"
@@ -48,7 +51,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.index ["waiver_info_id"], name: "index_mail_records_on_waiver_info_id"
   end
 
-  create_table "waiver_infos", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+  create_table "waiver_infos", force: :cascade do |t|
     t.string "requester"
     t.string "requester_email"
     t.string "author_unique_id"
