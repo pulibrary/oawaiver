@@ -1,15 +1,17 @@
 # frozen_string_literal: true
 
 class DatabaseMigrationService
-  # attr_reader :mysql_db_port, :postgresql_db_port
   def initialize(mysql_db_port: nil, postgresql_db_port: nil)
     @mysql_db_port = mysql_db_port
     @postgresql_db_port = postgresql_db_port
   end
 
-  # def self.perform(import_file:)
   def import(sql_file_path:)
     exec_import(sql_file_path)
+  end
+
+  def export(sql_file_path:)
+    exec_export(sql_file_path)
   end
 
   def migrate
@@ -93,21 +95,41 @@ class DatabaseMigrationService
   def exec_import(sql_file_path)
     `#{mysql_bin_path} --host=#{mysql_db_host} --port=#{mysql_db_port} --user=#{mysql_db_user} --password=#{mysql_db_password} --database=#{mysql_db_name} < #{sql_file_path}`
   end
+
+  def pg_dump_bin_path
+    return "/usr/bin/env pg_dump" if db_password.nil?
+
+    "/usr/bin/env PGPASSWORD=#{db_password} pg_dump"
+  end
+
+  def exec_export(sql_file_path)
+    `#{pg_dump_bin_path} --host=#{db_host} --port=#{db_port} --user=#{db_user} #{db_name} > #{sql_file_path}`
+  end
 end
 
 namespace :oawaiver do
   namespace :mysql do
-    desc "Import the MySQL database export into MySQL"
+    desc "Import a MySQL database export into MySQL"
     task :import, [:sql_file] => :environment do |_t, args|
       sql_file = args[:sql_file]
       sql_file_path = Pathname.new(sql_file)
 
-      DatabaseMigrationService.import(sql_file_path: sql_file_path)
+      DatabaseMigrationService.new.import(sql_file_path: sql_file_path)
     end
 
     desc "Migrate the MySQL database export into PostgreSQL"
     task migrate: :environment do |_t, _args|
-      DatabaseMigrationService.migrate
+      DatabaseMigrationService.new.migrate
+    end
+  end
+
+  namespace :postgresql do
+    desc "Export the PostgreSQL database into a SQL file"
+    task :export, [:sql_file] => :environment do |_t, args|
+      sql_file = args[:sql_file]
+      sql_file_path = Pathname.new(sql_file)
+
+      DatabaseMigrationService.new.export(sql_file_path: sql_file_path)
     end
   end
 end

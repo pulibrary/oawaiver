@@ -69,6 +69,13 @@ $ bundle exec rake oawaiver:mysql:import[oawaiver_export.mysql.sql]
 $ bundle exec rake oawaiver:mysql:migrate
 ```
 
+Then, for the export process, please invoke:
+
+```bash
+$ bundle exec rake oawaiver:postgresql:export[oawaiver_export.psql.sql]
+$ bundle exec cap staging oawaiver:postgresql:copy[oawaiver_export.psql.sql]
+```
+
 ### Managing Roles for User Accounts
 
 For adding administrative privileges, please use the following:
