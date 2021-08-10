@@ -23,9 +23,9 @@ gem "lumberjack"
 gem "mail"
 # Modernizr
 gem "modernizr-rails"
-#gem "mysql2", git: "https://github.com/brianmario/mysql2", ref: "7f4e844"
 gem "mysql2"
 gem "omniauth-cas"
+gem "pg"
 gem "progress_bar"
 gem "rack", ">= 2.1.4"
 gem "rack-contrib", "~> 2.1"
@@ -41,7 +41,8 @@ gem "sunspot_solr"
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
 gem "webpacker"
-gem "will_paginate", "~> 3.0.6"
+# gem "will_paginate", "~> 3.0.6"
+gem "will_paginate", "~> 3.3"
 
 group :assets do
   # Use CoffeeScript for .js.coffee assets and views
