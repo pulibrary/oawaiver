@@ -1,15 +1,33 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :accounts, only: %i[new create destroy]
-
   root to: 'application#start'
 
-  %i[start login logout manage author_search_status].each do |action|
-    get "/#{action}",
-        to: 'application#' + action.to_s,
-        as: action.to_s
+  get("/start", to: 'application#start', as: 'start')
+  get("/manage", to: 'application#manage', as: 'manage')
+  get("/author_search_status", to: 'application#author_search_status', as: 'author_search_status')
+
+  devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
+  devise_scope :account do
+    get "sign_in", to: "accounts/sessions#new", as: :new_account_session
+    # Deprecated
+    get("/login", to: 'accounts/sessions#new', as: 'login')
+
+    get "sign_out", to: "accounts/sessions#destroy", as: :destroy_account_session
+    # Deprecated
+    get("/logout", to: 'accounts/sessions#destroy', as: 'logout')
   end
+  unauthenticated do
+    as :account do
+      root to: 'accounts/omniauth_callbacks#passthru', as: :account_root
+    end
+
+    as :employee do
+      root to: 'accounts/omniauth_callbacks#passthru', as: :employee_root
+    end
+  end
+
+  resources :accounts, only: %i[new create destroy]
 
   get  '/waiver/requester/me',
        to: 'waiver_infos#index_mine',
@@ -49,7 +67,7 @@ Rails.application.routes.draw do
        to: 'waiver_infos#edit_by_admin',
        as: 'edit_by_admin'
   post '/admin/waiver/:id',
-       to: 'waiver_infos#edit_by_admin'
+       to: 'waiver_infos#update_by_admin'
 
   get  '/admin/unique_id/:author_unique_id',
        to: 'waiver_infos#index_unique_id',
@@ -62,15 +80,6 @@ Rails.application.routes.draw do
   get '/admin/missing_unique_ids',
       to: 'waiver_infos#index_missing_unique_ids',
       as: 'index_missing_unique_ids_waiver_infos'
-
-  unless Rails.env.development?
-    # when not doing development
-    # simply route any unrecognized get or post to start
-    get '/*',
-        to: 'application#unknown'
-    post '/*',
-         to: 'application#unknown'
-  end
 
   # employee/author engine routes
   post 'employees/search', to: 'employees#search', as: 'search_employees'
@@ -88,7 +97,12 @@ Rails.application.routes.draw do
   mount API::Base => '/api'
   mount GrapeSwaggerRails::Engine => '/apidoc'
 
-  # resources :waiver_infos
+  unless Rails.env.development?
+    # when not doing development, simply route any unrecognized get or post to start
+
+    get('/*', to: 'application#start')
+    post('/*', to: 'application#start')
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

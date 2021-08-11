@@ -3,92 +3,113 @@
 require 'rails_helper'
 
 RSpec.describe AccountsController, type: :controller do
-  before(:all) do
-    FactoryGirl.build(:admin_user).save
+  let(:valid_attributes) do
+    {
+      netid: Faker::Name.last_name
+    }
   end
+  let(:invalid_attributes) do
+    {
+      invalid: 'invalid'
+    }
+  end
+  let(:admin_user) { FactoryGirl.create(:admin_user) }
 
-  after(:all) do
+  before do
     Account.delete_all
   end
 
-  # minimal set of attributes required to create a valid account
-  let(:valid_attributes) do
-    return { netid: Faker::Name.last_name }
+  after do
+    Account.delete_all
   end
 
-  # invalid attributes  --> can't create account
-  let(:invalid_attributes) do
-    return { netid: '' }
-  end
-
-  def authenticate_with(user)
-    Waiver::Authentication.set_authorized_user(session, FactoryGirl.build(user).netid)
-  end
-
-  describe 'POST create' do
-    describe 'with valid params' do
-      it 'fail without authentication' do
+  describe 'POST /create' do
+    context 'with valid parameters' do
+      it 'fails without authentication' do
         post :create, params: { account: valid_attributes }
+
         expect(response).to have_http_status(:redirect)
-        expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
+
+        expect(response.location).to eq(new_account_session_url)
       end
 
-      it 'creates a new User' do
-        authenticate_with(:admin_user)
-        expect do
+      context 'with an existing CAS account for an admin.' do
+        let(:params) do
+          {
+            account: valid_attributes
+          }
+        end
+
+        before do
+          sign_in(admin_user)
+          Waiver::Authentication.set_authorized_user(session, admin_user.netid)
+        end
+
+        it 'creates a new User' do
+          expect(Account.count).to eq(1)
+          post(:create, params: params)
+          expect(Account.count).to eq(2)
+        end
+
+        it 'assigns a newly created account as @account' do
+          post(:create, params: params)
+
+          expect(assigns(:account)).to be_a(Account)
+          expect(assigns(:account)).to be_persisted
+        end
+
+        it 'redirects to the manage_url' do
           post :create, params: { account: valid_attributes }
-        end.to change(Account, :count).by(1)
-      end
 
-      it 'assigns a newly created account as @account' do
-        authenticate_with(:admin_user)
-        post :create, params: { account: valid_attributes }
-        expect(assigns(:account)).to be_a(Account)
-        expect(assigns(:account)).to be_persisted
-      end
-
-      it 'redirects to the manage_url' do
-        authenticate_with(:admin_user)
-        post :create, params: { account: valid_attributes }
-        expect(response).to redirect_to(manage_url)
+          expect(response).to redirect_to(manage_url)
+        end
       end
     end
 
-    describe 'with invalid params' do
-      it 'assigns a newly created and unsaved account as @account' do
-        authenticate_with(:admin_user)
-        post :create, params: { account: invalid_attributes }
-        expect(assigns(:account)).to be_a_new(Account)
-      end
+    context 'with invalid parameters' do
+      context 'with an existing CAS account for an admin.' do
+        before do
+          sign_in(admin_user)
 
-      it 'redirects to the manage_url' do
-        authenticate_with(:admin_user)
-        post :create, params: { account: invalid_attributes }
-        expect(response).to redirect_to(manage_url)
+          Waiver::Authentication.set_authorized_user(session, admin_user.netid)
+        end
+
+        it 'assigns a newly created and unsaved account as @account' do
+          post :create, params: { account: invalid_attributes }
+          expect(assigns(:account)).to be_a_new(Account)
+        end
+
+        it 'redirects to the manage_url' do
+          post :create, params: { account: invalid_attributes }
+          expect(response).to redirect_to(manage_url)
+        end
       end
     end
   end
 
   describe 'DELETE destroy' do
-    it 'fail without authentication' do
-      delete :destroy, params: { id: 'doesnotmatter' }
-      expect(response).to have_http_status(:redirect)
-      expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
+    before do
+      delete(:destroy, params: params)
     end
 
-    it 'destroys the requested account' do
-      authenticate_with(:admin_user)
-      account = Account.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: account.id }
-      end.to change(Account, :count).by(-1)
-    end
+    context 'with an existing CAS account for an admin.' do
+      let(:account) { Account.create(valid_attributes) }
+      let(:params) do
+        {
+          id: account.id
+        }
+      end
 
-    it 'redirects to the manage_url' do
-      authenticate_with(:admin_user)
-      account = Account.create! valid_attributes
-      delete :destroy, params: { id: account.id }
-      expect(response).to redirect_to(manage_url)
+      before do
+        sign_in(admin_user)
+        Waiver::Authentication.set_authorized_user(session, admin_user.netid)
+      end
+
+      it 'redirects to the manage_url' do
+        delete(:destroy, params: params)
+
+        expect(response).to redirect_to(manage_url)
+      end
     end
   end
 end

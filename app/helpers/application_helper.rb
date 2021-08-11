@@ -13,15 +13,22 @@ module ApplicationHelper
     end
   end
 
-  def waiver_infos_property_or_link(prop, val, label = nil)
-    label ||= val
-    @is_admin ? waiver_infos_select_by({ prop => val }, label) : label
+  def waiver_infos_property_or_link(prop, val, link_label = nil)
+    link_label ||= val
+    return waiver_infos_select_by({ prop => val }, link_label) if current_account_admin?
+
+    link_label
   end
 
-  def waiver_infos_select_by(hsh, label = 'W')
-    link_to(search_waiver_infos_path(params: { waiver_info: hsh }),
-            class: 'admin_actions') do
-      label
+  def waiver_infos_select_by(hsh, link_text = 'W')
+    link_args = search_waiver_infos_path(
+      params: {
+        waiver_info: hsh
+      }
+    )
+
+    link_to(link_args, class: 'admin_actions') do
+      link_text
     end
   end
 
@@ -52,10 +59,20 @@ module ApplicationHelper
     end
   end
 
-  def login_out_link(html_opts = {})
-    link = @user ? logout_path : login_path
-    label = @user ? "Logout #{@user}" : 'Login'
-    link_to(tag.span('', class: 'glyphicon glyphicon-user') + ' ' + label, link, html_opts)
+  def sign_out_link(html_opts = {})
+    child_element = tag.span('', class: 'glyphicon glyphicon-user')
+    link_to(child_element + ' Logout', destroy_account_session_path, html_opts)
+  end
+
+  def sign_in_link(html_opts = {})
+    child_element = tag.span('', class: 'glyphicon glyphicon-user')
+    link_to(child_element + ' Login', account_cas_omniauth_authorize_path, html_opts)
+  end
+
+  def devise_session_link(html_opts = {})
+    return sign_out_link(html_opts) if current_account
+
+    sign_in_link(html_opts)
   end
 
   def paginate_length(objects)
@@ -64,5 +81,20 @@ module ApplicationHelper
     return objects.length if objects.respond_to? :length
 
     'unknown'
+  end
+
+  def current_roles
+    return [] unless current_account
+
+    @roles ||= Account.roles(current_account)
+  end
+
+  def body_class_names
+    output = current_roles.join(" ")
+    output.downcase
+  end
+
+  def current_account_admin?
+    current_roles.include?('ADMIN')
   end
 end

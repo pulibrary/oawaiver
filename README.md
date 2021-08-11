@@ -38,6 +38,14 @@ $ sudo mysql_upgrade
 $ sudo mariadb-secure-installation
 ```
 
+#### Running the Application
+
+```bash
+$ bundle exec rails server
+```
+
+Then, please access the application using http://localhost:3000/
+
 ### Running the Test Suites
 ```bash
 $ bundle exec rake db:setup
@@ -48,4 +56,17 @@ $ bundle exec rake db:setup
 In order to deploy the Rails app. to the `staging` environment, please invoke:
 ```bash
 $ bundle exec cap staging deploy
+```
+
+## Administration
+### Managing Roles for User Accounts
+
+For adding administrative privileges, please use the following:
+```bash
+$ bundle exec rake oawaiver:accounts:add_admin_role[$NET_ID]
+```
+
+For removing administrative privileges, please use the following:
+```bash
+$ bundle exec rake oawaiver:accounts:remove_admin_role[$NET_ID]
 ```

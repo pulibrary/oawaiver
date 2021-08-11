@@ -31,7 +31,7 @@
 
 </head>
 
-<body class='<%= @roles.join(" ").downcase %> <%= top_layout_css_class(params) %>'>
+<body class='<%= body_class_names %> <%= top_layout_css_class(params) %>'>
 <a class="sr-only" href="#main-content">Skip to main content</a>
 <div class="wrapper">
   <header>
@@ -66,7 +66,7 @@
                             :class => current_page?(mine_waiver_infos_url) ? "active" : "inactive") %>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <% if @is_admin then %>
+            <% if current_account_admin? %>
               <li class="dropdown admin_actions">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -83,13 +83,13 @@
                   <%= link_to 'Departments', index_departments_path %>
                 </li>
                 <li>
-                  <%= link_to 'Authors Rest Api', grape_swagger_rails_path %>
+                  <%= link_to 'REST API', grape_swagger_rails_path %>
                 </li>
               </ul>
             </li>
             <% end %>
             <li>
-              <%= login_out_link %>
+              <%= devise_session_link %>
             </li>
           </ul>
         </div>
@@ -97,12 +97,8 @@
     </nav>
   </header>
   <div class="waiver content container inner body" id="main-content">
-        <div class="panel env_marker">
-         <%= Rails.env() %> instance
-        </div>
     <%= yield %>
   </div>
-
 </div>
 <footer class="footer">
   <div class="bottom-bar">

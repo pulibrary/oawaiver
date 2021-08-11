@@ -3,31 +3,57 @@
 require 'rails_helper'
 
 RSpec.describe EmployeesController, type: :controller do
-  before(:all) do
-    FactoryGirl.build(:employee_faked).save
-    FactoryGirl.build(:employee).save
-    FactoryGirl.build(:admin_user).save
-  end
+  let(:employee_faked) { FactoryGirl.create(:employee_faked) }
+  let(:employee) { FactoryGirl.create(:employee) }
+  let(:admin_user) { FactoryGirl.create(:admin_user) }
 
-  after(:all) do
+  before do
     Employee.delete_all
     Account.delete_all
   end
 
-  def authenticate_with(user)
-    Waiver::Authentication.set_authorized_user(session, FactoryGirl.build(user).netid)
+  after do
+    Employee.delete_all
+    Account.delete_all
   end
 
-  %i[index index_departments].each do |actn|
-    describe "GET #{actn}" do
-      it 'fail without authentication' do
-        get actn
-        expect(response).to have_http_status(:redirect)
-        expect(response.location.start_with?('https://fed.princeton.edu/cas/login')).to be true
+  describe '#index' do
+    it 'fail without authentication' do
+      get :index
+
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_account_session_path)
+    end
+
+    context 'when authenticated as an admin. user' do
+      before do
+        sign_in(admin_user)
       end
-      it "lists all for #{actn}" do
-        authenticate_with(:admin_user)
-        get actn
+
+      it "retrieves all employees" do
+        get :index
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe '#index_departments' do
+    it 'fails without authentication' do
+      get :index_departments
+
+      expect(response).to have_http_status(:redirect)
+      expect(response).to redirect_to(new_account_session_path)
+    end
+
+    context 'when authenticated as an admin. user' do
+      before do
+        sign_in(admin_user)
+      end
+
+      it "retrieves all departments from employees" do
+        get :index_departments
+
         expect(response).to have_http_status(:success)
       end
     end

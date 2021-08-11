@@ -1,40 +1,35 @@
 
-<% if @search_term.empty? then %>
-    <h1> All Faculty </h1>
+<% if @search_term.empty? %>
+  <h1> All Faculty </h1>
 <% else %>
-    <h1> Faculty matching '<%= @search_term %>' </h1>
+  <h1> Faculty matching '<%= @search_term %>' </h1>
 <% end %>
 
-<%= render 'search_form' %>
-
-<%= will_paginate @waiver_infos %>
+<%= render('search_form') %>
 
 <section class="panel">
-
-  <table class="table table-hover table-boxed table-bordered">  <thead>
-  <tr>
-    <th>Last, First Name</th>
-    <th>Department</th>
-    <th>Uniqueid</th>
-    <th>Email</th>
-    <th>Netid</th>
-  </tr>
-  </thead>
-
-  <tbody>
-  <% @employees.each do |employee| %>
+  <table class="table table-hover table-boxed table-bordered">
+    <thead>
+      <tr>
+        <th>Last, First Name</th>
+        <th>Department</th>
+        <th>Uniqueid</th>
+        <th>Email</th>
+        <th>Netid</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @employees.each do |employee| %>
       <tr>
         <td>
-          <%= link_to("#{employee.last_name}, #{employee.first_name}",
-                      uniqueId_employee_path(employee.unique_id))%>
+          <%= link_to(employee.full_name, uniqueId_employee_path(employee.unique_id)) %>
         </td>
-        <td><%= employee.department %></td>
-        <td><%= employee.unique_id %></td>
-        <td><%= employee.email %></td>
-        <td><%= employee.netid %></td>
+        <td><%= html_escape(employee.department) %></td>
+        <td><%= html_escape(employee.unique_id) %></td>
+        <td><%= html_escape(employee.email) %></td>
+        <td><%= html_escape(employee.netid) %></td>
       </tr>
-  <% end %>
-  </tbody>
-</table>
-
+    <% end %>
+    </tbody>
+  </table>
 </section>
