@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'faker'
+require "faker"
 
-FactoryGirl.define do
+FactoryBot.define do
   factory(:employee_faked, class: Employee) do
     first_name { Faker::Name.first_name }
     last_name { Faker::Name.last_name }
@@ -14,12 +14,12 @@ FactoryGirl.define do
   end
 
   factory(:employee) do
-    first_name 'Fritz'
-    last_name 'Walter'
-    preferred_name 'Walter Fritz'
-    unique_id '123456789'
-    email 'walter.fritz@bier.de'
-    netid 'herr.walter'
-    department 'English Sociology'
+    first_name { "Fritz" }
+    last_name { "Walter" }
+    preferred_name { "Walter Fritz" }
+    unique_id { "123456789" }
+    email { "walter.fritz@bier.de" }
+    netid { "herr.walter" }
+    department { "English Sociology" }
   end
 end

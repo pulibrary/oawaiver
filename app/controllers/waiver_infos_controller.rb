@@ -10,7 +10,7 @@ class WaiverInfosController < ApplicationController
   # params :page, :per_page
   def solr_search_words
     args = stripped_args(params, :dont_keep_empties)
-    search_term = args['search_term'] || ''
+    search_term = args["search_term"] || ""
 
     waiver_infos = if search_term.length > 1
                      WaiverInfo.search_with_words(search_term, params[:page], params[:per_page] || WaiverInfo.per_page).results
@@ -25,7 +25,7 @@ class WaiverInfosController < ApplicationController
   # GET waivers/search/:search_term
   # params :page, :per_page
   def solr_search_words_post
-    redirect_to action: :solr_search_words, search_term: (params['search_term'] || '').gsub(%r{[.&/]}, ' ')
+    redirect_to action: :solr_search_words, search_term: (params["search_term"] || "").gsub(%r{[.&/]}, " ")
   end
 
   # GET waivers
@@ -62,7 +62,7 @@ class WaiverInfosController < ApplicationController
   def search
     render status: :forbidden unless current_account.admin?
 
-    if params['waiver_info']
+    if params["waiver_info"]
       models = search_with_props(waiver_info_params)
       do_index(waiver_info_params, models)
     else
@@ -78,19 +78,19 @@ class WaiverInfosController < ApplicationController
   end
 
   def new
-    @waiver_info = WaiverInfo.new(author_status: AuthorStatus.StatusFaculty)
+    @waiver_info = WaiverInfo.new(author_status: AuthorStatus.status_faculty)
 
     render(:new_waiver_info)
   end
 
   def create
-    redirect_to(root_path) if params['CANCEL']
+    redirect_to(root_path) if params["CANCEL"]
 
     @waiver_info = WaiverInfo.new(waiver_info_params)
     @waiver_info.errors.clear
     render(:new_waiver_info) unless @waiver_info.valid?
 
-    redirect_to(root_path) unless params['CONFIRM-WAIVER']
+    redirect_to(root_path) unless params["CONFIRM-WAIVER"]
 
     @waiver_info.save # save first so ID will be set when generating mail
     mail = WaiverMailer.new(@waiver_info).granted(@waiver_info.cc_email)
@@ -103,9 +103,9 @@ class WaiverInfosController < ApplicationController
     render :show
   rescue StandardError => e
     @waiver_info.destroy
-    @waiver_info.errors.add(:base, 'Could not send an email')
+    @waiver_info.errors.add(:base, "Could not send an email")
     @waiver_info.errors.add(:base, e.message)
-    @waiver_info.errors.add(:base, 'Did not create the Waiver - Please try again')
+    @waiver_info.errors.add(:base, "Did not create the Waiver - Please try again")
     render :new_waiver_info
   end
 
@@ -120,13 +120,13 @@ class WaiverInfosController < ApplicationController
     @waiver_info = WaiverInfo.find(waiver_id)
 
     # This handles legacy support for the POST requests
-    redirect_to(:edit_by_admin) unless params[:commit] && params[:commit] == 'Save'
+    redirect_to(:edit_by_admin) unless params[:commit] && params[:commit] == "Save"
 
     if @waiver_info.update(update_waiver_info_params)
-      flash[:notice] = 'Waiver information successfully updated'
+      flash[:notice] = "Waiver information successfully updated"
       redirect_to(@waiver_info)
     else
-      error_messages = @waiver_info.errors.full_messages.join('. ')
+      error_messages = @waiver_info.errors.full_messages.join(". ")
       flash.now[:alert] = "Waiver information could not be successfully updated: #{error_messages}."
       redirect_to(:edit_by_admin, id: @waiver_info.id)
     end
@@ -143,7 +143,7 @@ class WaiverInfosController < ApplicationController
     @waiver_info = WaiverInfo.find(waiver_id)
 
     # This handles the POST request, and should be refactored into a new action, #create_by_admin
-    redirect_to(:update_by_admin) if params[:commit] && params[:commit] == 'Save'
+    redirect_to(:update_by_admin) if params[:commit] && params[:commit] == "Save"
 
     render(:edit_by_admin)
   end
@@ -156,7 +156,7 @@ class WaiverInfosController < ApplicationController
 
   def current_account_properties
     {
-      'Requester or Author' => current_account.email
+      "Requester or Author" => current_account.email
     }
   end
 
@@ -168,7 +168,7 @@ class WaiverInfosController < ApplicationController
 
   def missing_unique_ids_properties
     {
-      missing: 'unique_id'
+      missing: "unique_id"
     }
   end
 
@@ -178,7 +178,7 @@ class WaiverInfosController < ApplicationController
 
   def do_index(props, relation)
     @properties = props
-    @search_term = ''
+    @search_term = ""
     @waiver_infos = relation.paginate(page: params[:page], per_page: params[:per_page])
   end
 
@@ -195,15 +195,15 @@ class WaiverInfosController < ApplicationController
       props[k] = v.strip
     end
 
-    title = props.delete('title')
-    journal = props.delete('journal')
-    notes = props.delete('notes')
+    title = props.delete("title")
+    journal = props.delete("journal")
+    notes = props.delete("notes")
 
     @waiver_infos = WaiverInfo.where(props)
-    @author = Employee.find_by_unique_id(props['author_unique_id']) if props['author_unique_id']
-    @waiver_infos = @waiver_infos.where('title LIKE ?', "%#{title}%") if title
-    @waiver_infos = @waiver_infos.where('journal LIKE ?', "%#{journal}%") if journal
-    @waiver_infos = @waiver_infos.where('notes LIKE ?', "%#{notes}%") if notes
+    @author = Employee.find_by_unique_id(props["author_unique_id"]) if props["author_unique_id"]
+    @waiver_infos = @waiver_infos.where("title LIKE ?", "%#{title}%") if title
+    @waiver_infos = @waiver_infos.where("journal LIKE ?", "%#{journal}%") if journal
+    @waiver_infos = @waiver_infos.where("notes LIKE ?", "%#{notes}%") if notes
     @waiver_infos
   end
 
@@ -246,11 +246,11 @@ class WaiverInfosController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def waiver_info_params
     default_values = {
-      'requester' => current_account.netid,
-      'requester_email' => current_account.email
+      "requester" => current_account.netid,
+      "requester_email" => current_account.email
     }
 
-    return default_values unless params['waiver_info']
+    return default_values unless params["waiver_info"]
 
     permitted_waiver_info_params = params.require(:waiver_info)
     permitted = permitted_waiver_info_params.permit(

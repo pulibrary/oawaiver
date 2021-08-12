@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'rails_helper'
+require "rails_helper"
 
 describe AccountsController, type: :request do
   before do
@@ -29,11 +29,11 @@ describe AccountsController, type: :request do
       expect(response).to redirect_to(new_account_session_path)
     end
 
-    context 'when authenticated as a valid user' do
-      let(:valid_user) { FactoryGirl.create(:regular_user) }
+    context "when authenticated as a valid user" do
+      let(:valid_user) { FactoryBot.create(:regular_user) }
       let(:auth_hash) do
         {
-          provider: 'cas',
+          provider: "cas",
           uid: valid_user.netid
         }
       end
@@ -70,9 +70,9 @@ describe AccountsController, type: :request do
       expect(response).to redirect_to(new_account_session_path)
     end
 
-    context 'when authenticated as a valid user' do
-      let(:valid_user) { FactoryGirl.create(:admin_account) }
-      let(:account1) { FactoryGirl.create(:account) }
+    context "when authenticated as a valid user" do
+      let(:valid_user) { FactoryBot.create(:admin_account) }
+      let(:account1) { FactoryBot.create(:account) }
       let(:account1_path) { account_path(id: account1.id) }
 
       before do

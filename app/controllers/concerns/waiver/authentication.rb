@@ -2,7 +2,7 @@
 
 module Waiver
   module Authentication
-    DEFAULT_ALLOWED_IPS = '0.0.0.0'
+    DEFAULT_ALLOWED_IPS = "0.0.0.0"
 
     def self.allowed_hosts
       @allowed_hosts ||= DEFAULT_ALLOWED_HOSTS

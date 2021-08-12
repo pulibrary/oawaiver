@@ -12,19 +12,19 @@ class ApplicationController < ActionController::Base
   end
 
   def manage
-    @notes = params['notes'] || ''
+    @notes = params["notes"] || ""
     @accounts = Account.where(netid: current_account.netid)
     @account = Account.new
 
-    render controller: 'application', action: 'manage'
+    render controller: "application", action: "manage"
   end
 
   def author_search_status
-    redirect_to(AuthorStatus.StatusUrl)
+    redirect_to(AuthorStatus.status_url)
   end
 
   unless Rails.env.development?
-    rescue_from 'Exception' do |exception|
+    rescue_from "Exception" do |exception|
       if exception.is_a?(ActiveRecord::RecordNotFound)
         render controller: :application, action: :start
       else
@@ -59,6 +59,6 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(_resource)
-    request.env['omniauth.origin'] || new_account_session_path
+    request.env["omniauth.origin"] || new_account_session_path
   end
 end

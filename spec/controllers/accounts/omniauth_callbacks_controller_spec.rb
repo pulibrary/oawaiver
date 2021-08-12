@@ -7,7 +7,7 @@ RSpec.describe Accounts::OmniauthCallbacksController do
 
   describe "logging in" do
     before do
-      allow(Account).to receive(:from_omniauth) { FactoryGirl.create(:account) }
+      allow(Account).to receive(:from_omniauth) { FactoryBot.create(:account) }
 
       get(:cas)
     end

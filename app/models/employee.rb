@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'csv'
+require "csv"
 
 class Employee < ApplicationRecord
   # USE THIS when searching for all employees / all employees in a department
@@ -9,7 +9,6 @@ class Employee < ApplicationRecord
   # * the number of employees in a given department
   @@MAX_EMPLOYEE_MATCH = 200
 
-  default_scope { order('preferred_name ASC') }
   self.per_page = 20
 
   before_validation :clean_strings
@@ -24,10 +23,10 @@ class Employee < ApplicationRecord
   validates_format_of :email,
                       with: /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
 
-  validates_uniqueness_of :unique_id, message: 'id has already been taken'
+  validates_uniqueness_of :unique_id, message: "id has already been taken"
   validates_format_of :unique_id,
                       with: /\b\d{9}\z/,
-                      message: 'id must be 9 digits'
+                      message: "id must be 9 digits"
 
   # derive preferred_name from first and last_name if it is nil
   def derive_attr_values
@@ -39,10 +38,10 @@ class Employee < ApplicationRecord
     uid = self[:unique_id]
     begin
       if uid.class == Integer
-        uid = format('%09d', uid)
+        uid = format("%09d", uid)
       elsif uid.class == String
         len = uid.length
-        uid = '000000000'.slice(0, 9 - uid.length) + uid if len < 9
+        uid = "000000000".slice(0, 9 - uid.length) + uid if len < 9
       end
       self.unique_id = uid
     rescue StandardError => e
@@ -116,13 +115,13 @@ class Employee < ApplicationRecord
   # returns { :loaded => number of employees :failed => hash of line numbers to errors
   def self.loadCsv(filename, logger)
     cognosCrossWalk = {
-      '[Firstname]' => :first_name,
-      '[Lastname]' => :last_name,
-      '[KnownAs]' => :preferred_name,
-      '[Department]' => :department,
-      '[Proprietary_ID]' => :unique_id,
-      '[Email]' => :email,
-      '[Username]' => :netid
+      "[Firstname]" => :first_name,
+      "[Lastname]" => :last_name,
+      "[KnownAs]" => :preferred_name,
+      "[Department]" => :department,
+      "[Proprietary_ID]" => :unique_id,
+      "[Email]" => :email,
+      "[Username]" => :netid
     }
 
     logger.debug "Start loading '#{filename}'"
@@ -135,7 +134,7 @@ class Employee < ApplicationRecord
 
       headers = nil
       i = 0
-      CSV.foreach(filename, col_sep: "\t", encoding: 'IBM437') do |row|
+      CSV.foreach(filename, col_sep: "\t", encoding: "IBM437") do |row|
         i += 1
         logger.debug "#{i} #{row}"
 
@@ -172,7 +171,7 @@ class Employee < ApplicationRecord
       logger.info " Loaded #{loaded} employee records; Failed to read #{failed.length} lines, Skipped #{skipped} lines"
 
       unless failed.empty?
-        logger.error 'Rolling back all changes'
+        logger.error "Rolling back all changes"
         raise ActiveRecord::Rollback
       end
     end
@@ -193,8 +192,8 @@ class Employee < ApplicationRecord
   def clean_strings
     if changed? || id.nil?
       attributes.each do |n, _v|
-        self[n] = nil if self[n] == ''
-        self[n] = self[n].gsub(/\s+/, ' ').strip if !self[n].nil? && (self[n].class == String)
+        self[n] = nil if self[n] == ""
+        self[n] = self[n].gsub(/\s+/, " ").strip if !self[n].nil? && (self[n].class == String)
       end
     end
     self

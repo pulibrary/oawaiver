@@ -7,7 +7,8 @@ class WaiverInfo < ApplicationRecord
 
   has_many :mail_records
 
-  default_scope { order('created_at DESC') }
+  # Set the default order to the :created_at attribute
+  default_scope { order(created_at: :desc) }
 
   before_save :lower_case_fields
 
@@ -26,7 +27,7 @@ class WaiverInfo < ApplicationRecord
 
   validates_format_of :author_unique_id,
                       with: /\b\d{9}\z/,
-                      message: 'id must be 9 digits',
+                      message: "id must be 9 digits",
                       allow_nil: true
 
   validates :author_unique_id, presence: true, if: :faculty?
@@ -56,7 +57,7 @@ class WaiverInfo < ApplicationRecord
   end
 
   def faculty?
-    AuthorStatus.StatusFaculty == author_status
+    AuthorStatus.faculty_status?(author_status)
   end
 
   def legacy?
@@ -65,7 +66,7 @@ class WaiverInfo < ApplicationRecord
 
   def self.find_by_email(email)
     email = email.downcase
-    where('requester_email = ? OR author_email = ?', email, email)
+    where("requester_email = ? OR author_email = ?", email, email)
   end
 
   def self.find_by_missing_unique_id
@@ -74,10 +75,6 @@ class WaiverInfo < ApplicationRecord
 
   def citation
     "#{title}, #{journal}, #{author_last_name}, #{author_first_name}"
-  end
-
-  def self.AuthorStatusList
-    self.select(:author_status).uniq.collect(&:author_status)
   end
 
   # ---------------------

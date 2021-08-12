@@ -1,36 +1,34 @@
-default: &default
-  adapter: mysql2
+development: &default
+  adapter: postgresql
   encoding: utf8
   min_messages: warning
   pool: <%= Integer(ENV.fetch("DB_POOL", 40)) %>
   reaping_frequency: <%= Integer(ENV.fetch("DB_REAPING_FREQUENCY", 10)) %>
   timeout: 5000
-
-development: &development
-  <<: *default
-  database: <%= ENV["lando_oawaiver_database_creds_database"] || "oawaiver_development" %>
-  host: <%= ENV["lando_oawaiver_database_conn_host"] || "localhost" %>
-  port: <%= ENV["lando_oawaiver_database_conn_port"] || 3306 %>
-  username: <%= ENV["lando_oawaiver_database_creds_user"] %>
-  password: <%= ENV["lando_oawaiver_database_creds_password"] %>
-
-test:
-  <<: *development
-  database: <%= ENV["lando_oawaiver_database_creds_database"] || "oawaiver_test" %>
+  database: <%= ENV["lando_oawaiver_database_creds_database"] || ENV.fetch("APP_DB", "oawaiver_development") %>
   host: <%= ENV["lando_oawaiver_database_conn_host"] || ENV.fetch("APP_DB_HOST", 'localhost') %>
-  port: <%= ENV["lando_oawaiver_database_conn_port"] || ENV.fetch("APP_DB_PORT", 3306) %>
+  port: <%= ENV["lando_oawaiver_database_conn_port"] || ENV.fetch("APP_DB_PORT", 5432) %>
   username: <%= ENV["lando_oawaiver_database_creds_user"] || ENV.fetch("APP_DB_USERNAME", 'oawaiver') %>
   password: <%= ENV["lando_oawaiver_database_creds_password"] || ENV.fetch("APP_DB_PASSWORD", 'oawaiver') %>
 
-staging: &staging
+mysql:
+  <<: *default
   adapter: mysql2
-  encoding: utf8
-  database: <%= ENV.fetch("APP_DB", 'oawaiver') %>
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
-  host: <%= ENV.fetch("APP_DB_HOST", 'localhost') %>
-  port: <%= ENV.fetch("APP_DB_PORT", 3306) %>
-  username: <%= ENV.fetch("APP_DB_USERNAME", 'oawaiver') %>
-  password: <%= ENV.fetch("APP_DB_PASSWORD", 'oawaiver') %>
+  encoding: utf8mb4
+  database: <%= ENV["lando_oawaiver_database_mysql_creds_database"] || ENV.fetch("APP_DB", "oawaiver") %>
+  host: <%= ENV["lando_oawaiver_database_mysql_conn_host"] || ENV.fetch("APP_DB_HOST", 'localhost') %>
+  port: <%= ENV["lando_oawaiver_database_mysql_conn_port"] || ENV.fetch("APP_DB_PORT", 3306) %>
+  username: <%= ENV["lando_oawaiver_database_mysql_creds_user"] || ENV.fetch("APP_DB_USERNAME", 'oawaiver') %>
+  password: <%= ENV["lando_oawaiver_database_mysql_creds_password"] || ENV.fetch("APP_DB_PASSWORD", 'oawaiver') %>
+
+test:
+  <<: *default
+  database: <%= ENV["lando_oawaiver_database_creds_database"] || "oawaiver_test" %>
+
+staging: &staging
+  <<: *default
+  pool: <%= Integer(ENV.fetch("DB_POOL", 5)) %>
+  database: <%= ENV["lando_oawaiver_database_mysql_creds_database"] || ENV.fetch("APP_DB", "oawaiver") %>
 
 production:
   <<: *staging

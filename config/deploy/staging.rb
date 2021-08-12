@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-set :rails_env, 'production'
+set :rails_env, "staging"
 
 # Extended Server Syntax
 # ======================
@@ -8,4 +8,4 @@ set :rails_env, 'production'
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'oawaiver-staging1.princeton.edu', user: 'deploy', roles: %w[app db web]
+server "oawaiver-staging1.princeton.edu", user: "deploy", roles: %w[app db web]

@@ -4,13 +4,13 @@ namespace :account do
   desc 'create accounts  - separate with " " '
   task :create, [:accounts] => :environment do |_t, args|
     args.with_defaults({})
-    args.accounts.split(' ').each do |netid|
+    args.accounts.split(" ").each do |netid|
       a = Account.create(netid: netid)
       puts "Account.created #{a.netid}"
     end
   end
 
-  desc 'delete account'
+  desc "delete account"
   task :delete, [:netid] => :environment do |_t, args|
     args.with_defaults({})
     netid = args.netid
@@ -22,7 +22,7 @@ namespace :account do
     end
   end
 
-  desc 'list accounts'
+  desc "list accounts"
   task list: :environment do |_t|
     Account.all.each do |a|
       puts a.netid
