@@ -38,4 +38,12 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.action_mailer.delivery_method = :sendmail
+  config.action_mailer.sendmail_settings = {
+    location: '/usr/bin/env sendmail',
+    arguments: "-S #{ENV['lando_oawaiver_mailhog_conn_host'] || 'oawaiver_mailhog'}:#{ENV['lando_oawaiver_mailhog_conn_port'] || 1025}"
+  }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
 end
