@@ -83,6 +83,12 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = { address: '127.0.0.1', port: 1025 }
+  config.action_mailer.smtp_settings = {
+    address: "#{ENV['SMTP_HOST'] || 'lib-ponyexpr.princeton.edu' }",
+    port: (ENV['SMTP_PORT'] || 25).to_i
+  }
+  config.action_mailer.default_options = {
+    from: 'no-reply@princeton.edu'
+  }
   config.action_mailer.raise_delivery_errors = false
 end
