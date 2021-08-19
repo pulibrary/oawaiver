@@ -18,7 +18,7 @@ production:
 staging:
   from: noreply@princeton.edu
   url: https://oawaiver-staging.princeton.edu/waiver/ID
-  send_to_author: true
+  send_to_author: false
 
 # E-Mail Templates
 mail_templates:

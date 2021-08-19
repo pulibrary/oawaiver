@@ -41,15 +41,9 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.delivery_method = :sendmail
-
-  # Defaults to:
-  # config.action_mailer.sendmail_settings = {
-  #   location: '/usr/sbin/sendmail',
-  #   arguments: '-i'
-  # }
   config.action_mailer.sendmail_settings = {
     location: '/usr/bin/env sendmail',
-    arguments: "-S #{ENV['lando_oawaiver_test_solr_conn_host'] || 'oawaiver_mailhog'}:#{ENV['lando_oawaiver_mailhog_conn_port'] || 1025}"
+    arguments: "-S #{ENV['lando_oawaiver_mailhog_conn_host'] || 'oawaiver_mailhog'}:#{ENV['lando_oawaiver_mailhog_conn_port'] || 1025}"
   }
   config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true

@@ -9,21 +9,27 @@ Rails.application.routes.draw do
 
   devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
   devise_scope :account do
-    get "sign_in", to: "accounts/sessions#new", as: :new_account_session
-    # Deprecated
-    get("/login", to: "accounts/sessions#new", as: "login")
+    # This should be directing to account_cas_omniauth_authorize_path
+    # #get "sign_in", to: "accounts/sessions#new", as: :new_account_session
+    get("sign_in", to: "accounts/omniauth_callbacks#passthru", defaults: { provider: :cas }, as: :new_account_session)
 
-    get "sign_out", to: "accounts/sessions#destroy", as: :destroy_account_session
     # Deprecated
-    get("/logout", to: "accounts/sessions#destroy", as: "logout")
+    # #get("/login", to: "accounts/sessions#new", as: "login")
+    get("/login", to: "accounts/omniauth_callbacks#passthru", defaults: { provider: :cas }, as: :login)
+
+    # #get "sign_out", to: "accounts/sessions#destroy", as: :destroy_account_session
+    delete("sign_out", to: "devise/sessions#destroy", as: :destroy_account_session)
+    # Deprecated
+    # #get("/logout", to: "accounts/sessions#destroy", as: "logout")
+    delete("/logout", to: "devise/sessions#destroy", as: :logout)
   end
   unauthenticated do
     as :account do
-      root to: "accounts/omniauth_callbacks#passthru", as: :account_root
+      root to: "accounts/omniauth_callbacks#passthru", defaults: { provider: :cas }, as: :account_root
     end
 
     as :employee do
-      root to: "accounts/omniauth_callbacks#passthru", as: :employee_root
+      root to: "accounts/omniauth_callbacks#passthru", defaults: { provider: :cas }, as: :employee_root
     end
   end
 

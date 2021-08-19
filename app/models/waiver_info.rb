@@ -77,6 +77,13 @@ class WaiverInfo < ApplicationRecord
     "#{title}, #{journal}, #{author_last_name}, #{author_first_name}"
   end
 
+  def mail_records
+    values = super
+    return [] if values.nil?
+
+    values
+  end
+
   # ---------------------
   # Search/Solr
   # ---------------------
