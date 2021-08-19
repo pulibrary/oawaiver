@@ -26,6 +26,9 @@ services:
     core: oawaiver-core-test
     config:
       dir: "solr/solr_core/conf"
+  oawaiver_mailhog:
+    type: mailhog:v1.0.0
+    portforward: true
 proxy:
   oawaiver_development_solr:
     - oawaiver.dev.solr.lndo.site:8983

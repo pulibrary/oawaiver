@@ -3,11 +3,12 @@
 module API
   module Entities
     class Employees < Grape::Entity
-      %i[unique_id preferred_name department].each do |prop|
-        expose prop
+      %i[unique_id preferred_name department].each do |property|
+        expose(property)
       end
-      %i[first_name last_name email netid].each do |prop|
-        expose prop, if: { type: :full }
+
+      %i[first_name last_name email netid].each do |property|
+        expose(property, if: { type: :full })
       end
     end
   end
