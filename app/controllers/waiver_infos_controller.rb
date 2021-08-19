@@ -72,11 +72,6 @@ class WaiverInfosController < ApplicationController
     render(:index)
   end
 
-  def show_mail
-    @mail_records = @waiver_info.mail_records
-    render :show_mail
-  end
-
   def new
     @waiver_info = WaiverInfo.new(author_status: AuthorStatus.status_faculty)
 
@@ -95,17 +90,21 @@ class WaiverInfosController < ApplicationController
     @waiver_info.save # save first so ID will be set when generating mail
     mail = WaiverMailer.new(@waiver_info).granted(@waiver_info.cc_email)
     mail.deliver!
-    record = MailRecord.new_from_mail(mail)
-    record.waiver_info = @waiver_info
-    record.save
+
+    mail_record = MailRecord.new_from_mail(mail)
+    mail_record.waiver_info = @waiver_info
+    mail_record.save
+
     @request_granted = true
-    flash.now[:notice] = "We have sent emails with the waiver to #{record.recipients.join(', ')}"
+    flash.now[:notice] = "We have sent emails with the waiver to #{mail_record.recipients.join(', ')}"
+
     render :show
-  rescue StandardError => e
+  rescue StandardError => error
     @waiver_info.destroy
     @waiver_info.errors.add(:base, "Could not send an email")
-    @waiver_info.errors.add(:base, e.message)
+    @waiver_info.errors.add(:base, error.message)
     @waiver_info.errors.add(:base, "Did not create the Waiver - Please try again")
+
     render :new_waiver_info
   end
 
@@ -231,26 +230,28 @@ class WaiverInfosController < ApplicationController
       :author_unique_id,
       :author_first_name,
       :author_last_name,
-                                               :author_status,
-                                               :author_department,
-                                               :author_email,
-                                               :title,
-                                               :journal,
-                                               :journal_issn,
-                                               :notes
+      :author_status,
+      :author_department,
+      :author_email,
+      :title,
+      :journal,
+      :journal_issn,
+      :notes
     )
 
     stripped_args(permitted, :keep_empties)
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def waiver_info_params
-    default_values = {
+  def default_params
+    {
       "requester" => current_account.netid,
       "requester_email" => current_account.email
     }
+  end
 
-    return default_values unless params["waiver_info"]
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def waiver_info_params
+    return default_params unless params["waiver_info"]
 
     permitted_waiver_info_params = params.require(:waiver_info)
     permitted = permitted_waiver_info_params.permit(
@@ -272,7 +273,7 @@ class WaiverInfosController < ApplicationController
     )
 
     values = stripped_args(permitted, :dont_keep_empties)
-    default_values.merge(values)
+    default_params.merge(values)
   end
 
   # I am not certain that this is needed
