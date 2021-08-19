@@ -198,7 +198,7 @@
 
     function init_page() {
         var params = {
-            url: "/api/employees/get_all/name.json",
+            url: (window.location.origin + "/api/employees/get_all/name.json"),
             match_params: "search_term=MATCH",
             select_element: "#select_with_ajax",
             display_element: "#display_ajax_data",

@@ -26,8 +26,13 @@ class AuthorStatus
     @get_unique_id_path
   end
 
-  class << self
-    attr_reader :current_config
+  def self.build_base_url(context: nil)
+    if context&.respond_to?(:request)
+      request = context.request
+      "#{request.protocol}#{request.host_with_port}#{@base_url}"
+    else
+      @base_url
+    end
   end
 
   def self.bootstrap(opts)
@@ -46,7 +51,7 @@ class AuthorStatus
     @status_path = current_config["status_path"]
 
     @get_unique_id_path = current_config["get_unique_id_path"]
-    return if base_url.blank?
+    return if @base_url.blank?
 
     %w[html json].each do |format|
       raise("Missing the AuthorStatus '#{format}' configuration entry for :get_unique_id_path.") unless unique_id_paths.key?(format)
@@ -59,7 +64,7 @@ class AuthorStatus
   end
 
   def base_uri
-    URI(base_url)
+    URI(@base_url)
   end
 
   def ajax_uri
@@ -94,12 +99,15 @@ class AuthorStatus
     @ajax_path.html_safe
   end
 
-  def self.ajax_url
+  def self.ajax_url(context: nil)
+    base_url = build_base_url(context: context)
+
     safe_ajax_path = @ajax_path.html_safe
     segments = [
       base_url,
       safe_ajax_path
     ]
+
     segments.join("/")
   end
 
@@ -111,7 +119,9 @@ class AuthorStatus
     safe_ajax_params
   end
 
-  def self.status_url
+  def self.status_url(context: nil)
+    base_url = build_base_url(context: context)
+
     segments = [
       base_url,
       safe_ajax_path
@@ -120,15 +130,14 @@ class AuthorStatus
     segments.join("/")
   end
 
-  class << self
-    attr_writer :base_url
-  end
-
-  def self.generate_uid_url(uid, format = "html")
+  def self.generate_uid_url(uid, format = "html", context: nil)
     escaped_uid = Rack::Utils.escape(uid)
     unique_id_path = unique_id_paths[format]
     uid_path = unique_id_path.gsub(/MATCH/, escaped_uid)
     safe_uid_path = uid_path.html_safe
+
+    base_url = build_base_url(context: context)
+
     segments = [
       base_url,
       safe_uid_path
@@ -138,6 +147,7 @@ class AuthorStatus
   end
 
   class << self
-    attr_reader :base_url
+    attr_reader :current_config
+    attr_writer :base_url
   end
 end

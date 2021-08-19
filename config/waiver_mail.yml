@@ -1,4 +1,3 @@
-
 development:
   from: noreply@princeton.edu
   url: http://localhost:3000/waiver/ID
@@ -19,7 +18,7 @@ production:
 staging:
   from: noreply@princeton.edu
   url: https://oawaiver-staging.princeton.edu/waiver/ID
-  send_to_author: false
+  send_to_author: true
 
 # E-Mail Templates
 mail_templates:

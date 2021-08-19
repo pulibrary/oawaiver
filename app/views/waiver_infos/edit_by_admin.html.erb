@@ -152,7 +152,7 @@
     function init_page() {
       $("#log").hide();
 
-      AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_data', "<%= AuthorStatus.ajax_url %>", "<%= AuthorStatus.ajax_params %>");
+      AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_data', "<%= AuthorStatus.ajax_url(context: self) %>", "<%= AuthorStatus.ajax_params %>");
     }
 
     $(document).ready(init_page);
