@@ -19,6 +19,8 @@ executors:
           POSTGRES_HOST_AUTH_METHOD: trust
       - image: solr:8.4
         command: bin/solr -cloud -noprompt -f -p 8983
+      - image: mailhog/mailhog:latest
+
     working_directory: ~/oawaiver
 
 commands:

@@ -7,11 +7,13 @@ gem "actionview", ">= 5.2.4.4"
 gem "activerecord-pedantmysql2-adapter"
 gem "bundler", "~> 2.1"
 gem "devise"
+
 # JSON API with documentation
-gem "grape", "~> 1.1.0"
-gem "grape-entity", "~> 0.4.0"
-gem "grape-swagger", "~> 0.7.2"
+gem "grape", "~> 1.5"
+gem "grape-entity", "~> 0.9"
+gem "grape-swagger", "~> 1.4"
 gem "grape-swagger-rails", "~> 0.3"
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.0"
 # Use jquery as the JavaScript library
@@ -27,8 +29,8 @@ gem "mysql2"
 gem "omniauth-cas"
 gem "pg"
 gem "progress_bar"
-gem "rack", ">= 2.1.4"
-gem "rack-contrib", "~> 2.1"
+gem "rack", "~> 2.2"
+gem "rack-contrib"
 gem "rails", ">= 5.2.6", "< 6.0"
 gem "responders", "~> 2.0"
 # read xls files

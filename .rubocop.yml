@@ -40,12 +40,14 @@ Metrics/BlockLength:
     - 'spec/requests/employees_spec.rb'
     - 'lib/tasks/oawaiver.rake'
     - 'lib/capistrano/tasks/oawaiver.rake'
+    - 'spec/mailers/waiver_mailer_spec.rb'
 
 Metrics/ClassLength:
   Exclude:
     - 'app/controllers/waiver_infos_controller.rb'
     - 'app/models/employee.rb'
     - 'lib/author_status.rb'
+    - 'app/mailers/waiver_mailer.rb'
 
 Metrics/CyclomaticComplexity:
   Exclude:
@@ -75,6 +77,7 @@ RSpec/ExampleLength:
     - 'spec/controllers/waiver_infos_controller_spec.rb'
     - 'spec/models/employee_spec.rb'
     - 'spec/requests/employees_spec.rb'
+    - 'spec/mailers/waiver_mailer_spec.rb'
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes
