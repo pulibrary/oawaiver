@@ -72,12 +72,6 @@ class WaiverInfosController < ApplicationController
     render(:index)
   end
 
-  def show_mail
-    @mail_records = @waiver_info.mail_records
-
-    render :show_mail
-  end
-
   def new
     @waiver_info = WaiverInfo.new(author_status: AuthorStatus.status_faculty)
 
@@ -236,13 +230,13 @@ class WaiverInfosController < ApplicationController
       :author_unique_id,
       :author_first_name,
       :author_last_name,
-                                               :author_status,
-                                               :author_department,
-                                               :author_email,
-                                               :title,
-                                               :journal,
-                                               :journal_issn,
-                                               :notes
+      :author_status,
+      :author_department,
+      :author_email,
+      :title,
+      :journal,
+      :journal_issn,
+      :notes
     )
 
     stripped_args(permitted, :keep_empties)
@@ -257,11 +251,6 @@ class WaiverInfosController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def waiver_info_params
-    # default_values = {
-    #  "requester" => current_account.netid,
-    #  "requester_email" => current_account.email
-    # }
-
     return default_params unless params["waiver_info"]
 
     permitted_waiver_info_params = params.require(:waiver_info)

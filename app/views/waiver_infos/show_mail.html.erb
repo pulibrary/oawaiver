@@ -2,13 +2,13 @@
 
 <p>Mail sent regarding:<%= link_to @waiver_info.citation, @waiver_info %></p>
 
-<% if @mail_records.blank? %>
+<% if @waiver_info.mail_records.blank? %>
   <p>No record of mail.</p>
   <p>
     <%= simple_format(h(@waiver_info.notes), {class: 'left'}, wrapper_tag: "div") %>
   </p>
 <% else %>
-  <% @mail_records.each do |mail_record| %>
+  <% @waiver_info.mail_records.each do |mail_record| %>
     <div class="mail_block">
       <pre>
         <%= "\n" + mail_record.blob + "\n" %>

@@ -42,12 +42,14 @@ RSpec.describe ApplicationController, type: :controller do
   end
 
   describe "#author_search_status" do
+    let(:redirect_location) { AuthorStatus.status_url(context: self) }
+
     context "when authenticated as an administrative user" do
       it "responds successfully with an HTTP 200 status code" do
         get :author_search_status
 
         expect(response).to have_http_status(302)
-        expect(response).to redirect_to(AuthorStatus.status_url)
+        expect(response).to redirect_to(redirect_location)
       end
     end
   end
