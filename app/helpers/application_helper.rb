@@ -59,9 +59,19 @@ module ApplicationHelper
     end
   end
 
+  def sign_out_form(html_opts = {})
+    html_opts[:class] = html_opts.fetch(:class, []) + ["form"]
+
+    form_with url: destroy_account_session_path, method: :delete, **html_opts do |form|
+      form.submit("Logout", class: ["btn"])
+    end
+  end
+
   def sign_out_link(html_opts = {})
     child_element = tag.span("", class: "glyphicon glyphicon-user")
-    link_to(child_element + " Logout", destroy_account_session_path, html_opts)
+
+    children = child_element + sign_out_form(html_opts)
+    tag.div(children, class: ["navigation-auth"])
   end
 
   def sign_in_link(html_opts = {})
