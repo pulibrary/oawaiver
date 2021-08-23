@@ -106,12 +106,23 @@ $ bundle exec rake oawaiver:mysql:migrate
 
 ### Managing Roles for User Accounts
 
+#### Local Deployments
 For adding administrative privileges, please use the following:
+
 ```bash
 $ bundle exec rake oawaiver:accounts:add_admin_role[$NET_ID]
 ```
 
-For removing administrative privileges, please use the following:
+For removing administrative privileges, please invoke:
 ```bash
 $ bundle exec rake oawaiver:accounts:remove_admin_role[$NET_ID]
+```
+
+#### Remote Deployments
+```bash
+$ bundle exec cap staging oawaiver:accounts:add_admin_role[$NET_ID]
+```
+
+```bash
+$ bundle exec cap staging oawaiver:accounts:remove_admin_role[$NET_ID]
 ```

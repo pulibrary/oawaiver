@@ -62,7 +62,7 @@ class ApplicationController < ActionController::Base
   end
 
   def admin_user?
-    @is_admin ||= roles.include?('ADMIN')
+    @is_admin ||= roles.include?("ADMIN")
   end
 
   def user
@@ -81,10 +81,6 @@ class ApplicationController < ActionController::Base
     return [] unless current_account
 
     @roles ||= current_account.roles
-  end
-
-  def user
-    super || current_account
   end
 
   def current_cas_user
