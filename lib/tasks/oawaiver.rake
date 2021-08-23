@@ -168,38 +168,6 @@ namespace :oawaiver do
     task :add_admin_role, [:netid] => :environment do |_t, args|
       netid = args[:netid]
 
-      DatabaseMigrationService.import(sql_file_path: sql_file_path)
-    end
-
-    desc "Migrate the MySQL database export into PostgreSQL"
-    task migrate: :environment do |_t, _args|
-      DatabaseMigrationService.new.migrate
-    end
-  end
-
-  namespace :postgresql do
-    desc "Export the PostgreSQL database into a SQL file"
-    task :export, [:sql_file] => :environment do |_t, args|
-      sql_file = args[:sql_file]
-      sql_file_path = Pathname.new(sql_file)
-
-      DatabaseImportService.new.export(sql_file_path: sql_file_path)
-    end
-
-    desc "Import an SQL export file into the PostgreSQL database"
-    task :import, [:sql_file] => :environment do |_t, args|
-      sql_file = args[:sql_file]
-      sql_file_path = Pathname.new(sql_file)
-
-      DatabaseImportService.new.import(sql_file_path: sql_file_path)
-    end
-  end
-
-  namespace :accounts do
-    desc "Add the administrator role to a user account"
-    task :add_admin_role, [:netid] => :environment do |_t, args|
-      netid = args[:netid]
-
       account = Account.find_by(netid: netid)
       raise("Failed to find the user account: #{netid}") unless account
 
@@ -218,25 +186,6 @@ namespace :oawaiver do
       account.role = Account::AUTHENTICATED_ROLE
       account.save
       $stdout.puts("Successfully removed the administrator role to the account for #{netid}")
-    end
-  end
-
-  namespace :solr do
-    desc "Delete all data models indexed in Solr"
-    task delete: [:environment] do
-      Sunspot.remove_all
-    end
-
-    desc "Optimize the Solr Collection"
-    task optimize: [:environment] do
-      Sunspot.optimize
-    end
-
-    desc "Delete and reindex data models into Solr with optimization"
-    task reindex: [:environment] do
-      Rake::Task["oawaiver:solr:delete"].invoke
-      Rake::Task["sunspot:reindex"].invoke
-      Rake::Task["oawaiver:solr:optimize"].invoke
     end
   end
 
