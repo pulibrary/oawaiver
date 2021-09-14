@@ -32,22 +32,35 @@ class WaiverInfosController < ApplicationController
   def index
     models = WaiverInfo.all
 
-    do_index({}, models)
+    @properties = {}
+    @search_term = ""
+    @waiver_infos = models.paginate(page: params[:page], per_page: params[:per_page])
+
     render(:index)
   end
 
   # GET waiver/requester/me
   def index_mine
-    models = WaiverInfo.where(requester: current_account.netid)
+    models = if current_account_admin?
+               WaiverInfo.all
+             else
+               WaiverInfo.where(requester: current_account.netid)
+             end
 
-    do_index(current_account_properties, models)
+    @properties = current_account_properties
+    @search_term = ""
+    @waiver_infos = models.paginate(page: params[:page], per_page: params[:per_page])
+
     render(:index)
   end
 
   def index_unique_id
-    models = search_with_props(unique_id_properties)
+    @properties = unique_id_properties
+    models = search_with_props(@properties)
 
-    do_index(unique_id_properties, models)
+    @search_term = ""
+    @waiver_infos = models.paginate(page: params[:page], per_page: params[:per_page])
+
     render(:index)
   end
 
@@ -55,7 +68,10 @@ class WaiverInfosController < ApplicationController
     logger.debug("index_missing_unique_ids: authenticated as user='#{current_account}'")
     models = WaiverInfo.find_by_missing_unique_id
 
-    do_index(missing_unique_ids_properties, models)
+    @properties = missing_unique_ids_properties
+    @search_term = ""
+    @waiver_infos = models.paginate(page: params[:page], per_page: params[:per_page])
+
     render(:index)
   end
 
@@ -63,8 +79,11 @@ class WaiverInfosController < ApplicationController
     render status: :forbidden unless current_account.admin?
 
     if params["waiver_info"]
-      models = search_with_props(waiver_info_params)
-      do_index(waiver_info_params, models)
+      @properties = waiver_info_params
+      models = search_with_props(@properties)
+
+      @search_term = ""
+      @waiver_infos = models.paginate(page: params[:page], per_page: params[:per_page])
     else
       @waiver_info = WaiverInfo.new
     end
@@ -175,12 +194,6 @@ class WaiverInfosController < ApplicationController
     params[:author_unique_id]
   end
 
-  def do_index(props, relation)
-    @properties = props
-    @search_term = ""
-    @waiver_infos = relation.paginate(page: params[:page], per_page: params[:per_page])
-  end
-
   def do_solr_index(words, waivers)
     @properties = []
     @search_term = words
@@ -207,7 +220,15 @@ class WaiverInfosController < ApplicationController
   end
 
   def account_owns_waiver?
+    return unless current_account
+
     current_account.authenticated? && @waiver_info.requester == current_account
+  end
+
+  def current_account_admin?
+    return unless current_account
+
+    current_account.admin?
   end
 
   def ensure_user_owns_waiver_info
