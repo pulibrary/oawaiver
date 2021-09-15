@@ -31,3 +31,4 @@ yarn-debug.log*
 
 # Ensure that the static assets from the vendor/ directory are not ignored
 !/vendor
+.env
