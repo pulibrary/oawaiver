@@ -9,7 +9,7 @@ FactoryBot.define do
     preferred_name { Faker::Name.last_name }
     unique_id { Faker::Number.number(digits: 9) }
     email { Faker::Internet.email }
-    netid { Faker::Internet.user_name }
+    sequence(:netid) { |n| Faker::Internet.user_name + n.to_s }
     department { Faker::Commerce.department }
   end
 
