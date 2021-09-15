@@ -3,6 +3,8 @@
 require "rails_helper"
 
 describe "Waivers", type: :request do
+  let(:admin_user) { FactoryBot.create(:admin_user) }
+
   before(:all) do
     MailRecord.delete_all
     WaiverInfo.delete_all
@@ -13,12 +15,57 @@ describe "Waivers", type: :request do
     WaiverInfo.delete_all
   end
 
-  let(:admin_user) { FactoryBot.create(:admin_user) }
-  # show_mail_waiver_info
+  describe "/waiver/requester/me" do
+    let(:user) { FactoryBot.create(:regular_user) }
+    let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }
+    let(:waiver_info2) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: "Some 2 Title") }
+    let(:waiver_info3) { FactoryBot.create(:waiver_info, requester: user.netid, requester_email: user.email, title: "Some 3 Title") }
+
+    before do
+      waiver_info
+      waiver_info2
+      waiver_info3
+    end
+
+    context "when authenticated as an admin. user" do
+      before do
+        sign_in(admin_user)
+      end
+
+      it "retrieves all waivers" do
+        get "/waiver/requester/me"
+
+        expect(response.status).to eq(200)
+        expect(response.body).to include(waiver_info.title)
+        expect(response.body).to include(waiver_info2.title)
+        expect(response.body).to include(waiver_info3.title)
+      end
+    end
+
+    context "when authenticated as a valid user" do
+      let(:waiver_info4) { FactoryBot.create(:waiver_info, requester: user.netid, requester_email: user.email, title: "Some 4 Title") }
+
+      before do
+        waiver_info4
+        sign_in(user)
+      end
+
+      it "retrieves all waivers requested by a given user" do
+        get "/waiver/requester/me"
+
+        expect(response.status).to eq(200)
+        expect(response.body).not_to include(waiver_info.title)
+        expect(response.body).not_to include(waiver_info2.title)
+        expect(response.body).to include(waiver_info3.title)
+        expect(response.body).to include(waiver_info4.title)
+      end
+    end
+  end
+
   # GET /waiver/:id/mail(.:format)
-  # waiver_infos#show_mail
   describe "GET /waiver/:id/mail" do
     let(:waiver_info) { FactoryBot.create(:waiver_info) }
+
     context "when authenticated as an admin. user" do
       before do
         sign_in(admin_user)
