@@ -20,6 +20,28 @@
 
 ---
 
+# (Fri Sep 17 2021)
+
+#### 🚀 Enhancement
+
+- Display version info in application footer [#49](https://github.com/pulibrary/oawaiver/pull/49) ([@bess](https://github.com/bess))
+
+#### 🐛 Bug Fix
+
+- Fix Changelog [#47](https://github.com/pulibrary/oawaiver/pull/47) ([@bess](https://github.com/bess))
+- Setup auto [#46](https://github.com/pulibrary/oawaiver/pull/46) ([@bess](https://github.com/bess))
+- Ensure uniqueness of netid in factory [#45](https://github.com/pulibrary/oawaiver/pull/45) ([@bess](https://github.com/bess))
+
+#### 🔩 Dependency Updates
+
+- Upgrade webpacker [#48](https://github.com/pulibrary/oawaiver/pull/48) ([@bess](https://github.com/bess))
+
+#### Authors: 1
+
+- Bess Sadler ([@bess](https://github.com/bess))
+
+---
+
 # v1.0.0 (Wed Sep 15 2021)
 
 #### 🚀 Enhancement
