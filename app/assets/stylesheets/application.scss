@@ -88,3 +88,8 @@ $logo-height: 35px; // large = 50px; small = 35px;
 .rails_production .env_marker {
   display: none;
 }
+
+.deployment-version {
+  color: gray;
+  float: right;
+}
