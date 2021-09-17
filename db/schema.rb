@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "department"
-    t.index ["unique_id"], name: "idx_16506_index_employees_on_unique_id"
     t.index ["unique_id"], name: "index_employees_on_unique_id"
   end
 
@@ -67,9 +66,7 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "notes"
-    t.index ["author_email"], name: "idx_16541_index_waiver_infos_on_author_email"
     t.index ["author_email"], name: "index_waiver_infos_on_author_email"
-    t.index ["requester_email"], name: "idx_16541_index_waiver_infos_on_requester_email"
     t.index ["requester_email"], name: "index_waiver_infos_on_requester_email"
   end
 
