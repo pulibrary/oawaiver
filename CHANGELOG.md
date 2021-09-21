@@ -1,3 +1,23 @@
+# (Tue Sep 21 2021)
+
+#### 🚀 Enhancement
+
+- Display version info in application footer [#49](https://github.com/pulibrary/oawaiver/pull/49) ([@bess](https://github.com/bess))
+
+#### 🐛 Bug Fix
+
+- Fix Changelog [#47](https://github.com/pulibrary/oawaiver/pull/47) ([@bess](https://github.com/bess))
+
+#### 🔩 Dependency Updates
+
+- Upgrade webpacker [#48](https://github.com/pulibrary/oawaiver/pull/48) ([@bess](https://github.com/bess))
+
+#### Authors: 1
+
+- Bess Sadler ([@bess](https://github.com/bess))
+
+---
+
 # (Fri Sep 17 2021)
 
 #### 🚀 Enhancement
