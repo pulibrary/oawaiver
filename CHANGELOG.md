@@ -6,6 +6,32 @@
 
 #### 🐛 Bug Fix
 
+- Fixing the "Not found. Authentication passthru." devise bug [#50](https://github.com/pulibrary/oawaiver/pull/50) ([@jrgriffiniii](https://github.com/jrgriffiniii))
+- Fix Changelog [#47](https://github.com/pulibrary/oawaiver/pull/47) ([@bess](https://github.com/bess))
+
+#### ⚠️ Pushed to `main`
+
+- Merge branch 'main' of github.com:pulibrary/oawaiver ([@bess](https://github.com/bess))
+
+#### 🔩 Dependency Updates
+
+- Upgrade webpacker [#48](https://github.com/pulibrary/oawaiver/pull/48) ([@bess](https://github.com/bess))
+
+#### Authors: 2
+
+- Bess Sadler ([@bess](https://github.com/bess))
+- James R. Griffin III ([@jrgriffiniii](https://github.com/jrgriffiniii))
+
+---
+
+# (Tue Sep 21 2021)
+
+#### 🚀 Enhancement
+
+- Display version info in application footer [#49](https://github.com/pulibrary/oawaiver/pull/49) ([@bess](https://github.com/bess))
+
+#### 🐛 Bug Fix
+
 - Fix Changelog [#47](https://github.com/pulibrary/oawaiver/pull/47) ([@bess](https://github.com/bess))
 
 #### 🔩 Dependency Updates
