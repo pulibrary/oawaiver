@@ -27,6 +27,10 @@ class Account < ApplicationRecord
     end
   end
 
+  def self.from_cas(access_token)
+    find_by(provider: access_token.provider, netid: access_token.uid)
+  end
+
   def admin?
     role == ADMIN_ROLE
   end
@@ -48,9 +52,5 @@ class Account < ApplicationRecord
 
   def email
     "#{netid}@princeton.edu"
-  end
-
-  def self.from_cas(access_token)
-    find_by(provider: access_token.provider, netid: access_token.uid)
   end
 end
