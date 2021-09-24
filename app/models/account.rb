@@ -8,7 +8,6 @@ class Account < ApplicationRecord
   validates_presence_of :netid
   validates_uniqueness_of :netid
   delegate :to_s, to: :netid
-  delegate :uid, to: :netid
   devise(:omniauthable)
 
   def self.roles(netid)
@@ -19,6 +18,8 @@ class Account < ApplicationRecord
   end
 
   def self.from_omniauth(access_token)
+    return if access_token.nil?
+
     models = where(provider: access_token.provider, netid: access_token.uid)
     models.first_or_create do |account|
       account.netid = access_token.uid
@@ -27,8 +28,8 @@ class Account < ApplicationRecord
     end
   end
 
-  def self.from_cas(access_token)
-    find_by(provider: access_token.provider, netid: access_token.uid)
+  def uid
+    netid
   end
 
   def admin?

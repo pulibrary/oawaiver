@@ -10,16 +10,6 @@ RSpec.describe WaiverInfosController, type: :controller do
   let(:admin_user) { FactoryBot.create(:admin_user) }
   let(:requester) { FactoryBot.create(:regular_user, netid: "requester") }
 
-  before do
-    WaiverInfo.delete_all
-    Account.delete_all
-  end
-
-  after do
-    WaiverInfo.delete_all
-    Account.delete_all
-  end
-
   describe "#index_mine" do
     it "redirects for failed authentication attempts" do
       get(:index_mine)

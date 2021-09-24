@@ -5,16 +5,6 @@ require "rails_helper"
 describe "Waivers", type: :request do
   let(:admin_user) { FactoryBot.create(:admin_user) }
 
-  before(:all) do
-    MailRecord.delete_all
-    WaiverInfo.delete_all
-  end
-
-  after(:all) do
-    MailRecord.delete_all
-    WaiverInfo.delete_all
-  end
-
   describe "/waiver/requester/me" do
     let(:user) { FactoryBot.create(:regular_user) }
     let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }

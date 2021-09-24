@@ -5,9 +5,11 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+
 require "spec_helper"
 require "rspec/rails"
 require "devise"
+require "database_cleaner/active_record"
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -57,12 +59,26 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Features::SessionHelpers, type: :feature
 
-  config.before(:suite) { Rails.cache.clear }
-  config.after { Rails.cache.clear }
+  config.before(:suite) do
+    Rails.cache.clear
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.around do |example|
+    DatabaseCleaner.cleaning do
+      example.run
+    end
+  end
+
+  config.after do
+    Rails.cache.clear
+  end
 
   config.before(:each, type: :request) do
     Warden.test_mode!
   end
+
   config.after(:each, type: :request) do
     Warden.test_reset!
   end
