@@ -15,14 +15,6 @@ RSpec.describe AccountsController, type: :controller do
   end
   let(:admin_user) { FactoryBot.create(:admin_user) }
 
-  before do
-    Account.delete_all
-  end
-
-  after do
-    Account.delete_all
-  end
-
   describe "POST /create" do
     context "with valid parameters" do
       it "fails without authentication" do

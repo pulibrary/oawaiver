@@ -74,6 +74,7 @@ end
 
 group :development, :test do
   gem "bixby"
+  gem "database_cleaner-active_record"
   gem "factory_bot_rails"
   gem "pry-byebug"
   gem "rails-controller-testing"

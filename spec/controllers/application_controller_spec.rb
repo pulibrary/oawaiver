@@ -7,14 +7,6 @@ RSpec.describe ApplicationController, type: :controller do
   let(:admin_user) { FactoryBot.create(:admin_user) }
   let(:regular_user) { FactoryBot.create(:regular_user) }
 
-  before do
-    Account.delete_all
-  end
-
-  after do
-    Account.delete_all
-  end
-
   describe "#start" do
     it "responds successfully with an HTTP 200 status code" do
       get(:start)

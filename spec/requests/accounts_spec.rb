@@ -3,14 +3,6 @@
 require "rails_helper"
 
 describe AccountsController, type: :request do
-  before do
-    Account.delete_all
-  end
-
-  after do
-    Account.delete_all
-  end
-
   describe "POST /accounts" do
     let(:valid_attributes) do
       {
