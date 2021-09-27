@@ -1,3 +1,20 @@
+# v1.1.1 (Mon Sep 27 2021)
+
+#### 🐛 Bug Fix
+
+- Handling cases where the CAS authentication fails [#52](https://github.com/pulibrary/oawaiver/pull/52) ([@jrgriffiniii](https://github.com/jrgriffiniii))
+
+#### ⚠️ Pushed to `main`
+
+- Update CHANGELOG.md ([@bess](https://github.com/bess))
+
+#### Authors: 2
+
+- Bess Sadler ([@bess](https://github.com/bess))
+- James R. Griffin III ([@jrgriffiniii](https://github.com/jrgriffiniii))
+
+---
+
 # v1.1.0 (Tue Sep 21 2021)
 
 #### 🚀 Enhancement
