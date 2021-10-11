@@ -8,7 +8,7 @@ class Account < ApplicationRecord
   validates_presence_of :netid
   validates_uniqueness_of :netid
   delegate :to_s, to: :netid
-  devise(:omniauthable)
+  devise(:omniauthable, omniauth_providers: [:cas])
 
   def self.roles(netid)
     persisted = Account.find_by_netid(netid)
