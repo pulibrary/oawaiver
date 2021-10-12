@@ -7,17 +7,17 @@ describe ApplicationController, type: :request do
     it "authenticates using the access token" do
       get("/sign_in")
 
-      expect(response.status).to eq(302)
-      expect(response).to redirect_to(new_account_session_path)
+      expect(response.status).to eq(301)
+      expect(response).to redirect_to(account_cas_omniauth_authorize_path)
     end
   end
 
   describe "GET /login" do
     it "authenticates using the access token" do
-      get("/login")
+      get("/sign_in")
 
-      expect(response.status).to eq(302)
-      expect(response).to redirect_to(new_account_session_path)
+      expect(response.status).to eq(301)
+      expect(response).to redirect_to(account_cas_omniauth_authorize_path)
     end
   end
 end

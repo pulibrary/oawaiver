@@ -58,6 +58,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Features::SessionHelpers, type: :feature
+  config.include Devise::Test::ControllerHelpers, type: :controller
 
   config.before(:suite) do
     Rails.cache.clear

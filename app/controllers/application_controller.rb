@@ -20,18 +20,8 @@ class ApplicationController < ActionController::Base
   end
 
   def author_search_status
-    redirect_to(AuthorStatus.status_url(context: self))
-  end
-
-  unless Rails.env.development?
-    rescue_from "Exception" do |exception|
-      if exception.is_a?(ActiveRecord::RecordNotFound)
-        render controller: :application, action: :start
-      else
-        flash[:alert] = "An exception occurred: #{exception.message}"
-        render controller: :application, action: :error
-      end
-    end
+    current_author_status_url = AuthorStatus.status_url(context: self)
+    redirect_to(current_author_status_url)
   end
 
   private

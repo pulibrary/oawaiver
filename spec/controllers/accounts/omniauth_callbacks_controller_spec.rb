@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Accounts::OmniauthCallbacksController do
+describe Accounts::OmniauthCallbacksController do
   before { request.env["devise.mapping"] = Devise.mappings[:account] }
 
   describe "logging in" do
