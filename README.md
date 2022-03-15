@@ -7,7 +7,7 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 
 ### Dependencies Setup
 
-- Ruby 2.7.4
+- Ruby 2.7.5
 - Bundler 2.2.17
 
 ```bash
