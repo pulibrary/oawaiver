@@ -1,11 +1,22 @@
 ---
 version: 2.1
+parameters:
+  ruby-release:
+    type: string
+    default: "3.0.3"
+  bundler-release:
+    type: string
+    default: "2.3.11"
+  node-release:
+    type: string
+    default: "lts-fermium"
+
 executors:
   oawaiver-executor:
     docker:
-      - image: circleci/ruby:2.7-node-browsers
+      - image: cimg/ruby:<< pipeline.parameters.ruby-release >>-browsers
         environment:
-          BUNDLER_VERSION: 2.2.17
+          BUNDLER_VERSION: << pipeline.parameters.bundler-release >>
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
@@ -42,15 +53,15 @@ commands:
       # Restore bundle cache
       - restore_cache:
           keys:
-            - oawaiver-ruby27-{{ checksum "Gemfile.lock" }}
-            - oawaiver-ruby27-
+            - oawaiver-ruby<< pipeline.parameters.ruby-release >>-{{ checksum "Gemfile.lock" }}
+            - oawaiver-ruby<< pipeline.parameters.ruby-release >>-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
 
       # Store bundle cache
       - save_cache:
-          key: oawaiver-ruby27-{{ checksum "Gemfile.lock" }}
+          key: oawaiver-ruby<< pipeline.parameters.ruby-release >>-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
 
@@ -60,8 +71,8 @@ commands:
       # Restore yarn cache
       - restore_cache:
           keys:
-            - oawaiver-node14-{{ checksum "yarn.lock" }}
-            - oawaiver-node14-
+            - oawaiver-node<< pipeline.parameters.node-release >>-{{ checksum "yarn.lock" }}
+            - oawaiver-node<< pipeline.parameters.node-release >>-
 
       - run:
           name: Yarn Install
@@ -69,7 +80,7 @@ commands:
 
       # Store yarn / webpacker cache
       - save_cache:
-          key: oawaiver-node14-{{ checksum "yarn.lock" }}
+          key: oawaiver-node<< pipeline.parameters.node-release >>-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
 
