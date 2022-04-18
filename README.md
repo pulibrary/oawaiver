@@ -7,8 +7,8 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 
 ### Dependencies Setup
 
-- Ruby 2.7.4
-- Bundler 2.2.17
+- Ruby 3.0.3
+- Bundler 2.3.11
 
 ```bash
 $ bundle config --local build.mysql2 "--with-ldflags=-L$(brew --prefix openssl)/lib"

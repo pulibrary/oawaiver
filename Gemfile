@@ -14,30 +14,37 @@ gem "grape-swagger-rails", "~> 0.3"
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem "jbuilder", "~> 2.0"
+
 # Use jquery as the JavaScript library
 gem "jquery-rails"
 gem "json", ">= 2.3.0"
 gem "kaminari"
+
 # rake tasks
 gem "lumberjack"
 gem "mail"
+
 # Modernizr
 gem "modernizr-rails"
 gem "mysql2"
 gem "omniauth-cas"
 gem "pg"
 gem "progress_bar"
+gem "psych", "~> 3.3", "< 4"
 gem "rack", "~> 2.2"
 gem "rack-contrib"
-gem "rails", ">= 5.2.6", "< 6.0"
-gem "responders", "~> 2.0"
+gem "rails", "~> 6.0.4", "< 6.1"
+gem "responders", "~> 3.0"
+
 # read xls files
 gem "roo", "~> 1.13.2"
+
 # bundle exec rake doc:rails generates the API under doc/api.
 gem "sdoc", "~> 1.1", group: :doc
 gem "sprockets", "~> 3.0"
 gem "sunspot_rails"
 gem "sunspot_solr"
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
 gem "webpacker"

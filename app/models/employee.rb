@@ -71,6 +71,38 @@ class Employee < ApplicationRecord
     text :all_names, stored: true
   end
 
+  # Reindex using Sunspot
+  # This is ported from https://github.com/sunspot/sunspot/blob/v2.5.0/sunspot_rails/lib/sunspot/rails/searchable.rb#L257
+  # Please see https://github.com/sunspot/sunspot/issues/1008
+  def self.solr_index(opts = {})
+    options = {
+      batch_size: Sunspot.config.indexing.default_batch_size,
+      batch_commit: true,
+      include: sunspot_options[:include],
+      start: opts.delete(:first_id)
+    }.merge(opts)
+
+    if options[:batch_size].to_i.positive?
+      batch_counter = 0
+      batch_options = options.slice(:batch_size, :start)
+      batch_size = batch_options[:batch_size]
+
+      includes(options[:include]).find_in_batches(batch_size: batch_size) do |records|
+        solr_benchmark(options[:batch_size], batch_counter += 1) do
+          Sunspot.index(records.select(&:indexable?))
+          Sunspot.commit if options[:batch_commit]
+        end
+
+        options[:progress_bar] = options[:progress_bar].increment(records.length) if options[:progress_bar]
+      end
+    else
+      Sunspot.index! includes(options[:include]).select(&:indexable?)
+    end
+
+    # perform a final commit if not committing in batches
+    Sunspot.commit unless options[:batch_commit]
+  end
+
   # get all employees with a matching first, last or preferred_name
   # return Sunspot::Search object
   def self.all_by_name(word)
@@ -176,7 +208,9 @@ class Employee < ApplicationRecord
       end
     end
     logger.debug "Stop loading '#{filename}'"
+
     Employee.reindex unless failed.empty?
+
     { loaded: loaded, failed: failed, skipped: skipped }
   end
 
