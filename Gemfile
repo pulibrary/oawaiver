@@ -88,7 +88,8 @@ group :development, :test do
   gem "rspec-rails"
 end
 
-group :production, :qa do
+group :production do
+  gem "ddtrace", require: "ddtrace/auto_instrument"
   gem "execjs"
   gem "therubyracer"
 end
