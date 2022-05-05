@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "activerecord-pedantmysql2-adapter"
 gem "bundler", "~> 2.1"
@@ -42,8 +43,9 @@ gem "roo", "~> 1.13.2"
 # bundle exec rake doc:rails generates the API under doc/api.
 gem "sdoc", "~> 1.1", group: :doc
 gem "sprockets", "~> 3.0"
-gem "sunspot_rails"
-gem "sunspot_solr"
+
+gem "sunspot_rails", github: "sunspot/sunspot", glob: "sunspot_rails/*.gemspec", ref: "6cddd9f"
+gem "sunspot_solr", github: "sunspot/sunspot", glob: "sunspot_solr/*.gemspec", ref: "6cddd9f"
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"

@@ -92,8 +92,6 @@ class Employee < ApplicationRecord
           Sunspot.index(records.select(&:indexable?))
           Sunspot.commit if options[:batch_commit]
         end
-
-        options[:progress_bar] = options[:progress_bar].increment(records.length) if options[:progress_bar]
       end
     else
       Sunspot.index! includes(options[:include]).select(&:indexable?)
