@@ -58,6 +58,8 @@ In order to deploy the Rails app. to the `staging` environment, please invoke:
 $ bundle exec cap staging deploy
 ```
 
+To create a tagged release use the [steps in the RDSS handbook](https://github.com/pulibrary/rdss-handbook/blob/main/release_process.md)
+
 ## Administration
 ### Importing from MySQL
 
