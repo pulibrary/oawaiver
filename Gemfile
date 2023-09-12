@@ -47,8 +47,7 @@ gem "sunspot_solr", github: "sunspot/sunspot", glob: "sunspot_solr/*.gemspec", r
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
-gem "webpacker"
-gem 'vite_rails'
+gem "vite_rails"
 gem "will_paginate", "~> 3.3"
 
 group :assets do
