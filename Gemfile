@@ -3,7 +3,6 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "activerecord-pedantmysql2-adapter"
 gem "bundler", "~> 2.1"
 gem "devise"
 
@@ -27,7 +26,6 @@ gem "mail"
 
 # Modernizr
 gem "modernizr-rails"
-gem "mysql2"
 gem "omniauth-cas"
 gem "pg"
 gem "progress_bar"
