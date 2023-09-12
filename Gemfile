@@ -67,6 +67,8 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-passenger"
   gem "capistrano-rails"
+
+  gem "thin"
 end
 
 group :test do
@@ -85,10 +87,10 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails"
 end
-gem 'net-ssh', '7.0.0.beta1'
-gem 'net-smtp'
-gem 'net-imap'
-gem 'net-pop'
+gem "net-imap"
+gem "net-pop"
+gem "net-smtp"
+gem "net-ssh", "7.0.0.beta1"
 group :production do
   gem "ddtrace", require: "ddtrace/auto_instrument"
   gem "execjs"
