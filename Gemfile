@@ -85,9 +85,8 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails"
 end
-
+gem 'net-ssh', '7.0.0.beta1'
 group :production do
   gem "ddtrace", require: "ddtrace/auto_instrument"
   gem "execjs"
-  gem "therubyracer"
 end
