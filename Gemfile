@@ -86,6 +86,9 @@ group :development, :test do
   gem "rspec-rails"
 end
 gem 'net-ssh', '7.0.0.beta1'
+gem 'net-smtp'
+gem 'net-imap'
+gem 'net-pop'
 group :production do
   gem "ddtrace", require: "ddtrace/auto_instrument"
   gem "execjs"
