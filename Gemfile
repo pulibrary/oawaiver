@@ -3,7 +3,6 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "activerecord-pedantmysql2-adapter"
 gem "bundler", "~> 2.1"
 gem "devise"
 
@@ -27,7 +26,6 @@ gem "mail"
 
 # Modernizr
 gem "modernizr-rails"
-gem "mysql2"
 gem "omniauth-cas"
 gem "pg"
 gem "progress_bar"
@@ -49,7 +47,7 @@ gem "sunspot_solr", github: "sunspot/sunspot", glob: "sunspot_solr/*.gemspec", r
 
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem "turbolinks"
-gem "webpacker"
+gem "vite_rails"
 gem "will_paginate", "~> 3.3"
 
 group :assets do
@@ -69,6 +67,8 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-passenger"
   gem "capistrano-rails"
+
+  gem "thin"
 end
 
 group :test do
@@ -87,9 +87,11 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails"
 end
-
+gem "net-imap"
+gem "net-pop"
+gem "net-smtp"
+gem "net-ssh", "7.0.0.beta1"
 group :production do
   gem "ddtrace", require: "ddtrace/auto_instrument"
   gem "execjs"
-  gem "therubyracer"
 end
