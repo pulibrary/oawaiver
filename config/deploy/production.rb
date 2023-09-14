@@ -8,4 +8,5 @@ set :rails_env, "production"
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server "oawaiver-prod1.princeton.edu", user: "deploy", roles: %w[app db web]
+# server "oawaiver-prod1.princeton.edu", user: "deploy", roles: %w[app db web]
+server "oawaiver-prod2.princeton.edu", user: "deploy", roles: %w[app db web]
