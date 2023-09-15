@@ -60,6 +60,9 @@ $ bundle exec cap staging deploy
 
 To create a tagged release use the [steps in the RDSS handbook](https://github.com/pulibrary/rdss-handbook/blob/main/release_process.md)
 
+### Staging Mail
+Please note that mail will not be delivered on the stagig server.  This is expected behavior.
+
 ## Administration
 ### Importing from MySQL
 
