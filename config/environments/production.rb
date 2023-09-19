@@ -25,8 +25,7 @@ Rails.application.configure do
   config.serve_static_files = false
 
   # Compress JavaScripts and CSS.
-  config.assets.js_compressor = :uglifier
-  # config.assets.css_compressor = :sass
+  config.assets.css_compressor = :sass
 
   # Do not fallback to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
@@ -83,9 +82,12 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
+  action_mailer_host = ENV['SMTP_HOST'] || 'lib-ponyexpr.princeton.edu'
+  action_mailer_port = ENV['SMTP_PORT'] || 25
+
   config.action_mailer.smtp_settings = {
-    address: "#{ENV['SMTP_HOST'] || 'lib-ponyexpr.princeton.edu' }",
-    port: (ENV['SMTP_PORT'] || 25).to_i
+    address: action_mailer_host,
+    port: action_mailer_port.to_i
   }
   config.action_mailer.default_options = {
     from: 'no-reply@princeton.edu'

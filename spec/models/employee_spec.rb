@@ -147,16 +147,14 @@ RSpec.describe Employee, type: :model do
   end
 
   it("load excel file: spec/data/employee_2.csv") do
-    logger = Lumberjack::Logger.new(STDOUT, { level: :info })
-    result = described_class.loadCsv("spec/data/employee_2.csv", logger)
+    result = described_class.loadCsv("spec/data/employee_2.csv", Rails.logger)
     expect(result[:loaded]).to eq(2)
     expect(result[:skipped]).to eq(1)
     expect(result[:failed].empty?).to eq(true)
   end
 
   it("load excel file: spec/data/employee_3_9_errors.csv") do
-    logger = Lumberjack::Logger.new(STDOUT, { level: :info })
-    result = described_class.loadCsv("spec/data/employee_3_9_errors.csv", logger)
+    result = described_class.loadCsv("spec/data/employee_3_9_errors.csv", Rails.logger)
     expect(result[:loaded]).to eq(3)
     expect(result[:skipped]).to eq(1)
     expect(result[:failed].keys.count).to eq(9)
