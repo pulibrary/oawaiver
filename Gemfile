@@ -5,8 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bundler", "~> 2.1"
 
-# Rails 6.0.6 releases are supported
-gem "rails", "~> 6.0.6", "< 6.1"
+# Rails 6.1.7 releases are supported
+gem "rails", "~> 6.1.7", "< 7"
 
 # YAML support
 gem "psych", "~> 3.3", "< 4"
