@@ -22,8 +22,8 @@ gem "rack-contrib"
 gem "mail"
 
 # Integration the clients for the Apache Solr API
-gem "sunspot_rails", github: "sunspot/sunspot", glob: "sunspot_rails/*.gemspec", ref: "6cddd9f"
-gem "sunspot_solr", github: "sunspot/sunspot", glob: "sunspot_solr/*.gemspec", ref: "6cddd9f"
+gem "sunspot_rails", "~> 2.6"
+gem "sunspot_solr", "~> 2.6"
 
 # Pagination for Solr search results
 gem "kaminari"

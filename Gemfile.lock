@@ -1,21 +1,3 @@
-GIT
-  remote: https://github.com/sunspot/sunspot.git
-  revision: 6cddd9f53e3eb311ee1875435b91071ceae292ce
-  ref: 6cddd9f
-  glob: sunspot_rails/*.gemspec
-  specs:
-    sunspot_rails (2.5.0)
-      rails (>= 3)
-      sunspot (= 2.5.0)
-
-GIT
-  remote: https://github.com/sunspot/sunspot.git
-  revision: 6cddd9f53e3eb311ee1875435b91071ceae292ce
-  ref: 6cddd9f
-  glob: sunspot_solr/*.gemspec
-  specs:
-    sunspot_solr (2.5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -79,6 +61,7 @@ GEM
     airbrussh (1.4.0)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.2)
+    base64 (0.1.1)
     bcrypt (3.1.17)
     better_errors (2.9.1)
       coderay (>= 1.0.0)
@@ -166,10 +149,11 @@ GEM
       railties (>= 5.0.0)
     faker (2.20.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.2.0)
-      faraday-net_http (~> 2.0)
+    faraday (2.7.11)
+      base64
+      faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
-    faraday-net_http (2.0.2)
+    faraday-net_http (3.0.2)
     ffi (1.15.5)
     formatador (1.1.0)
     globalid (1.0.1)
@@ -431,9 +415,13 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
-    sunspot (2.5.0)
+    sunspot (2.6.0)
       pr_geohash (~> 1.0)
       rsolr (>= 1.1.1, < 3)
+    sunspot_rails (2.6.0)
+      rails (>= 3)
+      sunspot (= 2.6.0)
+    sunspot_solr (2.6.0)
     thin (1.8.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -514,8 +502,8 @@ DEPENDENCIES
   sass-rails (~> 5.1)
   sdoc (~> 1.1)
   sprockets (~> 3.0)
-  sunspot_rails!
-  sunspot_solr!
+  sunspot_rails (~> 2.6)
+  sunspot_solr (~> 2.6)
   thin
   vite_rails
   will_paginate (~> 3.3)
