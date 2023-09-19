@@ -7,13 +7,6 @@ services:
       user: oawaiver
       password: oawaiver
       database: oawaiver
-  oawaiver_database_mysql:
-    type: mariadb:10.5
-    portforward: true
-    creds:
-      user: oawaiver
-      password: oawaiver
-      database: oawaiver
   oawaiver_development_solr:
     type: solr:8.4
     portforward: true

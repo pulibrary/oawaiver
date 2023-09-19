@@ -11,7 +11,6 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 - Bundler 2.3.11
 
 ```bash
-$ bundle config --local build.mysql2 "--with-ldflags=-L$(brew --prefix openssl)/lib"
 $ bundle install
 ```
 
@@ -26,25 +25,13 @@ Start and initialize database services with `rake servers:start`
 
 To stop database services: `rake servers:stop` or `lando stop`
 
-#### MariaDB/MySQL
-
-Or, for running MySQL locally, please install the following:
-- MariaDB (10.6)/MySQL (8.0)
-
-```bash
-$ brew install mariadb
-$ brew services start mariadb
-$ sudo mysql_upgrade
-$ sudo mariadb-secure-installation
-```
-
 #### Running the Application
 
 ```bash
 $ bundle exec rails server
 ```
 
-Then, please access the application using http://localhost:3000/
+Then, please access the application using [http://localhost:3000/](http://localhost:3000/)
 
 ### Running the Test Suites
 ```bash
@@ -61,29 +48,6 @@ $ bundle exec cap staging deploy
 To create a tagged release use the [steps in the RDSS handbook](https://github.com/pulibrary/rdss-handbook/blob/main/release_process.md)
 
 ## Administration
-### Importing from MySQL
-
-Please request the URL for the last database export from the MySQL database, and assuming that this is downloaded to `$HOME/Downloads/oawaiver_export.mysql.sql`, then invoke the following:
-
-```bash
-$ cp $HOME/Downloads/oawaiver_export.mysql.sql .
-$ bundle exec rake oawaiver:mysql:import[oawaiver_export.mysql.sql]
-$ bundle exec rake oawaiver:mysql:migrate
-```
-
-Then, for the export process (assuming that the environment variable`RAILS_ENV` is set to `staging` or `production`), please invoke:
-
-```bash
-$ bundle exec rake oawaiver:postgresql:export[oawaiver_export.psql.sql]
-$ bundle exec cap $RAILS_ENV oawaiver:postgresql:copy[oawaiver_export.psql.sql]
-```
-
-For the import process, then invoke:
-
-```bash
-$ bundle exec cap $RAILS_ENV oawaiver:postgresql:import[oawaiver_export.psql.sql]
-```
-
 ### Solr Indexing
 
 In order to reindex the data models into the Solr Collection, please invoke the following:
@@ -96,14 +60,6 @@ For reindexing on the remote server environments, please invoke:
 
 ```bash
 $ bundle exec cap $RAILS_ENV oawaiver:solr:reindex
-```
-
-Please request the URL for the last database export from the MySQL database, and assuming that this is downloaded to `$HOME/Downloads/oawaiver_export.mysql.sql`, then invoke the following:
-
-```bash
-$ cp $HOME/Downloads/oawaiver_export.mysql.sql .
-$ bundle exec rake oawaiver:mysql:import[oawaiver_export.mysql.sql]
-$ bundle exec rake oawaiver:mysql:migrate
 ```
 
 ### Managing Roles for User Accounts
