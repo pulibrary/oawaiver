@@ -5,8 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bundler", "~> 2.1"
 
-# Rails 6.0.4 releases are supported
-gem "rails", "~> 6.0.4", "< 6.1"
+# Rails 6.1.7 releases are supported
+gem "rails", "~> 6.1.7", "< 7"
 
 # YAML support
 gem "psych", "~> 3.3", "< 4"
@@ -47,7 +47,7 @@ group :assets do
   # Support for asset compilation
   gem "sprockets", "~> 3.0"
   # Integration for Vite in the Rails asset pipeline
-  gem "vite_rails"
+  gem "vite_rails", "~> 3.0", ">= 3.0.15"
 end
 
 group :doc do
