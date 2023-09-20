@@ -7,7 +7,7 @@ require_relative "lando_env"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(*Rails.groups)
+Bundler.require(:assets, :doc, :json_api, :net, :rake, *Rails.groups)
 
 module Waiver
   VERSION = "0.0.1"

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "json"
 
 RSpec.describe ApplicationController, type: :controller do
   let(:admin_user) { FactoryBot.create(:admin_user) }

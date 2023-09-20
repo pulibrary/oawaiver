@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "json"
 
 RSpec.describe WaiverInfosController, type: :controller do
   let(:waiver) { FactoryBot.create(:waiver_info, requester: requester) }

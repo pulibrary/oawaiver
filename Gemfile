@@ -4,59 +4,81 @@ source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bundler", "~> 2.1"
-gem "devise"
 
-# JSON API with documentation
-gem "grape", "~> 1.5"
-gem "grape-entity", "~> 0.9"
-gem "grape-swagger", "~> 1.4"
-gem "grape-swagger-rails", "~> 0.3"
+# Rails 6.0.4 releases are supported
+gem "rails", "~> 6.0.4", "< 6.1"
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem "jbuilder", "~> 2.0"
-
-# Use jquery as the JavaScript library
-gem "jquery-rails"
-gem "json", ">= 2.3.0"
-gem "kaminari"
-
-# rake tasks
-gem "lumberjack"
-gem "mail"
-
-# Modernizr
-gem "modernizr-rails"
-gem "omniauth-cas"
-gem "pg"
-gem "progress_bar"
+# YAML support
 gem "psych", "~> 3.3", "< 4"
+
+# PostgreSQL support
+gem "pg"
+
+# Rack support
 gem "rack", "~> 2.2"
 gem "rack-contrib"
-gem "rails", "~> 6.0.4", "< 6.1"
-gem "responders", "~> 3.0"
 
-# read xls files
-gem "roo", "~> 1.13.2"
+# DSL for composing and sending e-mail messages
+gem "mail"
 
-# bundle exec rake doc:rails generates the API under doc/api.
-gem "sdoc", "~> 1.1", group: :doc
-gem "sprockets", "~> 3.0"
-
+# Integration the clients for the Apache Solr API
 gem "sunspot_rails", github: "sunspot/sunspot", glob: "sunspot_rails/*.gemspec", ref: "6cddd9f"
 gem "sunspot_solr", github: "sunspot/sunspot", glob: "sunspot_solr/*.gemspec", ref: "6cddd9f"
 
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem "turbolinks"
-gem "vite_rails"
+# Pagination for Solr search results
+gem "kaminari"
 gem "will_paginate", "~> 3.3"
 
+# Rails Controller patterns for HTTP responses
+gem "responders", "~> 3.0"
+
+# Single-Sign On support
+gem "devise"
+gem "omniauth-cas"
+
 group :assets do
-  # Use CoffeeScript for .js.coffee assets and views
-  gem "coffee-rails", "~> 5.0"
+  # jQuery support
+  gem "jquery-rails"
+  # Modernizr
+  gem "modernizr-rails"
   # Use SCSS for stylesheets
   gem "sass-rails", "~> 5.1"
-  # Use Uglifier as compressor for JavaScript assets
-  gem "uglifier", ">= 1.3.0"
+  # @todo Audit
+  # Support for asset compilation
+  gem "sprockets", "~> 3.0"
+  # Integration for Vite in the Rails asset pipeline
+  gem "vite_rails"
+end
+
+group :doc do
+  # This is used to generate the JSON API documentation
+  # `bundle exec rake doc:rails` generates the API under doc/api.
+  gem "sdoc", "~> 1.1", group: :doc
+end
+
+group :json_api do
+  # JSON API with documentation
+  gem "grape", "~> 1.5"
+  gem "grape-entity", "~> 0.9"
+  gem "grape-swagger", "~> 1.4"
+  gem "grape-swagger-rails", "~> 0.3"
+
+  # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+  gem "jbuilder", "~> 2.0"
+end
+
+group :net do
+  gem "net-imap"
+  gem "net-pop"
+  gem "net-smtp"
+  gem "net-ssh", "7.0.0.beta1"
+end
+
+group :rake do
+  # Rake Task dependencies
+  gem "progress_bar"
+  ## Used to XLSX files
+  gem "roo", "~> 1.13.2"
 end
 
 group :development do
@@ -67,7 +89,8 @@ group :development do
   gem "capistrano-bundler"
   gem "capistrano-passenger"
   gem "capistrano-rails"
-
+  gem "pry-byebug"
+  # This is required for `rails server`
   gem "thin"
 end
 
@@ -76,22 +99,19 @@ group :test do
   gem "faker"
   gem "guard-rspec"
   gem "launchy"
-  gem "sqlite3"
 end
 
 group :development, :test do
   gem "bixby"
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"
-  gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails"
 end
-gem "net-imap"
-gem "net-pop"
-gem "net-smtp"
-gem "net-ssh", "7.0.0.beta1"
+
 group :production do
   gem "ddtrace", require: "ddtrace/auto_instrument"
+  # This may or may not be required for compiling JavaScript assets
+  # Removing this may break production deployments
   gem "execjs"
 end

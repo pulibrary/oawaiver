@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "optparse"
-require "lumberjack"
 
 namespace :report do
   desc "List recent waiver requests"
