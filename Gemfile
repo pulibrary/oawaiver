@@ -5,8 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bundler", "~> 2.1"
 
-# Rails 6.0.4 releases are supported
-gem "rails", "~> 6.0.4", "< 6.1"
+# Rails 6.1.7 releases are supported
+gem "rails", "~> 6.1.7", "< 7"
 
 # YAML support
 gem "psych", "~> 3.3", "< 4"
@@ -22,8 +22,8 @@ gem "rack-contrib"
 gem "mail"
 
 # Integration the clients for the Apache Solr API
-gem "sunspot_rails", github: "sunspot/sunspot", glob: "sunspot_rails/*.gemspec", ref: "6cddd9f"
-gem "sunspot_solr", github: "sunspot/sunspot", glob: "sunspot_solr/*.gemspec", ref: "6cddd9f"
+gem "sunspot_rails", "~> 2.6"
+gem "sunspot_solr", "~> 2.6"
 
 # Pagination for Solr search results
 gem "kaminari"
@@ -47,7 +47,7 @@ group :assets do
   # Support for asset compilation
   gem "sprockets", "~> 3.0"
   # Integration for Vite in the Rails asset pipeline
-  gem "vite_rails"
+  gem "vite_rails", "~> 3.0", ">= 3.0.15"
 end
 
 group :doc do
