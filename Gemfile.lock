@@ -505,7 +505,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.1)
   sdoc (~> 1.1)
-  sprockets (~> 3.0)
   sunspot_rails (~> 2.6)
   sunspot_solr (~> 2.6)
   thin
