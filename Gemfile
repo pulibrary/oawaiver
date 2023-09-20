@@ -39,8 +39,6 @@ gem "omniauth-cas"
 group :assets do
   # jQuery support
   gem "jquery-rails"
-  # Modernizr
-  gem "modernizr-rails"
   # Use SCSS for stylesheets
   gem "sass-rails", "~> 5.1"
   # Integration for Vite in the Rails asset pipeline
