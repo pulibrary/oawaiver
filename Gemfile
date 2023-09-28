@@ -39,13 +39,8 @@ gem "omniauth-cas"
 group :assets do
   # jQuery support
   gem "jquery-rails"
-  # Modernizr
-  gem "modernizr-rails"
   # Use SCSS for stylesheets
   gem "sass-rails", "~> 5.1"
-  # @todo Audit
-  # Support for asset compilation
-  gem "sprockets", "~> 3.0"
   # Integration for Vite in the Rails asset pipeline
   gem "vite_rails", "~> 3.0", ">= 3.0.15"
 end
@@ -84,11 +79,12 @@ end
 group :development do
   gem "better_errors"
   gem "binding_of_caller"
-  # Use Capistrano
+  # For integrating Capistrano
   gem "capistrano"
   gem "capistrano-bundler"
   gem "capistrano-passenger"
   gem "capistrano-rails"
+  # For debugging
   gem "pry-byebug"
   # This is required for `rails server`
   gem "thin"

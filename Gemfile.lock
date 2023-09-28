@@ -235,7 +235,6 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.20.0)
-    modernizr-rails (2.7.1)
     msgpack (1.5.1)
     multi_json (1.15.0)
     mustermann (1.1.1)
@@ -486,7 +485,6 @@ DEPENDENCIES
   kaminari
   launchy
   mail
-  modernizr-rails
   net-imap
   net-pop
   net-smtp
@@ -505,7 +503,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails (~> 5.1)
   sdoc (~> 1.1)
-  sprockets (~> 3.0)
   sunspot_rails (~> 2.6)
   sunspot_solr (~> 2.6)
   thin
