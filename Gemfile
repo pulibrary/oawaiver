@@ -107,7 +107,4 @@ end
 
 group :production do
   gem "ddtrace", require: "ddtrace/auto_instrument"
-  # This may or may not be required for compiling JavaScript assets
-  # Removing this may break production deployments
-  gem "execjs"
 end
