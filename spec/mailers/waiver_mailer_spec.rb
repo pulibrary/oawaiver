@@ -34,7 +34,7 @@ describe WaiverMailer, type: :mailer do
     it "renders the body" do
       expect(waiver_mail.body.encoded).to include("To whom it may concern:")
       expect(waiver_mail.body.encoded).to include("'Some Title' in Some Journal")
-      expect(waiver_mail.body.encoded).to include("Deborah Prentice")
+      expect(waiver_mail.body.encoded).to include("Jennifer Rexford")
     end
   end
 end
