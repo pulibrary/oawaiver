@@ -12,13 +12,13 @@
   </div>
   <div class="section-content actions">
     <form accept-charset="UTF-8" action="<%= new_waiver_info_path %>" method="get">
-      <div style="display:none">
+      <div class="section-content__waiver" >
         <input name="utf8" type="hidden" value="&#x2713;" />
       </div>
       <input name="commit" type="submit" value="Request a New Waiver" class="btn btn-cta" />
     </form>
     <form accept-charset="UTF-8" action="<%= mine_waiver_infos_path %>" class="actions" method="get">
-      <div style="display:none">
+      <div class="section-content__waiver" >
         <input name="utf8" type="hidden" value="&#x2713;" />
       </div>
       <input name="commit" type="submit" value="Review Prior Waiver Requests" class="btn btn-cta" />

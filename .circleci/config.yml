@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   ruby-release:
     type: string
-    default: "3.1.3"
+    default: "3.2"
   bundler-release:
     type: string
     default: "2.3.22"
@@ -137,10 +137,15 @@ jobs:
           name: Wait for Solr
           command: dockerize -wait tcp://localhost:8983 -timeout 1m
       - setup-solr
-
       - run:
           name: Execute the test suites using RSpec
-          command: bundle exec rspec
+          command: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN bundle exec rspec spec
+      - store_artifacts:
+          path:
+            ~/oawaiver/coverage
+            ~/oawaiver/tmp/capybara
+            ~/oawaiver/tmp/screenshots
+
 
 workflows:
   ci:

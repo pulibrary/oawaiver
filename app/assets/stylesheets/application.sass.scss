@@ -1,0 +1,103 @@
+// Entry point for your Sass build
+
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
+ * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any styles
+ * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
+ * file per style scope.
+ *
+ *= require dspace_theme
+ *= require_tree .
+ *= require_self
+ */
+
+@import './modules/navbar';
+
+.admin_actions {
+  display: none;
+}
+
+.admin .admin_actions {
+  display: inline;
+}
+
+@media (min-width: 768px) {
+  .navbar-collapse.collapse {
+    float: left;
+    width: calc(100% - 215px);
+  }
+}
+
+$logo-height: 35px; // large = 50px; small = 35px;
+
+.section-content {
+  &__waiver {
+    display:none;
+  }
+}
+
+.branding {
+  // background-color: $gray-darkest;
+  // border-top: 5px solid $orange;
+  min-height: $logo-height;
+
+  h2 {
+    margin: 0;
+  }
+
+  .site-name {
+    display: none;
+  }
+}
+
+.site-logo {
+  display: inline-block;
+  height: $logo-height;
+
+  &:hover {
+    background: none;
+  }
+
+  .logo-no-svg,
+  .logo-svg {
+    // @include vertical-align;
+
+    height: ($logo-height / 1.7);
+    width: auto;
+  }
+}
+
+// SVG capable browser
+.svg {
+  .site-logo .logo-no-svg {
+    display: none;
+  }
+}
+
+// PNG fallback for older browsers
+.no-svg {
+  .site-logo .logo.svg {
+    display: none;
+  }
+}
+
+
+// show env_marker unless in production
+.env_marker {
+  display: block;
+}
+
+.rails_production .env_marker {
+  display: none;
+}
+
+.deployment-version {
+  color: gray;
+  float: right;
+}
