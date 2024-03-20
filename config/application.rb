@@ -10,7 +10,7 @@ require_relative "lando_env"
 Bundler.require(:assets, :doc, :json_api, :net, :rake, *Rails.groups)
 
 module Waiver
-  VERSION = "0.0.1"
+  VERSION = "1.0.0"
 
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

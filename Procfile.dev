@@ -1,3 +1,5 @@
 
 vite: bin/vite dev
-web: bin/rails s
+web: bin/rails s --port=3000
+css: yarn build:css --watch
+css: bin/rails dartsass:watch

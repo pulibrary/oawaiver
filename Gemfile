@@ -6,7 +6,16 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem "bundler", "~> 2.1"
 
 # Rails 6.1.7 releases are supported
-gem "rails", "~> 6.1.7", "< 7"
+gem "actionpack", "~> 6.1.7.7", "< 7"
+gem "actionview", "~> 6.1.7.7", "< 7"
+gem "activemodel", "~> 6.1.7.7", "< 7"
+gem "activerecord", "~> 6.1.7.7", "< 7"
+gem "activesupport", "~> 6.1.7.7", "< 7"
+gem "rails", "~> 6.1.7.7", "< 7"
+gem "railties", "~> 6.1.7.7", "< 7"
+
+# Use Puma as the app server
+gem "puma", "~> 5.6"
 
 # YAML support
 gem "psych", "~> 3.3", "< 4"
@@ -26,23 +35,26 @@ gem "sunspot_rails", "~> 2.6"
 gem "sunspot_solr", "~> 2.6"
 
 # Pagination for Solr search results
-gem "kaminari"
+gem "kaminari", "~> 1.2"
 gem "will_paginate", "~> 3.3"
 
-# Rails Controller patterns for HTTP responses
-gem "responders", "~> 3.0"
-
 # Single-Sign On support
-gem "devise"
+gem "devise", "~> 4.9"
 gem "omniauth-cas"
 
+# Datadog Metrics
+gem "ddtrace", "~> 1.21", require: "ddtrace/auto_instrument"
+
 group :assets do
+  gem "dartsass-rails", "~> 0.5"
   # jQuery support
-  gem "jquery-rails"
+  gem "jquery-rails", "~> 4.5"
   # Use SCSS for stylesheets
-  gem "sass-rails", "~> 5.1"
   # Integration for Vite in the Rails asset pipeline
-  gem "vite_rails", "~> 3.0", ">= 3.0.15"
+  gem "vite_rails", "~> 3.0"
+  # This must be removed, however, there are breaking changes which could not be isolated.
+  # Please see https://github.com/rails/dartsass-rails/issues/37 for a likely-related error.
+  gem "sassc"
 end
 
 group :doc do
@@ -56,7 +68,7 @@ group :json_api do
   gem "grape", "~> 1.5"
   gem "grape-entity", "~> 0.9"
   gem "grape-swagger", "~> 1.4"
-  gem "grape-swagger-rails", "~> 0.3"
+  gem "grape-swagger-rails", "~> 0.4"
 
   # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
   gem "jbuilder", "~> 2.0"
@@ -77,17 +89,9 @@ group :rake do
 end
 
 group :development do
-  gem "better_errors"
-  gem "binding_of_caller"
-  # For integrating Capistrano
-  gem "capistrano"
-  gem "capistrano-bundler"
-  gem "capistrano-passenger"
-  gem "capistrano-rails"
-  # For debugging
-  gem "pry-byebug"
-  # This is required for `rails server`
-  gem "thin"
+  gem "capistrano", "~> 3.10", require: false
+  gem "capistrano-passenger", require: false
+  gem "capistrano-rails", "~> 1.4", require: false
 end
 
 group :test do
@@ -99,12 +103,11 @@ end
 
 group :development, :test do
   gem "bixby"
-  gem "database_cleaner-active_record"
-  gem "factory_bot_rails"
+  gem "coveralls_reborn"
+  gem "database_cleaner-active_record", "~> 2.1"
+  gem "factory_bot_rails", "~> 6.3"
+  gem "foreman", "~> 0.87"
+  gem "pry", "~> 0.14"
   gem "rails-controller-testing"
-  gem "rspec-rails"
-end
-
-group :production do
-  gem "ddtrace", require: "ddtrace/auto_instrument"
+  gem "rspec-rails", "5.1"
 end
