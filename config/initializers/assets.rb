@@ -10,5 +10,5 @@ Rails.application.config.assets.version = "1.0"
 # Rails.application.config.assets.precompile += %w( search.js )
 # Rails.application.config.assets.precompile += %w( application.css )
 Rails.application.config.dartsass.builds = {
-  "application.sass.scss" => "application.css"
+  "application.scss" => "application.css"
 }
