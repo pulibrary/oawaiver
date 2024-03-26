@@ -4,16 +4,14 @@ set :application, "oawaiver"
 set :repo_url, "https://github.com/pulibrary/oawaiver.git"
 
 # This will keep deploys from hubot-deploy working as expected
-def set_branch
-  branch = ENV["BRANCH"] || "main"
-  return branch unless branch == "master"
-  "main"
-end
-set :branch, set_branch
+branch = ENV["BRANCH"] || "main"
+set :branch, branch
 
 # Default deploy_to directory is /var/www/my_app
-# set :deploy_to, '/var/www/my_app'
 set :deploy_to, "/opt/oawaiver"
+
+Rake::Task["deploy:assets:backup_manifest"].clear_actions
+Rake::Task["deploy:assets:restore_manifest"].clear_actions
 
 # Default value for :format is :pretty
 # set :format, :pretty
@@ -29,8 +27,7 @@ set :deploy_to, "/opt/oawaiver"
 
 # Default value for linked_dirs is []
 # set :linked_dirs, []
-set :linked_dirs, fetch(:linked_dirs, []).push("log",
-                                               "vendor/bundle")
+set :linked_dirs, fetch(:linked_dirs, []).push("log", "vendor/bundle")
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -41,13 +38,14 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log",
 set :passenger_restart_with_touch, true
 
 namespace :deploy do
-  desc "Run yarn install"
-  task :yarn_install do
+  desc "Build CSS from Sass using Yarn"
+  task :yarn_build_css do
     on roles(:web) do
       within release_path do
-        execute("cd #{release_path} && yarn install")
+        execute("cd #{release_path} && yarn build:css && bundle exec rails dartsass:build")
       end
     end
   end
 end
-before "deploy:assets:precompile", "deploy:yarn_install"
+
+# before "deploy:assets:precompile", "deploy:yarn_build_css"

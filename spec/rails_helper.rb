@@ -5,12 +5,22 @@ ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../config/environment", __dir__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+# Add additional requires below this line. Rails is not loaded until this point!
 
 require "spec_helper"
 require "rspec/rails"
 require "devise"
 require "database_cleaner/active_record"
-# Add additional requires below this line. Rails is not loaded until this point!
+require "coveralls"
+require "simplecov"
+
+Coveralls.wear!("rails")
+SimpleCov.start "rails" do
+  formatter SimpleCov::Formatter::MultiFormatter.new([
+                                                       SimpleCov::Formatter::SimpleFormatter,
+                                                       SimpleCov::Formatter::HTMLFormatter
+                                                     ])
+end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
