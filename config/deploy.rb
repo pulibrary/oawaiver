@@ -48,4 +48,4 @@ namespace :deploy do
   end
 end
 
-after "deploy:assets:precompile", "deploy:yarn_build_css"
+# before "deploy:assets:precompile", "deploy:yarn_build_css"
