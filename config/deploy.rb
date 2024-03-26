@@ -38,14 +38,14 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log", "vendor/bundle")
 set :passenger_restart_with_touch, true
 
 namespace :deploy do
-  desc "Run yarn install"
-  task :yarn_install do
+  desc "Build CSS from Sass using Yarn"
+  task :yarn_build_css do
     on roles(:web) do
       within release_path do
-        execute("cd #{release_path} && yarn install && yarn build:css")
+        execute("cd #{release_path} && yarn build:css && rails dartsass:build")
       end
     end
   end
 end
 
-after "deploy:assets:precompile", "deploy:yarn_install"
+after "deploy:assets:precompile", "deploy:yarn_build_css"
