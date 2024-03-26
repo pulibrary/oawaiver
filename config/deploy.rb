@@ -42,7 +42,7 @@ namespace :deploy do
   task :yarn_build_css do
     on roles(:web) do
       within release_path do
-        execute("cd #{release_path} && yarn build:css && rails dartsass:build")
+        execute("cd #{release_path} && yarn build:css && bundle exec rails dartsass:build")
       end
     end
   end
