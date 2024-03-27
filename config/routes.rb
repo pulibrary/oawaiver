@@ -97,8 +97,8 @@ Rails.application.routes.draw do
   get "employees/get/:unique_id", to: "employees#get_uniqueId", as: "uniqueId_employee"
 
   # API+API Documentation
-  mount API::Base => "/api"
-  mount GrapeSwaggerRails::Engine => "/apidoc"
+  # mount API::Base => "/api"
+  # mount GrapeSwaggerRails::Engine => "/apidoc"
 
   unless Rails.env.development?
     # when not doing development, simply route any unrecognized get or post to start

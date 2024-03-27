@@ -5,14 +5,14 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bundler", "~> 2.1"
 
-# Rails 6.1.7 releases are supported
-gem "actionpack", "~> 6.1.7.7", "< 7"
-gem "actionview", "~> 6.1.7.7", "< 7"
-gem "activemodel", "~> 6.1.7.7", "< 7"
-gem "activerecord", "~> 6.1.7.7", "< 7"
-gem "activesupport", "~> 6.1.7.7", "< 7"
-gem "rails", "~> 6.1.7.7", "< 7"
-gem "railties", "~> 6.1.7.7", "< 7"
+gem "actionpack", "~> 7.0.0", "< 7.1.0"
+gem "actionview", "~> 7.0.0", "< 7.1.0"
+gem "activemodel", "~> 7.0.0", "< 7.1.0"
+gem "activerecord", "~> 7.0.0", "< 7.1.0"
+gem "activesupport", "~> 7.0.0", "< 7.1.0"
+gem "propshaft", "~> 0.8"
+gem "rails", "~> 7.0.0", "< 7.1.0"
+gem "railties", "~> 7.0.0", "< 7.1.0"
 
 # Use Puma as the app server
 gem "puma", "~> 5.6"
@@ -45,48 +45,38 @@ gem "omniauth-cas"
 # Datadog Metrics
 gem "ddtrace", "~> 1.21", require: "ddtrace/auto_instrument"
 
-group :assets do
-  gem "dartsass-rails", "~> 0.5"
-  # jQuery support
-  gem "jquery-rails", "~> 4.5"
-  # Use SCSS for stylesheets
-  # Integration for Vite in the Rails asset pipeline
-  gem "vite_rails", "~> 3.0"
-  # This must be removed, however, there are breaking changes which could not be isolated.
-  # Please see https://github.com/rails/dartsass-rails/issues/37 for a likely-related error.
-  gem "sassc"
-end
+gem "dartsass-rails", "~> 0.5"
+# jQuery support
+gem "jquery-rails", "~> 4.5"
+# Use SCSS for stylesheets
+# Integration for Vite in the Rails asset pipeline
+gem "vite_rails", "~> 3.0"
+# This must be removed, however, there are breaking changes which could not be isolated.
+# Please see https://github.com/rails/dartsass-rails/issues/37 for a likely-related error.
+gem "sassc"
 
-group :doc do
-  # This is used to generate the JSON API documentation
-  # `bundle exec rake doc:rails` generates the API under doc/api.
-  gem "sdoc", "~> 1.1", group: :doc
-end
+# This is used to generate the JSON API documentation
+# `bundle exec rake doc:rails` generates the API under doc/api.
+gem "sdoc", "~> 1.1", group: :doc
 
-group :json_api do
-  # JSON API with documentation
-  gem "grape", "~> 1.5"
-  gem "grape-entity", "~> 0.9"
-  gem "grape-swagger", "~> 1.4"
-  gem "grape-swagger-rails", "~> 0.4"
+# JSON API with documentation
+gem "grape", "~> 1.8"
+gem "grape-entity", "~> 0.9"
+gem "grape-swagger", "~> 1.4"
+gem "grape-swagger-rails", "~> 0.4"
 
-  # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-  gem "jbuilder", "~> 2.0"
-end
+# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+gem "jbuilder", "~> 2.0"
 
-group :net do
-  gem "net-imap"
-  gem "net-pop"
-  gem "net-smtp"
-  gem "net-ssh", "7.0.0.beta1"
-end
+gem "net-imap"
+gem "net-pop"
+gem "net-smtp"
+gem "net-ssh", "7.0.0.beta1"
 
-group :rake do
-  # Rake Task dependencies
-  gem "progress_bar"
-  ## Used to XLSX files
-  gem "roo", "~> 1.13.2"
-end
+# Rake Task dependencies
+gem "progress_bar"
+## Used to XLSX files
+gem "roo", "~> 1.13.2"
 
 group :development do
   gem "capistrano", "~> 3.10", require: false
