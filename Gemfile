@@ -63,16 +63,6 @@ group :doc do
   gem "sdoc", "~> 1.1", group: :doc
 end
 
-group :json_api do
-  # JSON API with documentation
-  gem "grape", "~> 1.5"
-  gem "grape-entity", "~> 0.9"
-  gem "grape-swagger", "~> 1.4"
-  gem "grape-swagger-rails", "~> 0.4"
-
-  # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-  gem "jbuilder", "~> 2.0"
-end
 
 group :net do
   gem "net-imap"
