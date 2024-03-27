@@ -6,13 +6,22 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 gem "bundler", "~> 2.1"
 
 # Rails 6.1.7 releases are supported
-gem "actionpack", "~> 6.1.7.7", "< 7"
-gem "actionview", "~> 6.1.7.7", "< 7"
-gem "activemodel", "~> 6.1.7.7", "< 7"
-gem "activerecord", "~> 6.1.7.7", "< 7"
-gem "activesupport", "~> 6.1.7.7", "< 7"
-gem "rails", "~> 6.1.7.7", "< 7"
-gem "railties", "~> 6.1.7.7", "< 7"
+#gem "actionpack", "~> 6.1.7.7", "< 7"
+#gem "actionview", "~> 6.1.7.7", "< 7"
+#gem "activemodel", "~> 6.1.7.7", "< 7"
+#gem "activerecord", "~> 6.1.7.7", "< 7"
+#gem "activesupport", "~> 6.1.7.7", "< 7"
+##gem "rails", "~> 6.1.7.7", "< 7"
+#gem "railties", "~> 6.1.7.7", "< 7"
+
+gem "activemodel", "~> 7.0.0", "< 7.1.0"
+gem "activerecord", "~> 7.0.0", "< 7.1.0"
+gem "railties", "~> 7.0.0", "< 7.1.0"
+gem "actionview", "~> 7.0.0", "< 7.1.0"
+gem "activesupport", "~> 7.0.0", "< 7.1.0"
+gem "actionpack", "~> 7.0.0", "< 7.1.0"
+gem "rails", "~> 7.0.0", "< 7.1.0"
+gem "propshaft", "~> 0.8"
 
 # Use Puma as the app server
 gem "puma", "~> 5.6"
@@ -63,6 +72,16 @@ group :doc do
   gem "sdoc", "~> 1.1", group: :doc
 end
 
+group :json_api do
+  # JSON API with documentation
+  gem "grape", "~> 1.5"
+  gem "grape-entity", "~> 0.9"
+  gem "grape-swagger", "~> 1.4"
+  gem "grape-swagger-rails", "~> 0.4"
+
+  # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
+  gem "jbuilder", "~> 2.0"
+end
 
 group :net do
   gem "net-imap"

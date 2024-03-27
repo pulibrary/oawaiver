@@ -7,7 +7,7 @@ require_relative "lando_env"
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
-Bundler.require(:assets, :doc, :json_api, :net, :rake, *Rails.groups)
+Bundler.require(*Rails.groups)
 
 module Waiver
   VERSION = "1.0.0"
@@ -15,6 +15,7 @@ module Waiver
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
+    config.load_defaults 5.0
     # -- all .rb files in that directory are automatically loaded.
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
@@ -23,7 +24,9 @@ module Waiver
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
+    config.time_zone = "Eastern Time (US & Canada)"
+    config.i18n.default_locale = :en
+    # config.eager_load_paths << Rails.root.join("extras")
 
     config.generators do |g|
       g.test_framework :rspec,
