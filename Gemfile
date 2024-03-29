@@ -3,7 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem "bundler", "~> 2.1"
+gem "bundler", "~> 2.3"
 
 gem "actionpack", "~> 7.0.0", "< 7.1.0"
 gem "actionview", "~> 7.0.0", "< 7.1.0"
@@ -41,9 +41,6 @@ gem "will_paginate", "~> 3.3"
 # Single-Sign On support
 gem "devise", "~> 4.9"
 gem "omniauth-cas"
-
-# Datadog Metrics
-gem "ddtrace", "~> 1.21", require: "ddtrace/auto_instrument"
 
 gem "dartsass-rails", "~> 0.5"
 # jQuery support
@@ -101,3 +98,8 @@ group :development, :test do
   gem "rails-controller-testing"
   gem "rspec-rails", "5.1"
 end
+
+gem "bcrypt_pbkdf", "~> 1.1"
+gem "ed25519", "~> 1.3"
+
+gem "honeybadger", "~> 5.8"

@@ -136,9 +136,4 @@ Rails.application.configure do
     from: 'no-reply@princeton.edu'
   }
   config.action_mailer.raise_delivery_errors = false
-
-  Datadog.configure do |c|
-    c.service = 'oawaiver'
-    c.env = 'production'
-  end
 end

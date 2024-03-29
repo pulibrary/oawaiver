@@ -134,18 +134,21 @@ var ajax_author_form;
 var free_author_form;
 
 function author_ajax_form() {
+  const $csrf = $('form > input[type="hidden"]');
+
   $("#author_form_fields").children().last().replaceWith(ajax_author_form);
+
   AjaxAutoCompleter.setup_ajax_form('#author_select_with_ajax', '#author_form_fields', "<%= AuthorStatus.ajax_url(context: self) %>", "<%= AuthorStatus.ajax_params %>");
   $('#author_select_with_ajax  input').val("").attr("placeholder", "Search for Author");
   AjaxAutoCompleter.clear_ajax_form('#author_select_with_ajax');
 }
 
 function author_free_entry_form() {
-$("#author_form_fields").children().last().replaceWith(free_author_form);
+  $("#author_form_fields").children().last().replaceWith(free_author_form);
 }
 
 function init_form(form_selector) {
-active_form = $("#author_form_fields").children().last().replaceWith($("#templates " + form_selector ));
+  active_form = $("#author_form_fields").children().last().replaceWith($("#templates " + form_selector ));
 }
 
 function init_page() {

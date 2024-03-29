@@ -97,15 +97,8 @@ Rails.application.routes.draw do
   get "employees/get/:unique_id", to: "employees#get_uniqueId", as: "uniqueId_employee"
 
   # API+API Documentation
-  # mount API::Base => "/api"
-  # mount GrapeSwaggerRails::Engine => "/apidoc"
-
-  unless Rails.env.development?
-    # when not doing development, simply route any unrecognized get or post to start
-
-    get("/*", to: "application#start")
-    post("/*", to: "application#start")
-  end
+  mount AjaxQuery::API => "/api"
+  mount GrapeSwaggerRails::Engine => "/apidoc"
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

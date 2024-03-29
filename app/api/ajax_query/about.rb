@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API
+module AjaxQuery
   class About < Grape::API
     use Rack::JSONP
 
