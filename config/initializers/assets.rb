@@ -12,6 +12,16 @@ Rails.application.config.assets.version = "1.0"
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
 # Rails.application.config.assets.precompile += %w( application.css )
+
+gem_paths = Gem.path
+gem_paths.each do |gem_path|
+  resolved = File.join(gem_path, "gems", "grape-swagger-rails")
+  if File.directory?(resolved)
+    assets_path = File.join(resolved, "assets")
+    Rails.application.config.assets.paths << assets_path
+  end
+end
+
 Rails.application.config.dartsass.builds = {
   "application.scss" => "application.css"
 }
