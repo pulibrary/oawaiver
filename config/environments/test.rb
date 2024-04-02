@@ -8,18 +8,27 @@ require "active_support/core_ext/integer/time"
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  # Turn false under Spring and add config.action_view.cache_template_loading = true.
-  config.cache_classes = true
+  # Eager loading loads your whole application. When running a single test locally, this probably isn't necessary. It's a good idea to do in a continuous integration system, or in some way before deploying your code.
 
-  # Eager loading loads your whole application. When running a single test locally,
-  # this probably isn't necessary. It's a good idea to do in a continuous integration
-  # system, or in some way before deploying your code.
-  running_in_ci = ENV.key?("CI") && ENV["CI"].present?
-  config.eager_load = running_in_ci
+  # Compile and load CSS when running tests if we're running in browser
+  if ENV["RUN_IN_BROWSER"] || ENV["CI"]
+    config.eager_load = true
+    config.assets.compile = true
+  else
+    config.eager_load = false
+  end
+
+  config.cache_classes = false
 
   # Configure static asset server for tests with Cache-Control for performance.
   config.serve_static_files = true
-  config.static_cache_control = 'public, max-age=3600'
+  config.static_cache_control = "public, max-age=#{1.hour.to_i}"
+
+  # Configure public file server for tests with Cache-Control for performance.
+  config.public_file_server.enabled = true
+  config.public_file_server.headers = {
+    "Cache-Control" => "public, max-age=#{1.hour.to_i}"
+  }
 
   # Show full error reports and disable caching.
   config.consider_all_requests_local       = true
@@ -42,6 +51,10 @@ Rails.application.configure do
   # ActionMailer::Base.deliveries array.
   config.action_mailer.delivery_method = :test
 
+  config.action_mailer.default_options = {
+    from: "noreply@example.com"
+  }
+
   # Print deprecation notices to the stderr.
   config.active_support.deprecation = :stderr
 
@@ -54,18 +67,6 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 
-  config.action_mailer.delivery_method = :sendmail
-  action_mailer_host = ENV['lando_oawaiver_mailhog_conn_host'] || 'oawaiver_mailhog'
-  action_mailer_port = ENV['lando_oawaiver_mailhog_conn_port'] || 1025
-  config.action_mailer.sendmail_settings = {
-    location: '/usr/bin/env sendmail',
-    arguments: "-S #{action_mailer_host}:#{action_mailer_port}"
-  }
-  config.action_mailer.default_url_options = { host: "#{action_mailer_host}:#{action_mailer_port}" }
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
-
 end

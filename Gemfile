@@ -5,6 +5,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "bundler", "~> 2.3"
 
+gem "base64", "~> 0.1.1"
+
 gem "actionpack", "~> 7.0.0", "< 7.1.0"
 gem "actionview", "~> 7.0.0", "< 7.1.0"
 gem "activemodel", "~> 7.0.0", "< 7.1.0"
@@ -48,9 +50,10 @@ gem "jquery-rails", "~> 4.5"
 # Use SCSS for stylesheets
 # Integration for Vite in the Rails asset pipeline
 gem "vite_rails", "~> 3.0"
+
 # This must be removed, however, there are breaking changes which could not be isolated.
 # Please see https://github.com/rails/dartsass-rails/issues/37 for a likely-related error.
-gem "sassc"
+# gem "sassc"
 
 # This is used to generate the JSON API documentation
 # `bundle exec rake doc:rails` generates the API under doc/api.
