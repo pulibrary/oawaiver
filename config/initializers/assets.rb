@@ -13,6 +13,8 @@ Rails.application.config.assets.version = "1.0"
 # Rails.application.config.assets.precompile += %w( search.js )
 # Rails.application.config.assets.precompile += %w( application.css )
 
+# This was required to ensure that Grape API could be integrated into Rails 7.0.z releases
+# Ultimately, this should probably be cleaned with the removal of Grape entirely
 gem_paths = Gem.path
 gem_paths.each do |gem_path|
   resolved = File.join(gem_path, "gems", "grape-swagger-rails")

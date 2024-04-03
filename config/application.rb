@@ -41,5 +41,19 @@ module Waiver
     end
 
     config.revision = Waiver::VERSION
+
+    config.after_initialize do
+      waiver_mailer_config_path = Rails.root.join("config", "waiver_mail.yml")
+      waiver_mailer_parameters = YAML.load_file(waiver_mailer_config_path)
+      Rails.application.config.waiver_mailer_parameters = waiver_mailer_parameters
+
+      # require 'pry'
+      # binding.pry
+      begin
+        WaiverMailer.bootstrap
+      rescue StandardError => error
+        Rails.logger.error(error)
+      end
+    end
   end
 end
