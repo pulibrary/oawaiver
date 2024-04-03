@@ -12,9 +12,9 @@ module AjaxQuery
       end
     end
 
-    #rescue_from :all do |error|
-    #  error_response({ errors: [error.message] })
-    #end
+    rescue_from :all do |error|
+      error_response({ errors: [error.message] })
+    end
 
     # GET /get/:id
     desc "return the employee with the record ID"
@@ -22,7 +22,6 @@ module AjaxQuery
       requires :id, type: String, desc: "record ID"
     end
     get "get/unique_id" do
-      # present Employee.find_by(unique_id: params[:id]), with: Entities::Employees, type: :full
       unique_id = params[:id]
       model = Employee.find_by(unique_id:)
 
