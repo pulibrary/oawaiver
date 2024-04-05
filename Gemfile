@@ -99,7 +99,7 @@ group :development, :test do
   gem "foreman", "~> 0.87"
   gem "pry", "~> 0.14"
   gem "rails-controller-testing"
-  gem "rspec-rails", "5.1"
+  gem "rspec-rails", "~> 6.1"
 end
 
 gem "bcrypt_pbkdf", "~> 1.1"
