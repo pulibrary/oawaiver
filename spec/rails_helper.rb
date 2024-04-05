@@ -11,10 +11,8 @@ require "spec_helper"
 require "rspec/rails"
 require "devise"
 require "database_cleaner/active_record"
-require "coveralls"
 require "simplecov"
 
-Coveralls.wear!("rails")
 SimpleCov.start "rails" do
   formatter SimpleCov::Formatter::MultiFormatter.new([
                                                        SimpleCov::Formatter::SimpleFormatter,
