@@ -7,14 +7,14 @@ gem "bundler", "~> 2.3"
 
 gem "base64", "~> 0.1.1"
 
-gem "actionpack", "~> 7.0.0", "< 7.1.0"
-gem "actionview", "~> 7.0.0", "< 7.1.0"
-gem "activemodel", "~> 7.0.0", "< 7.1.0"
-gem "activerecord", "~> 7.0.0", "< 7.1.0"
-gem "activesupport", "~> 7.0.0", "< 7.1.0"
+gem "actionpack", "~> 7.1", "< 8"
+gem "actionview", "~> 7.1", "< 8"
+gem "activemodel", "~> 7.1", "< 8"
+gem "activerecord", "~> 7.1", "< 8"
+gem "activesupport", "~> 7.1", "< 8"
+gem "rails", "~> 7.1", "< 8"
+gem "railties", "~> 7.1", "< 8"
 gem "propshaft", "~> 0.8"
-gem "rails", "~> 7.0.0", "< 7.1.0"
-gem "railties", "~> 7.0.0", "< 7.1.0"
 
 # Use Puma as the app server
 gem "puma", "~> 5.6"
