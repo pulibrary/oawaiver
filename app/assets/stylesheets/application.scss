@@ -1,3 +1,5 @@
+// Entry point for your Sass build
+
 /*
  * This is a manifest file that'll be compiled into application.css, which will include all the files
  * listed below.
@@ -10,12 +12,10 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
- *= require dspace_theme
- *= require_tree .
- *= require_self
  */
 
 @import './modules/navbar';
+@import './dspace_theme';
 
 .admin_actions {
   display: none;
@@ -33,6 +33,12 @@
 }
 
 $logo-height: 35px; // large = 50px; small = 35px;
+
+.section-content {
+  &__waiver {
+    display:none;
+  }
+}
 
 .branding {
   // background-color: $gray-darkest;
@@ -60,7 +66,7 @@ $logo-height: 35px; // large = 50px; small = 35px;
   .logo-svg {
     // @include vertical-align;
 
-    height: ($logo-height / 1.7);
+    height: calc($logo-height / 1.7);
     width: auto;
   }
 }

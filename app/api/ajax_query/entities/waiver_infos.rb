@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API
+module AjaxQuery
   module Entities
     class WaiverInfos < Grape::Entity
       %i[title journal author_last_name author_first_name author_department
