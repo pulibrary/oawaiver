@@ -12,9 +12,9 @@ gem "actionview", "~> 7.1", "< 8"
 gem "activemodel", "~> 7.1", "< 8"
 gem "activerecord", "~> 7.1", "< 8"
 gem "activesupport", "~> 7.1", "< 8"
+gem "propshaft", "~> 0.8"
 gem "rails", "~> 7.1", "< 8"
 gem "railties", "~> 7.1", "< 8"
-gem "propshaft", "~> 0.8"
 
 # Use Puma as the app server
 gem "puma", "~> 5.6"
