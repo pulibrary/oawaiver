@@ -99,6 +99,7 @@ end
 
 group :development, :test do
   gem "bixby"
+  gem "coveralls"
   gem "database_cleaner-active_record"
   gem "factory_bot_rails"
   gem "rails-controller-testing"

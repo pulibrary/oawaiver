@@ -11,6 +11,8 @@ parameters:
     type: string
     default: "18.17.0"
 
+coveralls: coveralls/coveralls@1.0.6
+
 executors:
   oawaiver-executor:
     docker:
@@ -152,3 +154,6 @@ workflows:
       - test:
           requires:
             - build
+
+- coveralls/upload:
+          path_to_lcov: ./coverage/lcov.info
