@@ -20,8 +20,7 @@ class Employee < ApplicationRecord
   validates_uniqueness_of :netid, case_sensitive: false
 
   validates_uniqueness_of :email, case_sensitive: false
-  validates_format_of :email,
-                      with: /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
+  validates_format_of :email, with: URI::MailTo::EMAIL_REGEXP
 
   validates_uniqueness_of :unique_id, message: "id has already been taken"
   validates_format_of :unique_id,

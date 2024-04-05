@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module API
+module AjaxQuery
   module Entities
     class Employees < Grape::Entity
       %i[unique_id preferred_name department].each do |property|

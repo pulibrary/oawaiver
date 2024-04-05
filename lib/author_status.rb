@@ -46,7 +46,8 @@ class AuthorStatus
     @base_url = current_config.fetch("base_url", "")
 
     @ajax_path = current_config["ajax_path"]
-    @ajax_match_params = current_config["ajax_params"]
+    config_ajax_params = current_config["ajax_params"]
+    @ajax_match_params = config_ajax_params
 
     @status_path = current_config["status_path"]
 

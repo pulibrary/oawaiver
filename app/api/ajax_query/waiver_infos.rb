@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 require "rack/contrib"
 
-module API
+module AjaxQuery
   class WaiverInfos < Grape::API
     use Rack::JSONP
 
-    rescue_from :all do |e|
-      error_response({ errors: e })
+    rescue_from :all do |errors|
+      error_response({ errors: errors })
     end
 
     desc "return all waivers with matching words"
@@ -14,8 +14,10 @@ module API
       requires :search_term, type: String, desc: "match against title, author, depatment, ..."
     end
     get "get_all/words" do
-      matches = WaiverInfo.all_with_words(params[:search_term])
-      present matches.results, with: API::Entities::WaiverInfos, type: :full
+      search_term = params[:search_term]
+
+      matches = WaiverInfo.all_with_words(search_term)
+      present matches.results, with: Entities::WaiverInfos, type: :full
     end
   end
 end

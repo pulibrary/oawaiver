@@ -2,13 +2,13 @@
 
 require "grape"
 
-module API
-  class Base < Grape::API
+module AjaxQuery
+  class API < Grape::API
     default_format :json
 
-    mount API::Employees => "/employees"
-    mount API::WaiverInfos => "/waiver"
-    mount API::About => "/about"
+    mount Employees => "/employees"
+    mount WaiverInfos => "/waiver"
+    mount About => "/about"
 
     add_swagger_documentation(
       base_path: "/api",

@@ -10,16 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_27_142554) do
-
+ActiveRecord::Schema[7.0].define(version: 2021_07_27_142554) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
     t.string "netid"
     t.string "role"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "provider", default: "cas", null: false
     t.index ["provider"], name: "index_accounts_on_provider"
   end
@@ -31,8 +30,8 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.string "unique_id"
     t.string "email"
     t.string "netid"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "department"
     t.index ["unique_id"], name: "index_employees_on_unique_id"
   end
@@ -63,8 +62,8 @@ ActiveRecord::Schema.define(version: 2021_07_27_142554) do
     t.string "title", limit: 512
     t.string "journal", limit: 512
     t.string "journal_issn"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "notes"
     t.index ["author_email"], name: "index_waiver_infos_on_author_email"
     t.index ["requester_email"], name: "index_waiver_infos_on_requester_email"

@@ -9,7 +9,6 @@
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
-/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
@@ -18,9 +17,6 @@
 # Ignore development env files
 .idea/
 .byebug*
-
-vagrant/.vagrant
-vagrant/ubuntu-bionic-18.04-cloudimg-console.log
 
 /public/packs
 /public/packs-test
@@ -40,3 +36,8 @@ node_modules
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
 
+/app/assets/builds/*
+!/app/assets/builds/.keep
+!/app/assets/builds/application.css
+
+/coverage

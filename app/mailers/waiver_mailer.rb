@@ -1,87 +1,102 @@
 # frozen_string_literal: true
 
 class WaiverMailer < ApplicationMailer
-  # return boolean indicating whether to use an author's real email address when creating mail messages
-  def self.mail_to_authors
-    bootstrap
-    @@GLOBALS[:send_to_author]
-  end
+  class_attribute :initialized, default: false
+  class_attribute :parameters
+  class_attribute :options
+  class_attribute :url
+  class_attribute :from
+  class_attribute :reply_to
+  class_attribute :cc
+  class_attribute :bcc
+  class_attribute :send_to_author
+  class_attribute :mail_templates
 
-  def self.contact
-    bootstrap
-    @@GLOBALS[:contact]
-  end
+  def self.validate_email(address)
+    valid = URI::MailTo::EMAIL_REGEXP.match(address)
 
-  # test whether str conforms to the email format
-  def self.validEmail(str)
-    /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/ =~ str
+    raise("Invalid email address: '#{address}'") unless valid
+    valid
   end
 
   # initialize global variables based on Rails.application.config.waiver_mailer_parameters hash
-  #
-  # see  config/waiver_mail.rb
   def self.bootstrap
-    return @@GLOBALS if defined? @@GLOBALS
+    return if initialized
 
-    options = Rails.application.config.waiver_mailer_parameters
+    parameters = Rails.application.config.waiver_mailer_parameters
+    self.parameters = ActiveSupport::HashWithIndifferentAccess.new(parameters)
+    env = self.parameters.fetch(Rails.env)
+    self.options = ActiveSupport::HashWithIndifferentAccess.new(env)
 
-    @@GLOBALS = { mail_templates: {} }
+    self.url = options.fetch("url", "")
+    self.from = options.fetch("from", "")
 
-    env_opts = options[Rails.env] || {}
+    from_entries = Mail::FromField.new(from)
+    from_entries.addresses.each { |e| validate_email(e) }
 
-    @@GLOBALS[:url] = env_opts["url"] || ""
+    self.reply_to = options.fetch("reply_to", "")
+    reply_to_entries = Mail::ReplyToField.new(reply_to)
+    reply_to_entries.addresses.each { |e| validate_email(e) }
 
-    @@GLOBALS[:from] = env_opts["from"] || ""
-    addresses = Mail::FromField.new(@@GLOBALS[:from])
-    invalidEmails = addresses.addresses.reject { |e| validEmail(e) }
-    raise "from contains invalid email #{invalidEmails}" unless invalidEmails.empty?
+    self.cc = options.fetch("cc", "")
+    cc_entries = Mail::CcField.new(cc)
+    cc_entries.addresses.each { |e| validate_email(e) }
 
-    @@GLOBALS[:reply_to] = env_opts["reply_to"] || ""
-    addresses = Mail::ReplyToField.new(@@GLOBALS[:reply_to])
-    invalidEmails = addresses.addresses.reject { |e| validEmail(e) }
-    raise "reply_to contains invalid email #{invalidEmails}" unless invalidEmails.empty?
+    self.bcc = options.fetch("bcc", "")
+    bcc_entries = Mail::BccField.new(bcc)
+    bcc_entries.addresses.each { |e| validate_email(e) }
 
-    @@GLOBALS[:bcc] = env_opts["bcc"] || ""
-    addresses = Mail::BccField.new(@@GLOBALS[:bcc])
-    invalidEmails = addresses.addresses.reject { |e| validEmail(e) }
-    raise "bcc contains invalid emails: #{invalidEmails}" unless invalidEmails.empty?
+    self.send_to_author = options.fetch("send_to_author", "")
 
-    @@GLOBALS[:send_to_author] = env_opts["send_to_author"]
+    mail_templates = parameters.fetch("mail_templates")
+    raise("Failed to resolve the e-mail templates for: #{parameters}") if mail_templates.blank?
 
-    mail_templates = options["mail_templates"] || {}
-    ["granted"].each do |key|
-      raise "must define a '#{key}' mail template" if mail_templates[key].nil?
+    mail_templates = ActiveSupport::HashWithIndifferentAccess.new(mail_templates)
+    self.mail_templates = mail_templates
+
+    required_keys = ["granted"]
+    required_keys.each do |key|
+      raise("Must define a '#{key}' mail template") unless mail_templates.key?(key)
     end
-    mail_templates.keys.each do |key|
-      @@GLOBALS[:mail_templates][key.to_sym] = {}
-      %w[body subject].each do |part|
-        fname = mail_templates[key][part]
-        raise "must define #{part} for #{key} mail template" if fname.blank?
 
-        template = File.read("#{::Rails.root}/config/#{fname}")
-        raise "The file #{::Rails.root}/config/#{fname} is empty" if template.empty?
+    self.mail_templates.keys.each do |k|
+      key = k.to_sym
 
-        @@GLOBALS[:mail_templates][key.to_sym][part.to_sym] = ERB.new(template.strip)
+      parts = %w[body subject]
+      parts.each do |part|
+        fname = self.mail_templates[k][part]
+        raise("Must define #{part} for #{key} mail template") if fname.blank?
+
+        template_path = Rails.application.root.join("config", fname)
+        template = File.read(template_path)
+        raise("The file #{template_path} is empty") if template.empty?
+
+        part_key = part.to_sym
+        partial = ERB.new(template.strip)
+        self.mail_templates[k][part_key] = partial
       end
     end
 
-    ActiveRecord::Base.logger.info("WaiverMailer.Initialize")
+    self.initialized = true
+    ActiveRecord::Base.logger.info("WaiverMailer has been initialized.")
 
-    nil
-  end
-
-  # create WaiverMail from given waiver_info
-  def initialize(waiver_info)
-    @waiver_info = waiver_info
-    super()
+    self
   end
 
   def self.default_author_email
     "author@princeton.edu"
   end
 
+  # create WaiverMail from given waiver_info
+  def initialize(waiver_info)
+    self.class.bootstrap
+    @waiver_info = waiver_info
+
+    super()
+  end
+
   def author_email
-    return @waiver_info.author_email if @@GLOBALS[:send_to_author]
+    return @waiver_info.author_email if self.class.send_to_author
 
     self.class.default_author_email
   end
@@ -89,27 +104,33 @@ class WaiverMailer < ApplicationMailer
   # compute to field for mail
   # depending on mail_to_authors use "author@princeton.edu" or waiver_info's author_email
   def to
-    [@waiver_info.requester_email, author_email]
+    [
+      @waiver_info.requester_email,
+      author_email
+    ]
   end
 
   def url
-    @url ||= @@GLOBALS[:url]
-  end
-
-  def waiver_info_id
-    @waiver_info.id
+    @url ||= self.class.url
   end
 
   def waiver_info_url
-    @waiver_info_url ||= url.sub(/ID/, waiver_info_id.to_s)
+    return if @waiver_info.nil? || !@waiver_info.persisted?
+
+    @waiver_info_url ||= begin
+                           pattern = /ID/
+                           model_id = waiver_info.id
+                           value = url.sub(pattern, model_id.to_s)
+                           value
+                         end
   end
 
   def mail_templates
-    @mail_templates ||= @@GLOBALS[:mail_templates]
+    @mail_templates ||= self.class.mail_templates
   end
 
   def granted_mail_template
-    return unless mail_templates
+    raise("No \"granted\" template is specified within the e-mail templates: #{mail_templates}") unless mail_templates.key?(:granted)
 
     @granted_mail_template ||= mail_templates[:granted]
   end
@@ -121,41 +142,47 @@ class WaiverMailer < ApplicationMailer
   end
 
   def body
+    return if body_template.nil?
+
     @body ||= body_template.result(binding)
   end
 
   def subject_template
-    return unless granted_mail_template.key?(:subject)
+    raise("No subject header specified within the e-mail template: #{granted_mail_template}") unless granted_mail_template.key?(:subject)
 
     @subject_template ||= granted_mail_template[:subject]
   end
 
   def subject
+    return if subject_template.nil?
+
     @subject ||= subject_template.result(binding)
   end
 
   def from
-    @from ||= @@GLOBALS[:from]
+    @from ||= self.class.from
   end
 
   def reply_to
-    @reply_to ||= @@GLOBALS[:reply_to]
+    @reply_to ||= self.class.reply_to
   end
 
   def bcc
-    @bcc ||= @@GLOBALS[:bcc]
+    @bcc ||= self.class.bcc
   end
 
   def cc
-    return [] if @cc.blank?
-    raise("Invalid email '#{@cc}'") unless self.class.validEmail(@cc)
-
-    @cc
+    @cc ||= self.class.cc
   end
 
   def granted(cc_address = nil)
-    self.class.bootstrap
-    @cc = cc_address
+    # self.class.bootstrap
+
+    # @cc = cc_address if cc_address.present?
+    if cc_address.present?
+      self.class.validate_email(cc_address)
+      @cc = cc_address
+    end
 
     mail(
       to: to,
@@ -167,7 +194,4 @@ class WaiverMailer < ApplicationMailer
       body: body
     )
   end
-
-  # create and return Mail from the granted mail template by inserting the values
-  # from waiver_mail
 end
