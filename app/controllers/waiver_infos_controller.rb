@@ -11,11 +11,14 @@ class WaiverInfosController < ApplicationController
   def solr_search_words
     args = stripped_args(params, :dont_keep_empties)
     search_term = args["search_term"] || ""
+    page = params[:page]
+    per_page = params[:per_page] || WaiverInfo.per_page
 
     waiver_infos = if search_term.length > 1
-                     WaiverInfo.search_with_words(search_term, params[:page], params[:per_page] || WaiverInfo.per_page).results
+                     search = WaiverInfo.search_with_words(search_term, page, per_page)
+                     search.results
                    else
-                     WaiverInfo.all.paginate(page: params[:page], per_page: params[:per_page] || WaiverInfo.per_page)
+                     WaiverInfo.all.paginate(page: page, per_page: per_page)
                    end
 
     do_solr_index(search_term, waiver_infos)
