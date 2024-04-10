@@ -86,7 +86,6 @@ end
 
 group :test do
   gem "capybara"
-  gem "coveralls"
   gem "faker"
   gem "guard-rspec"
   gem "launchy"
