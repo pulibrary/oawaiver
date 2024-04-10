@@ -566,6 +566,7 @@ DEPENDENCIES
   roo (~> 1.13.2)
   rspec-rails (= 5.1)
   sdoc (~> 1.1)
+  simplecov_json_formatter
   sunspot_rails (~> 2.6)
   sunspot_solr (~> 2.6)
   vite_rails (~> 3.0)

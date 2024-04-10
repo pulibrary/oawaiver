@@ -11,14 +11,7 @@ require "spec_helper"
 require "rspec/rails"
 require "devise"
 require "database_cleaner/active_record"
-require "simplecov"
 
-SimpleCov.start "rails" do
-  formatter SimpleCov::Formatter::MultiFormatter.new([
-                                                       SimpleCov::Formatter::SimpleFormatter,
-                                                       SimpleCov::Formatter::HTMLFormatter
-                                                     ])
-end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

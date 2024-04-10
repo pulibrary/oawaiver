@@ -100,6 +100,7 @@ group :development, :test do
   gem "pry", "~> 0.14"
   gem "rails-controller-testing"
   gem "rspec-rails", "5.1"
+  gem "simplecov_json_formatter"
   gem "yard"
 end
 
