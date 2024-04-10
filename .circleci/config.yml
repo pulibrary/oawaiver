@@ -12,6 +12,9 @@ parameters:
   node-release:
     type: string
     default: "18.17.0"
+  working-directory:
+    type: string
+    default: '~/oawaiver'
 
 executors:
   oawaiver-executor:
@@ -33,8 +36,7 @@ executors:
       - image: solr:8.4
         command: bin/solr -cloud -noprompt -f -p 8983
       - image: mailhog/mailhog:latest
-
-    working_directory: ~/oawaiver
+    working_directory: << pipeline.parameters.working-directory >>
 
 commands:
   setup-bundler:
@@ -56,7 +58,6 @@ commands:
       - restore_cache:
           keys:
             - oawaiver-ruby<< pipeline.parameters.ruby-release >>-{{ checksum "Gemfile.lock" }}
-            - oawaiver-ruby<< pipeline.parameters.ruby-release >>-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
@@ -74,7 +75,6 @@ commands:
       - restore_cache:
           keys:
             - oawaiver-node<< pipeline.parameters.node-release >>-{{ checksum "yarn.lock" }}
-            - oawaiver-node<< pipeline.parameters.node-release >>-
 
       - run:
           name: Yarn Install
@@ -102,20 +102,19 @@ jobs:
     executor: oawaiver-executor
     steps:
       - attach_workspace:
-          at: '~/oawaiver'
+          at: << pipeline.parameters.working-directory >>
       - checkout
       - setup-bundler
       - setup-node
-
       - persist_to_workspace:
-          root: '~/oawaiver'
+          root: << pipeline.parameters.working-directory >>
           paths: '*'
 
   lint:
     executor: oawaiver-executor
     steps:
       - attach_workspace:
-          at: '~/oawaiver'
+          at: << pipeline.parameters.working-directory >>
       - setup-bundler
 
       - run:
@@ -126,7 +125,7 @@ jobs:
     executor: oawaiver-executor
     steps:
       - attach_workspace:
-          at: '~/oawaiver'
+          at: << pipeline.parameters.working-directory >>
       - setup-bundler
       - setup-node
       # This is required for `rails db:schema:load`
@@ -144,10 +143,12 @@ jobs:
           command: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN bundle exec rspec spec
       - store_artifacts:
           path:
-            ~/oawaiver/coverage
-            ~/oawaiver/tmp/capybara
-            ~/oawaiver/tmp/screenshots
-
+            << pipeline.parameters.working-directory >>/coverage
+          destination: coverage
+      - store_artifacts:
+          path:
+            << pipeline.parameters.working-directory >>/tmp/screenshots
+          destination: screenshots
 
 workflows:
   ci:
