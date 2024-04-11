@@ -54,7 +54,7 @@ end
 
 group :test do
   gem "capybara"
-  gem "coveralls"
+  gem "coveralls_reborn", require: false
   gem "faker"
   gem "guard-rspec"
   gem "launchy"
@@ -62,7 +62,6 @@ end
 
 group :development, :test do
   gem "bixby"
-  gem "coveralls_reborn"
   gem "database_cleaner-active_record", "~> 2.1"
   gem "factory_bot_rails", "~> 6.3"
   gem "foreman", "~> 0.87"
