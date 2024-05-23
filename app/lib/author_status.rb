@@ -63,18 +63,6 @@ class AuthorStatus
     bootstrap(config)
   end
 
-  def base_uri
-    URI(@base_url)
-  end
-
-  def ajax_uri
-    URI(ajax_url)
-  end
-
-  def status_uri
-    URI(status_url)
-  end
-
   def self.status_faculty
     FACULTY_STATUS
   end
