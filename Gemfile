@@ -63,6 +63,7 @@ end
 
 group :development, :test do
   gem "bixby"
+  gem "byebug"
   gem "database_cleaner-active_record", "~> 2.1"
   gem "factory_bot_rails", "~> 6.3"
   gem "foreman", "~> 0.87"

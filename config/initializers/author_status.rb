@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require Rails.root.join("lib", "author_status.rb")
+require Rails.root.join("app", "lib", "author_status.rb")
 
 begin
   config_file_path = Rails.root.join("config", "author_status.yml")
