@@ -19,7 +19,8 @@ class AuthorStatus
   UNKNOWN_STATUS = "unknown"
 
   class << self
-    attr_reader :unique_id_urls
+    attr_reader :current_config, :get_unique_id_path, :unique_id_urls
+    attr_writer :base_url
   end
 
   def self.build_base_url(context: nil)
@@ -132,10 +133,5 @@ class AuthorStatus
     ]
 
     segments.join("/")
-  end
-
-  class << self
-    attr_reader :current_config, :get_unique_id_path
-    attr_writer :base_url
   end
 end
