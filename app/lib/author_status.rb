@@ -12,14 +12,14 @@ class AuthorStatus
   @ajax_match_params = nil
   @status_path = nil
 
-  @get_unique_id_url = {}
+  @unique_id_urls = {}
 
   DEFAULT_STATUS = "non faculty"
   FACULTY_STATUS = "faculty"
   UNKNOWN_STATUS = "unknown"
 
   def self.unique_id_urls
-    @get_unique_id_url
+    @unique_id_urls
   end
 
   def self.unique_id_paths
