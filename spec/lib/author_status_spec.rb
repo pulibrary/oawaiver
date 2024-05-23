@@ -10,4 +10,14 @@ describe AuthorStatus do
     AuthorStatus.build_from_config(file_path: config_file_path)
     expect(described_class.current_config.keys).to eq config_keys
   end
+
+  it "gets unique id urls" do
+    urls = described_class.unique_id_urls
+    expect(urls).to be_a(Hash)
+  end
+
+  it "gets unique id paths" do
+    paths = described_class.unique_id_paths
+    expect(paths).to eq({ "html" => "employees/get/MATCH", "json" => "api/employees/get/unique_id.json?id=MATCH" })
+  end
 end
