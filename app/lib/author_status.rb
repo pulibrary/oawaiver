@@ -59,6 +59,10 @@ class AuthorStatus
     end
   end
 
+  # Bootstrap the AuthorStatus class with the configuration from the given file.
+  #
+  # @param file_path [String] the path to the configuration file
+  # @return [void]
   def self.build_from_config(file_path:)
     config = YAML.load_file(file_path)
     bootstrap(config)
