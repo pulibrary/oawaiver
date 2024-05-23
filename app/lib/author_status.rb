@@ -18,12 +18,8 @@ class AuthorStatus
   FACULTY_STATUS = "faculty"
   UNKNOWN_STATUS = "unknown"
 
-  def self.unique_id_urls
-    @unique_id_urls
-  end
-
-  def self.unique_id_paths
-    @get_unique_id_path
+  class << self
+    attr_reader :unique_id_urls
   end
 
   def self.build_base_url(context: nil)
@@ -50,12 +46,11 @@ class AuthorStatus
     @ajax_match_params = config_ajax_params
 
     @status_path = current_config["status_path"]
-
     @get_unique_id_path = current_config["get_unique_id_path"]
     return if @base_url.blank?
 
     %w[html json].each do |format|
-      raise("Missing the AuthorStatus '#{format}' configuration entry for :get_unique_id_path.") unless unique_id_paths.key?(format)
+      raise("Missing the AuthorStatus '#{format}' configuration entry for :get_unique_id_path.") unless get_unique_id_path.key?(format)
     end
   end
 
@@ -137,7 +132,7 @@ class AuthorStatus
 
   def self.generate_uid_url(uid, format = "html", context: nil)
     escaped_uid = Rack::Utils.escape(uid)
-    unique_id_path = unique_id_paths[format]
+    unique_id_path = get_unique_id_path[format]
     uid_path = unique_id_path.gsub(/MATCH/, escaped_uid)
     safe_uid_path = uid_path.html_safe
 
@@ -152,7 +147,7 @@ class AuthorStatus
   end
 
   class << self
-    attr_reader :current_config
+    attr_reader :current_config, :get_unique_id_path
     attr_writer :base_url
   end
 end
