@@ -51,6 +51,7 @@ Metrics/ClassLength:
     - 'app/models/employee.rb'
     - 'lib/author_status.rb'
     - 'app/mailers/waiver_mailer.rb'
+    - app/lib/author_status.rb
 
 Metrics/CyclomaticComplexity:
   Exclude:
@@ -67,6 +68,7 @@ Metrics/MethodLength:
     - 'app/models/employee.rb'
     - 'lib/author_status.rb'
     - 'lib/tasks/import_waivers.rake'
+    - app/lib/author_status.rb
 
 Metrics/PerceivedComplexity:
   Exclude:

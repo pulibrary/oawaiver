@@ -82,6 +82,7 @@ GEM
       rubocop-rails
       rubocop-rspec
     builder (3.2.4)
+    byebug (11.1.3)
     capistrano (3.18.1)
       airbrussh (>= 1.0.0)
       i18n
@@ -526,6 +527,7 @@ DEPENDENCIES
   bcrypt_pbkdf (~> 1.1)
   bixby
   bundler (~> 2.3)
+  byebug
   capistrano (~> 3.10)
   capistrano-passenger
   capistrano-rails (~> 1.4)
