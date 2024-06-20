@@ -125,7 +125,7 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
-  action_mailer_host = ENV['SMTP_HOST'] || 'lib-ponyexpr.princeton.edu'
+  action_mailer_host = ENV['SMTP_HOST'] || 'lib-ponyexpr-prod.princeton.edu'
   action_mailer_port = ENV['SMTP_PORT'] || 25
 
   config.action_mailer.smtp_settings = {
