@@ -157,4 +157,11 @@ describe EmployeesController do
       end
     end
   end
+
+  describe "/employees/ajax_search/:style(.:format)" do
+    it "generates the AJAX search JSON" do
+
+      get("/employees/ajax_search/form")
+    end
+  end
 end
