@@ -8,11 +8,15 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 # Add additional requires below this line. Rails is not loaded until this point!
 
 require "spec_helper"
+
 require "rspec/rails"
 require "devise"
 require "database_cleaner/active_record"
-require "simplecov"
 
+require "coveralls"
+Coveralls.wear!("rails")
+
+require "simplecov"
 SimpleCov.start "rails" do
   formatter SimpleCov::Formatter::MultiFormatter.new([
                                                        SimpleCov::Formatter::SimpleFormatter,
