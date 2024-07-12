@@ -59,6 +59,7 @@ group :test do
   gem "faker"
   gem "guard-rspec"
   gem "launchy"
+  gem "simplecov", "~> 0.22.0"
 end
 
 group :development, :test do
