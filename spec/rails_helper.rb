@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
+require "coveralls"
+Coveralls.wear!("rails")
+
 require "simplecov"
 SimpleCov.start "rails" do
   multi = SimpleCov::Formatter::MultiFormatter.new([
-                                                    SimpleCov::Formatter::SimpleFormatter,
-                                                      SimpleCov::Formatter::HTMLFormatter
-                                                     ])
+                                                     SimpleCov::Formatter::SimpleFormatter,
+                                                     SimpleCov::Formatter::HTMLFormatter
+                                                   ])
   formatter(multi)
 end
 
@@ -21,9 +24,6 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require "rspec/rails"
 require "devise"
 require "database_cleaner/active_record"
-
-#require "coveralls"
-#Coveralls.wear!("rails")
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
