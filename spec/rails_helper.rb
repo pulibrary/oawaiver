@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+require "coveralls"
+Coveralls.wear!("rails")
+
+require "simplecov"
+SimpleCov.start "rails" do
+  multi = SimpleCov::Formatter::MultiFormatter.new([
+                                                     SimpleCov::Formatter::SimpleFormatter,
+                                                     SimpleCov::Formatter::HTMLFormatter
+                                                   ])
+  formatter(multi)
+end
+
+require "spec_helper"
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 ENV["RAILS_ENV"] ||= "test"
 require File.expand_path("../config/environment", __dir__)
@@ -7,18 +21,9 @@ require File.expand_path("../config/environment", __dir__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 # Add additional requires below this line. Rails is not loaded until this point!
 
-require "spec_helper"
 require "rspec/rails"
 require "devise"
 require "database_cleaner/active_record"
-require "simplecov"
-
-SimpleCov.start "rails" do
-  formatter SimpleCov::Formatter::MultiFormatter.new([
-                                                       SimpleCov::Formatter::SimpleFormatter,
-                                                       SimpleCov::Formatter::HTMLFormatter
-                                                     ])
-end
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are

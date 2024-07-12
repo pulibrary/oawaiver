@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require "spec_helper"
 
 RSpec.describe Employee, type: :model do
   it "has a valid factory" do
