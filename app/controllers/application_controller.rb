@@ -26,57 +26,16 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def verify_roles
-    logger.debug("#{self.class}: @user=#{current_account} @roles=#{roles.inspect}")
-
-    @is_admin = admin_user?
-  end
-  alias set_roles verify_roles
-
-  # Is this needed?
-  def current_account_email
-    return unless current_account
-
-    "#{current_account}@princeton.edu"
-  end
-
-  unless Rails.env.development?
-    rescue_from "Exception" do |exception|
-      if exception.is_a?(ActiveRecord::RecordNotFound)
-        render controller: :application, action: :start
-      else
-        flash[:alert] = "An exception occurred: #{exception.message}"
-        render controller: :application, action: :error
-      end
+  rescue_from "Exception" do |exception|
+    if exception.is_a?(ActiveRecord::RecordNotFound)
+      render controller: :application, action: :start
+    else
+      flash[:alert] = "An exception occurred: #{exception.message}"
+      render controller: :application, action: :error
     end
   end
 
-  def admin_user?
-    @is_admin ||= roles.include?("ADMIN")
-  end
-
-  def user
-    super || current_account
-  end
-
-  def ensure_admin_role
-    logger.debug("ensure_admin_role for #{current_account} with #{roles}")
-
-    return if current_user&.admin?
-
-    render nothing: true, status: :forbidden
-  end
-
-  def roles
-    return [] unless current_account
-
-    @roles ||= current_account.roles
-  end
-
-  def current_cas_user
-    session[:cas_user]
-  end
-
+  # This override is necessary for OmniauthCallbacksController
   def after_sign_in_path_for(_resource)
     request.env["omniauth.origin"] || new_account_session_path
   end

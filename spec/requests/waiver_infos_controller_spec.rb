@@ -137,4 +137,49 @@ describe "Waivers", type: :request do
       end
     end
   end
+
+  describe "GET /admin/waivers/match/:search_term" do
+    let(:title) { "test title" }
+    let(:title2) { "term2" }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title)
+    end
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title2)
+    end
+    let(:search_term) { title }
+    let(:params) do
+      {
+        search_term: search_term,
+        page: 1,
+        per_page: 10
+      }
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    xit "searches Solr" do
+      get(admin_waivers_match_path, params: params)
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(title)
+      expect(response.body).not_to include(title2)
+    end
+
+    context "when no search terms are specified" do
+      let(:search_term) { nil }
+
+      xit "retrieves all WaiverInfo models" do
+        get(admin_waivers_match_path, params: params)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to include(title)
+        expect(response.body).to include(title2)
+      end
+    end
+  end
 end

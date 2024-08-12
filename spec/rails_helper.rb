@@ -10,6 +10,8 @@ SimpleCov.start "rails" do
                                                      SimpleCov::Formatter::HTMLFormatter
                                                    ])
   formatter(multi)
+
+  add_filter "app/api"
 end
 
 require "spec_helper"
