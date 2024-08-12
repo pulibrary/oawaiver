@@ -128,6 +128,47 @@ describe EmployeesController do
     end
   end
 
+  describe "GET /employees/ajax_search/:style" do
+    context "when authenticated as an admin. user" do
+      let(:admin_account) { FactoryBot.create(:admin_account) }
+
+      before do
+        sign_in(admin_account)
+      end
+
+      it "renders the search results for AJAX client scripts" do
+        get(ajax_search_employees_path(style: "display"))
+        expect(response.status).to eq(200)
+        expect(response.body).not_to be_empty
+        expect(response.body).to include("Hidden Form Fields")
+      end
+
+      it "renders the search results for AJAX client scripts with form styling" do
+        get(ajax_search_employees_path)
+        expect(response.status).to eq(200)
+        expect(response.body).not_to be_empty
+        expect(response.body).to include("Visible Disabled Form Fields")
+      end
+
+      it "processes the query parameters" do
+        form_post = {
+          first: "foo",
+          last: "bar",
+          bestName: "baz",
+          dept: "test department",
+          uid: "test-uid",
+          account: "test-account",
+          email: "test@localhost.localdomain"
+        }
+
+        get(ajax_search_employees_path(post: form_post))
+        expect(response.status).to eq(200)
+        expect(response.body).not_to be_empty
+        expect(response.body).to include("foo")
+      end
+    end
+  end
+
   describe "GET /employees/:id" do
     let(:employee1) { FactoryBot.create(:employee_faked) }
     let(:employee1_path) { employee_path(id: employee1.id) }

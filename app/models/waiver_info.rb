@@ -3,6 +3,7 @@
 class WaiverInfo < ApplicationRecord
   # USE THIS when searching for all waiver infos
   @@MAX_WAIVER_MATCH = 10_000
+
   self.per_page = 10
 
   has_many :mail_records

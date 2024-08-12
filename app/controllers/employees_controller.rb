@@ -15,10 +15,13 @@ class EmployeesController < ApplicationController
   # GET /employees/departments
   # params :page, :per_page
   def index_departments
-    @departments = Employee.select(:department).distinct.collect(&:department).sort
+    models = Employee.select(:department).distinct
+    attrs = models.collect(&:department)
+
+    @departments = attrs.sort
   end
 
-  # GET /employees/ajax_search     - demo ajax forn
+  # GET /employees/ajax_search/:style
   def ajax_search
     @style = params[:style]
     @post = params[:post] || {}
@@ -27,22 +30,25 @@ class EmployeesController < ApplicationController
   # POST /employees/search
   # params :page, :per_page
   def search
-    if params[:search_term].length > 1
-      redirect_to action: :search_get, search_term: params[:search_term]
-    else
-      redirect_to action: :index
-    end
+    search_term = params[:search_term]
+    return redirect_to action: :index if search_term.empty?
+
+    redirect_to action: :search_get, search_term: params[:search_term]
   end
 
   # GET /employees/search/:search_term
   # params :page, :per_page
   def search_get
     @search_term = params[:search_term]
+
     @employees = if @search_term.length > 1
-                   Employee.search_by_name(@search_term, params[:page], params[:per_page] || Employee.per_page).results
+                   response = Employee.search_by_name(@search_term, page_param, per_page_param)
+                   response.results
                  else
-                   Employee.all.paginate(page: params[:page], per_page: params[:per_page] || Employee.per_page)
+                   employees = Employee.all
+                   employees.paginate(page: page_param, per_page: per_page_param)
                  end
+
     render :index
   end
 
@@ -53,7 +59,7 @@ class EmployeesController < ApplicationController
 
   # GET /employees/list/:unique_id
   def get_uniqueId
-    Employee.find_by(unique_id: unique_id_param)
+    @employee = Employee.find_by(unique_id: unique_id_param)
 
     render :show
   end
@@ -85,7 +91,6 @@ class EmployeesController < ApplicationController
                 end
   end
 
-  # Only allow a trusted parameter "white list" through.
   def employee_params
     params.require(:employee).permit(:first_name, :last_name, :preferred_name, :unique_id, :email, :netid)
   end

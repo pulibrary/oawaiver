@@ -6,26 +6,33 @@ class WaiverInfosController < ApplicationController
   before_action :ensure_user_owns_waiver_info, only: %i[show show_mail]
   respond_to :html
 
-  # GET waivers/search/:search_term
+  # GET /admin/waivers/match/:search_term
   # params :page, :per_page
   def solr_search_words
     args = stripped_args(params, :dont_keep_empties)
     search_term = args["search_term"] || ""
 
+    page = params[:page]
+    per_page = params[:per_page] || WaiverInfo.per_page
+
     waiver_infos = if search_term.length > 1
-                     WaiverInfo.search_with_words(search_term, params[:page], params[:per_page] || WaiverInfo.per_page).results
+                     search = WaiverInfo.search_with_words(search_term, page, per_page)
+                     search.results
                    else
-                     WaiverInfo.all.paginate(page: params[:page], per_page: params[:per_page] || WaiverInfo.per_page)
+                     models = WaiverInfo.all
+                     models.paginate(page: page, per_page: per_page)
                    end
 
     do_solr_index(search_term, waiver_infos)
     render(:index)
   end
 
-  # GET waivers/search/:search_term
-  # params :page, :per_page
+  # POST /admin/waivers/match
   def solr_search_words_post
-    redirect_to action: :solr_search_words, search_term: (params["search_term"] || "").gsub(%r{[.&/]}, " ")
+    search_term_param = params["search_term"] || ""
+    search_term = search_term_param.gsub(%r{[.&/]}, " ")
+
+    redirect_to action: :solr_search_words, search_term: search_term
   end
 
   # GET waivers
@@ -211,11 +218,24 @@ class WaiverInfosController < ApplicationController
     journal = props.delete("journal")
     notes = props.delete("notes")
 
-    @waiver_infos = WaiverInfo.where(props)
-    @author = Employee.find_by_unique_id(props["author_unique_id"]) if props["author_unique_id"]
-    @waiver_infos = @waiver_infos.where("title LIKE ?", "%#{title}%") if title
-    @waiver_infos = @waiver_infos.where("journal LIKE ?", "%#{journal}%") if journal
-    @waiver_infos = @waiver_infos.where("notes LIKE ?", "%#{notes}%") if notes
+    author_unique_id = props.fetch("author_unique_id", nil)
+    @author = if author_unique_id.nil?
+                nil
+              else
+                Employee.find_by_unique_id(author_unique_id)
+              end
+
+    models = WaiverInfo.where(props)
+    @waiver_infos = if title
+                      models.where("title LIKE ?", "%#{title}%")
+                    elsif journal
+                      models.where("journal LIKE ?", "%#{journal}%")
+                    elsif notes
+                      models.where("notes LIKE ?", "%#{notes}%")
+                    else
+                      models
+                    end
+
     @waiver_infos
   end
 
@@ -235,7 +255,6 @@ class WaiverInfosController < ApplicationController
     # TODO: what about author ?
     return if current_account.admin?
 
-    logger.debug "ensure_user_owns_waiver_info #{@waiver_info.id} #{current_account}"
     render nothing: true, status: :forbidden unless account_owns_waiver?
   end
 

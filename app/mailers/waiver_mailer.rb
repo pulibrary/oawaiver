@@ -4,6 +4,7 @@ class WaiverMailer < ApplicationMailer
   class_attribute :initialized, default: false
   class_attribute :parameters
   class_attribute :options
+  class_attribute :contact
   class_attribute :url
   class_attribute :from
   class_attribute :reply_to
