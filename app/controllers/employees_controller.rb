@@ -42,8 +42,8 @@ class EmployeesController < ApplicationController
     @search_term = params[:search_term]
 
     @employees = if @search_term.length > 1
-                   response = Employee.search_by_name(@search_term, page_param, per_page_param)
-                   response.results
+                   search = Employee.search_by_name(@search_term, page_param, per_page_param)
+                   search.results
                  else
                    employees = Employee.all
                    employees.paginate(page: page_param, per_page: per_page_param)

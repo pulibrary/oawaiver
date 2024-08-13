@@ -108,23 +108,26 @@ class WaiverInfosController < ApplicationController
     redirect_to(root_path) if params["CANCEL"]
 
     @waiver_info = WaiverInfo.new(waiver_info_params)
-    @waiver_info.errors.clear
-    render(:new_waiver_info) unless @waiver_info.valid?
+    if @waiver_info.valid?
 
-    redirect_to(root_path) unless params["CONFIRM-WAIVER"]
+      redirect_to(root_path) unless params["CONFIRM-WAIVER"]
 
-    @waiver_info.save # save first so ID will be set when generating mail
-    mail = WaiverMailer.new(@waiver_info).granted(@waiver_info.cc_email)
-    mail.deliver!
+      @waiver_info.save
 
-    mail_record = MailRecord.new_from_mail(mail)
-    mail_record.waiver_info = @waiver_info
-    mail_record.save
+      mail = WaiverMailer.new(@waiver_info).granted(@waiver_info.cc_email)
+      mail.deliver!
 
-    @request_granted = true
-    flash.now[:notice] = "We have sent emails with the waiver to #{mail_record.recipients.join(', ')}"
+      mail_record = MailRecord.new_from_mail(mail)
+      mail_record.waiver_info = @waiver_info
+      mail_record.save
 
-    render :show
+      @request_granted = true
+      flash.now[:notice] = "We have sent emails with the waiver to #{mail_record.recipients.join(', ')}"
+
+      render :show
+    else
+      render(:new_waiver_info)
+    end
   rescue StandardError => error
     @waiver_info.destroy
     @waiver_info.errors.add(:base, "Could not send an email")
