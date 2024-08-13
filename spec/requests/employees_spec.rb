@@ -169,6 +169,78 @@ describe EmployeesController do
     end
   end
 
+  describe "GET /employees/search/:search_term" do
+    let(:admin_account) { FactoryBot.create(:admin_account) }
+    let(:employee1) { FactoryBot.create(:employee_faked) }
+    let(:employee2) { FactoryBot.create(:employee_faked) }
+    let(:search_term) { employee1.first_name }
+    let(:params) do
+      {
+        page: 1,
+        per_page: 10
+      }
+    end
+
+    before do
+      employee1
+      employee2
+      sign_in(admin_account)
+    end
+
+    it "searches for employee models using the query parameters" do
+      get(search_get_employees_path(search_term: search_term, params: params))
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(employee1.first_name)
+      expect(response.body).not_to include(employee2.first_name)
+    end
+
+    context "when the search term is empty" do
+      let(:search_term) { " " }
+
+      it "retrieves all employee models" do
+        get(search_get_employees_path(search_term: search_term, params: params))
+
+        expect(response.status).to eq(200)
+
+        expect(response.body).to include(employee1.first_name)
+        expect(response.body).to include(employee2.first_name)
+      end
+    end
+  end
+
+  describe "POST /employees/search" do
+    let(:admin_account) { FactoryBot.create(:admin_account) }
+    let(:employee1) { FactoryBot.create(:employee_faked) }
+    let(:search_term) { employee1.first_name }
+    let(:params) do
+      {
+        page: 1,
+        per_page: 10,
+        search_term: search_term
+      }
+    end
+
+    before do
+      sign_in(admin_account)
+      employee1
+    end
+
+    it "redirects to the search endpoint" do
+      post(search_employees_path, params: params)
+      expect(response).to redirect_to(search_get_employees_path(search_term: search_term))
+    end
+
+    context "when the search term is empty" do
+      let(:search_term) { "" }
+
+      it "redirects to the index action" do
+        post(search_employees_path, params: params)
+        expect(response).to redirect_to(employees_path)
+      end
+    end
+  end
+
   describe "GET /employees/:id" do
     let(:employee1) { FactoryBot.create(:employee_faked) }
     let(:employee1_path) { employee_path(id: employee1.id) }

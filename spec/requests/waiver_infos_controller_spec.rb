@@ -5,7 +5,7 @@ require "rails_helper"
 describe "Waivers", type: :request do
   let(:admin_user) { FactoryBot.create(:admin_user) }
 
-  describe "/waiver/requester/me" do
+  describe "GET /waiver/requester/me" do
     let(:user) { FactoryBot.create(:regular_user) }
     let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }
     let(:waiver_info2) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: "Some 2 Title") }
@@ -135,6 +135,33 @@ describe "Waivers", type: :request do
         expect(mail_record.waiver_info).to eq(waiver_info)
         expect(waiver_info.mail_records).to include(mail_record)
       end
+
+      context "when an error has occurred while persisting the new WaiverInfo model" do
+        let(:params_dis) do
+          {
+            waiver_info: {
+              author_last_name: "Smith",
+              author_department: "History",
+              author_email: "invalid",
+              notes: "test notes"
+            },
+            'CONFIRM-WAIVER': "Confirm"
+          }
+        end
+
+        before do
+          allow(MailRecord).to receive(:new_from_mail).and_raise(StandardError, "test error message")
+        end
+
+        it "adds the error messages" do
+          post(create_waiver_info_path, params: params)
+
+          expect(response.body).to include("Could not send an email")
+          # expect(response.body).to include("Author email is invalid")
+          expect(response.body).to include("test error message")
+          expect(response.body).to include("Did not create the Waiver - Please try again")
+        end
+      end
     end
   end
 
@@ -162,7 +189,7 @@ describe "Waivers", type: :request do
       sign_in(admin_user)
     end
 
-    xit "searches Solr" do
+    it "searches Solr" do
       get(admin_waivers_match_path, params: params)
 
       expect(response.status).to eq(200)
@@ -170,10 +197,10 @@ describe "Waivers", type: :request do
       expect(response.body).not_to include(title2)
     end
 
-    context "when no search terms are specified" do
-      let(:search_term) { nil }
+    context "when a blank search term is specified" do
+      let(:search_term) { "" }
 
-      xit "retrieves all WaiverInfo models" do
+      it "retrieves all WaiverInfo models" do
         get(admin_waivers_match_path, params: params)
 
         expect(response.status).to eq(200)
