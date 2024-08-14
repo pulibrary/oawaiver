@@ -165,6 +165,42 @@ describe "Waivers", type: :request do
     end
   end
 
+  describe "POST /admin/waivers/match" do
+    let(:title) { "test title" }
+    let(:title2) { "term2" }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title)
+    end
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title2)
+    end
+    let(:search_term) { title }
+    let(:params) do
+      {
+        search_term: search_term,
+        page: 1,
+        per_page: 10
+      }
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    it "redirects to the Solr search endpoint" do
+      post(match_waiver_infos_words_path, params: params)
+
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(match_waiver_infos_get_words_path(search_term))
+
+      follow_redirect!
+      expect(response.body).to include(title)
+      expect(response.body).not_to include(title2)
+    end
+  end
+
   describe "GET /admin/waivers/match/:search_term" do
     let(:title) { "test title" }
     let(:title2) { "term2" }
