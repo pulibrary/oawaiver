@@ -46,15 +46,10 @@ class WaiverInfo < ApplicationRecord
   def valid_author?
     return true if valid?
 
-    # check that none of the author_fields are in the errors list
-    ms = errors.messages
-    return false if ms.key?(:author_last_name)
-    return false if ms.key?(:author_first_name)
-    return false if ms.key?(:author_department)
-    return false if ms.key?(:author_status)
-    return false if ms.key?(:author_email)
+    error_messages = errors.messages
+    author_keys = error_messages.keys.select { |key| key.to_s.include?("author_") }
 
-    true
+    author_keys.empty?
   end
 
   def faculty?

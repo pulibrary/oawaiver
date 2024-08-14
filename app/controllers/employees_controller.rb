@@ -81,17 +81,4 @@ class EmployeesController < ApplicationController
   def per_page_param
     params[:per_page] || Employee.per_page
   end
-
-  # Use callbacks to share common setup or constraints between actions.
-  def set_employee
-    @employee = if params[:id]
-                  Employee.find(params[:id])
-                else
-                  Employee.find_by(unique_id: params[:unique_id])
-                end
-  end
-
-  def employee_params
-    params.require(:employee).permit(:first_name, :last_name, :preferred_name, :unique_id, :email, :netid)
-  end
 end

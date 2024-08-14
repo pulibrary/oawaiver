@@ -5,6 +5,34 @@ require "rails_helper"
 describe "Waivers", type: :request do
   let(:admin_user) { FactoryBot.create(:admin_user) }
 
+  describe "GET /waiver/:id" do
+    context "when authenticated as a non-admin user" do
+      let(:user) { FactoryBot.create(:regular_user) }
+      let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }
+
+      before do
+        waiver_info
+        sign_in(user)
+      end
+
+      context "when the waiver is owned by the user account" do
+        let(:waiver_info) { FactoryBot.create(:waiver_info, requester: user, requester_email: user.email) }
+        it "renders the show template" do
+          get(waiver_info_path(waiver_info.id))
+
+          expect(response.status).to eq(200)
+          expect(response.body).to include(waiver_info.title)
+        end
+      end
+
+      it "returns a forbidden status code" do
+        get(waiver_info_path(waiver_info.id))
+
+        expect(response.status).to eq(403)
+      end
+    end
+  end
+
   describe "GET /waiver/requester/me" do
     let(:user) { FactoryBot.create(:regular_user) }
     let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }
@@ -278,6 +306,28 @@ describe "Waivers", type: :request do
     end
   end
 
+  describe "GET /admin/waiver/:id" do
+    let(:employee) { FactoryBot.create(:employee) }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
+    end
+    let(:employee_email) do
+      Rack::Utils.escape(waiver_info.author_email)
+    end
+
+    before do
+      waiver_info
+      sign_in(admin_user)
+    end
+
+    it "renders a link to the directory" do
+      get(edit_by_admin_path(waiver_info.id))
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include("http://search.princeton.edu/search?e=#{employee_email}")
+    end
+  end
+
   describe "GET /admin/unique_id/:author_unique_id" do
     let(:employee) { FactoryBot.create(:employee) }
     let(:waiver_info) do
@@ -299,6 +349,135 @@ describe "Waivers", type: :request do
 
       expect(response.body).to include(waiver_info.requester)
       expect(response.body).not_to include(waiver_info2.requester)
+    end
+  end
+
+  describe "GET /admin/search" do
+    let(:employee) { FactoryBot.create(:employee) }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
+    end
+    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    context "when searching for waivers by the associated journal" do
+      let(:journal) { "Ipsum" }
+      let(:journal2) { "lorem" }
+      let(:waiver_info) do
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, journal: journal)
+      end
+      let(:waiver_info2) do
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, journal: journal2)
+      end
+      let(:params) do
+        {
+          waiver_info: {
+            journal: journal
+          },
+          page: 1,
+          per_page: 10
+        }
+      end
+
+      it "retrieves related WaiverInfo models by querying Solr" do
+        get(search_waiver_infos_path, params: params)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to include(journal)
+        expect(response.body).not_to include(journal2)
+      end
+    end
+
+    context "when searching for waivers using keywords within the notes" do
+      let(:notes) { "Ipsum" }
+      let(:notes2) { "lorem" }
+      let(:waiver_info) do
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, notes: notes)
+      end
+      let(:waiver_info2) do
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, notes: notes2)
+      end
+
+      let(:params) do
+        {
+          waiver_info: {
+            notes: notes
+          },
+          page: 1,
+          per_page: 10
+        }
+      end
+
+      it "retrieves related WaiverInfo models by querying Solr" do
+        get(search_waiver_infos_path, params: params)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to include(notes)
+        expect(response.body).not_to include(notes2)
+      end
+    end
+  end
+
+  describe "POST /admin/waiver/:id" do
+    let(:employee) { FactoryBot.create(:employee) }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
+    end
+    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
+    end
+
+    before do
+      waiver_info
+      sign_in(admin_user)
+    end
+
+    context "when transmitting a POST request as an admin. user" do
+      let(:params) do
+        {
+
+        }
+      end
+
+      it "redirects to the admin. edit view" do
+        post("/admin/waiver/#{waiver_info.id}", params: params)
+
+        expect(response.status).to eq(302)
+        expect(response).to redirect_to(edit_by_admin_path(waiver_info.id))
+      end
+    end
+  end
+
+  describe "GET /admin/waivers" do
+    let(:employee) { FactoryBot.create(:employee) }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
+    end
+    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    it "indicates the number of matching records" do
+      get(waiver_infos_path)
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include("2 Matching Records")
     end
   end
 end

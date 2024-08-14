@@ -22,4 +22,13 @@ describe AuthorStatus do
     paths = described_class.get_unique_id_path
     expect(paths).to eq({ "html" => "employees/get/MATCH", "json" => "api/employees/get/unique_id.json?id=MATCH" })
   end
+
+  describe ".generate_uid_url" do
+    let(:uid) { "123456789" }
+
+    it "generates the URL from a given UID" do
+      url = described_class.generate_uid_url(uid)
+      expect(url).to eq("//employees/get/123456789")
+    end
+  end
 end

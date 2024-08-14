@@ -255,7 +255,7 @@ describe EmployeesController do
       expect(response).to redirect_to(new_account_session_path)
     end
 
-    context "when authenticated as a valid user" do
+    context "when authenticated as an admin user" do
       let(:admin_account) { FactoryBot.create(:admin_account) }
 
       before do
