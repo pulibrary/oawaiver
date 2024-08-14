@@ -66,7 +66,9 @@ class WaiverInfosController < ApplicationController
     models = search_with_props(@properties)
 
     @search_term = ""
-    @waiver_infos = models.paginate(page: params[:page], per_page: params[:per_page])
+    page = params[:page]
+    per_page = params[:per_page]
+    @waiver_infos = models.paginate(page: page, per_page: per_page)
 
     render(:index)
   end
@@ -189,6 +191,10 @@ class WaiverInfosController < ApplicationController
     }
   end
 
+  def author_unique_id_param
+    params[:author_unique_id]
+  end
+
   def unique_id_properties
     {
       author_unique_id: author_unique_id_param
@@ -201,10 +207,6 @@ class WaiverInfosController < ApplicationController
     }
   end
 
-  def author_unique_id_param
-    params[:author_unique_id]
-  end
-
   def do_solr_index(words, waivers)
     @properties = []
     @search_term = words
@@ -212,7 +214,7 @@ class WaiverInfosController < ApplicationController
   end
 
   def search_with_props(search_props)
-    props = {}
+    props = ActiveSupport::HashWithIndifferentAccess.new
 
     search_props.each do |k, v|
       props[k] = v.strip

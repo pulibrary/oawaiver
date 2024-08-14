@@ -277,4 +277,28 @@ describe "Waivers", type: :request do
       end
     end
   end
+
+  describe "GET /admin/unique_id/:author_unique_id" do
+    let(:employee) { FactoryBot.create(:employee) }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
+    end
+    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    it "indexes a waiver retrieved using the author ID" do
+      get(index_unique_id_waiver_infos_path(employee.unique_id))
+
+      expect(response.body).to include(waiver_info.requester)
+      expect(response.body).not_to include(waiver_info2.requester)
+    end
+  end
 end
