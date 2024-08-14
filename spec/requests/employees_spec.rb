@@ -11,10 +11,6 @@ describe EmployeesController do
     employee1
     employee2
     employee3
-
-    Array.new(18) do
-      FactoryBot.create(:employee_faked)
-    end
   end
 
   describe "GET /employees" do
@@ -49,17 +45,21 @@ describe EmployeesController do
           }
         end
 
-        it "renders only a given page of Employees" do
-          employee1 = Employee.order(:id).first
-          employee2 = Employee.order(:id).all[1]
+        before do
+          Array.new(18) do
+            FactoryBot.create(:employee_faked)
+          end
+        end
 
+        it "renders only a given page of Employees" do
           get(employees_path, params: params)
 
           expect(response).to render_template(:index)
 
           employee1_first_name = ERB::Util.html_escape(employee1.first_name)
           employee2_first_name = ERB::Util.html_escape(employee2.first_name)
-          last_employee_first_name = ERB::Util.html_escape(Employee.last.first_name)
+          last_employee = Employee.last
+          last_employee_first_name = ERB::Util.html_escape(last_employee.first_name)
 
           expect(response.body).to include(employee1_first_name)
           expect(response.body).to include(employee2_first_name)
@@ -268,6 +268,23 @@ describe EmployeesController do
         expect(response).to render_template(:show)
         expect(response.body).to include(employee1.first_name)
       end
+    end
+  end
+
+  describe "GET /employees/get/:unique_id" do
+    let(:employee) { FactoryBot.create(:employee_faked) }
+    let(:admin_account) { FactoryBot.create(:admin_account) }
+
+    before do
+      employee
+      sign_in(admin_account)
+    end
+
+    it "finds employees using a unique ID" do
+      get(uniqueId_employee_path(employee.unique_id))
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(employee.unique_id)
     end
   end
 end
