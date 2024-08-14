@@ -214,8 +214,8 @@ describe "Waivers", type: :request do
   end
 
   describe "GET /admin/waivers/match/:search_term" do
-    let(:author_dept) { Faker::ChuckNorris.fact }
-    let(:author_dept2) { Faker::ChuckNorris.fact }
+    let(:author_dept) { "Chemistry" }
+    let(:author_dept2) { "Physics" }
     let(:waiver_info) do
       FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
     end
