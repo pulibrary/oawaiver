@@ -137,18 +137,6 @@ describe "Waivers", type: :request do
       end
 
       context "when an error has occurred while persisting the new WaiverInfo model" do
-        let(:params_dis) do
-          {
-            waiver_info: {
-              author_last_name: "Smith",
-              author_department: "History",
-              author_email: "invalid",
-              notes: "test notes"
-            },
-            'CONFIRM-WAIVER': "Confirm"
-          }
-        end
-
         before do
           allow(MailRecord).to receive(:new_from_mail).and_raise(StandardError, "test error message")
         end
@@ -162,19 +150,79 @@ describe "Waivers", type: :request do
           expect(response.body).to include("Did not create the Waiver - Please try again")
         end
       end
+
+      context "when the new WaiverInfo attributes are invalid" do
+        let(:params) do
+          {
+            waiver_info: {
+              author_last_name: "Smith",
+              author_department: "History",
+              author_email: "invalid",
+              notes: "test notes"
+            },
+            'CONFIRM-WAIVER': "Confirm"
+          }
+        end
+
+        before do
+        end
+
+        it "adds the error messages" do
+          post(create_waiver_info_path, params: params)
+
+          expect(response.body).to include("Author email is invalid")
+        end
+      end
+    end
+  end
+
+  describe "POST /admin/waivers/match" do
+    let(:author_dept) { "Chemistry" }
+    let(:author_dept2) { "Physics" }
+
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
+    end
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept2)
+    end
+    let(:search_term) { author_dept }
+    let(:params) do
+      {
+        search_term: search_term,
+        page: 1,
+        per_page: 10
+      }
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    it "redirects to the Solr search endpoint" do
+      post(match_waiver_infos_words_path, params: params)
+
+      expect(response.status).to eq(302)
+      expect(response).to redirect_to(match_waiver_infos_get_words_path(search_term))
+
+      follow_redirect!
+      expect(response.body).to include(author_dept)
+      expect(response.body).not_to include(author_dept2)
     end
   end
 
   describe "GET /admin/waivers/match/:search_term" do
-    let(:title) { "test title" }
-    let(:title2) { "term2" }
+    let(:author_dept) { "Chemistry" }
+    let(:author_dept2) { "Physics" }
     let(:waiver_info) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
     end
     let(:waiver_info2) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title2)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept2)
     end
-    let(:search_term) { title }
+    let(:search_term) { author_dept }
     let(:params) do
       {
         search_term: search_term,
@@ -193,8 +241,8 @@ describe "Waivers", type: :request do
       get(admin_waivers_match_path, params: params)
 
       expect(response.status).to eq(200)
-      expect(response.body).to include(title)
-      expect(response.body).not_to include(title2)
+      expect(response.body).to include(author_dept)
+      expect(response.body).not_to include(author_dept2)
     end
 
     context "when a blank search term is specified" do
@@ -204,9 +252,53 @@ describe "Waivers", type: :request do
         get(admin_waivers_match_path, params: params)
 
         expect(response.status).to eq(200)
-        expect(response.body).to include(title)
-        expect(response.body).to include(title2)
+        expect(response.body).to include(author_dept)
+        expect(response.body).to include(author_dept2)
       end
+    end
+  end
+
+  describe "POST /admin/waiver/:id" do
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email)
+    end
+    let(:user) { FactoryBot.create(:regular_user) }
+
+    before do
+      waiver_info
+      sign_in(user)
+    end
+
+    context "when authenticated with a non-admin user" do
+      it "returns with a forbidden status and flashes a warning" do
+        post("/admin/waiver/#{waiver_info.id}")
+
+        expect(response.status).to eq(403)
+      end
+    end
+  end
+
+  describe "GET /admin/unique_id/:author_unique_id" do
+    let(:employee) { FactoryBot.create(:employee) }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
+    end
+    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
+    end
+
+    before do
+      waiver_info
+      waiver_info2
+      sign_in(admin_user)
+    end
+
+    it "indexes a waiver retrieved using the author ID" do
+      get(index_unique_id_waiver_infos_path(employee.unique_id))
+
+      expect(response.body).to include(waiver_info.requester)
+      expect(response.body).not_to include(waiver_info2.requester)
     end
   end
 end
