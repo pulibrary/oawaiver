@@ -53,12 +53,6 @@ module ApplicationHelper
     end
   end
 
-  def employee_list(name, label = "A")
-    link_to(search_get_employees_path(search_term: name), class: "admin_actions") do
-      label
-    end
-  end
-
   def sign_out_form(html_opts = {})
     html_opts[:class] = html_opts.fetch(:class, []) + ["form"]
 
@@ -85,12 +79,8 @@ module ApplicationHelper
     sign_in_link(html_opts)
   end
 
-  def paginate_length(objects)
-    return objects.total_entries if objects.respond_to? :total_entries
-    return objects.total_count if objects.respond_to? :total_count
-    return objects.length if objects.respond_to? :length
-
-    "unknown"
+  def paginate_length(models)
+    models.total_entries
   end
 
   def current_roles
@@ -105,6 +95,8 @@ module ApplicationHelper
   end
 
   def current_account_admin?
-    current_roles.include?("ADMIN")
+    return false if current_account.nil?
+
+    current_account.admin?
   end
 end

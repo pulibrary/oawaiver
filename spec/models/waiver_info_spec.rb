@@ -62,4 +62,21 @@ RSpec.describe WaiverInfo, type: :model do
       expect(obj.errors.messages[:author_unique_id]).not_to eq(nil)
     end
   end
+
+  describe "#valid_author?" do
+    let(:author_unique_id) { "123456789" }
+    let(:waiver_info) { FactoryBot.build(:waiver_info, author_unique_id: author_unique_id) }
+
+    it "returns true if the model is valid" do
+      expect(waiver_info.valid_author?).to be true
+    end
+
+    context "when the author unique ID is invalid" do
+      let(:author_unique_id) { "1234-6789" }
+
+      it "returns false" do
+        expect(waiver_info.valid_author?).to be false
+      end
+    end
+  end
 end

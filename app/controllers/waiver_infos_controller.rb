@@ -151,7 +151,10 @@ class WaiverInfosController < ApplicationController
     @waiver_info = WaiverInfo.find(waiver_id)
 
     # This handles legacy support for the POST requests
-    redirect_to(:edit_by_admin) unless params[:commit] && params[:commit] == "Save"
+    unless params[:commit] && params[:commit] == "Save"
+      redirect_to(:edit_by_admin)
+      return
+    end
 
     if @waiver_info.update(update_waiver_info_params)
       flash[:notice] = "Waiver information successfully updated"
@@ -248,7 +251,7 @@ class WaiverInfosController < ApplicationController
   def account_owns_waiver?
     return unless current_account
 
-    current_account.authenticated? && @waiver_info.requester == current_account
+    current_account.authenticated? && @waiver_info.requester == current_account.netid
   end
 
   def current_account_admin?
