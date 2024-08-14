@@ -137,7 +137,22 @@ describe "Waivers", type: :request do
       end
 
       context "when an error has occurred while persisting the new WaiverInfo model" do
-        let(:params_dis) do
+        before do
+          allow(MailRecord).to receive(:new_from_mail).and_raise(StandardError, "test error message")
+        end
+
+        it "adds the error messages" do
+          post(create_waiver_info_path, params: params)
+
+          expect(response.body).to include("Could not send an email")
+          # expect(response.body).to include("Author email is invalid")
+          expect(response.body).to include("test error message")
+          expect(response.body).to include("Did not create the Waiver - Please try again")
+        end
+      end
+
+      context "when the new WaiverInfo attributes are invalid" do
+        let(:params) do
           {
             waiver_info: {
               author_last_name: "Smith",
@@ -150,16 +165,12 @@ describe "Waivers", type: :request do
         end
 
         before do
-          allow(MailRecord).to receive(:new_from_mail).and_raise(StandardError, "test error message")
         end
 
         it "adds the error messages" do
           post(create_waiver_info_path, params: params)
 
-          expect(response.body).to include("Could not send an email")
-          # expect(response.body).to include("Author email is invalid")
-          expect(response.body).to include("test error message")
-          expect(response.body).to include("Did not create the Waiver - Please try again")
+          expect(response.body).to include("Author email is invalid")
         end
       end
     end
