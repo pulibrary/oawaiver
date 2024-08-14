@@ -177,15 +177,16 @@ describe "Waivers", type: :request do
   end
 
   describe "POST /admin/waivers/match" do
-    let(:title) { "test title" }
-    let(:title2) { "term2" }
+    let(:author_dept) { "Chemistry" }
+    let(:author_dept2) { "Physics" }
+
     let(:waiver_info) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
     end
     let(:waiver_info2) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title2)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept2)
     end
-    let(:search_term) { title }
+    let(:search_term) { author_dept }
     let(:params) do
       {
         search_term: search_term,
@@ -207,21 +208,21 @@ describe "Waivers", type: :request do
       expect(response).to redirect_to(match_waiver_infos_get_words_path(search_term))
 
       follow_redirect!
-      expect(response.body).to include(title)
-      expect(response.body).not_to include(title2)
+      expect(response.body).to include(author_dept)
+      expect(response.body).not_to include(author_dept2)
     end
   end
 
   describe "GET /admin/waivers/match/:search_term" do
-    let(:title) { "test title" }
-    let(:title2) { "term2" }
+    let(:author_dept) { Faker::ChuckNorris.fact }
+    let(:author_dept2) { Faker::ChuckNorris.fact }
     let(:waiver_info) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
     end
     let(:waiver_info2) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: title2)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept2)
     end
-    let(:search_term) { title }
+    let(:search_term) { author_dept }
     let(:params) do
       {
         search_term: search_term,
@@ -240,8 +241,8 @@ describe "Waivers", type: :request do
       get(admin_waivers_match_path, params: params)
 
       expect(response.status).to eq(200)
-      expect(response.body).to include(title)
-      expect(response.body).not_to include(title2)
+      expect(response.body).to include(author_dept)
+      expect(response.body).not_to include(author_dept2)
     end
 
     context "when a blank search term is specified" do
@@ -251,8 +252,8 @@ describe "Waivers", type: :request do
         get(admin_waivers_match_path, params: params)
 
         expect(response.status).to eq(200)
-        expect(response.body).to include(title)
-        expect(response.body).to include(title2)
+        expect(response.body).to include(author_dept)
+        expect(response.body).to include(author_dept2)
       end
     end
   end
