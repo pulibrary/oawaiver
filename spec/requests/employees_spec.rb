@@ -270,4 +270,21 @@ describe EmployeesController do
       end
     end
   end
+
+  describe "GET /employees/get/:unique_id" do
+    let(:employee) { FactoryBot.create(:employee_faked) }
+    let(:admin_account) { FactoryBot.create(:admin_account) }
+
+    before do
+      employee
+      sign_in(admin_account)
+    end
+
+    it "finds employees using a unique ID" do
+      get(uniqueId_employee_path(employee.unique_id))
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include(employee.unique_id)
+    end
+  end
 end
