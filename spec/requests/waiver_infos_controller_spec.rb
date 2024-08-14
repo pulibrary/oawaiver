@@ -257,4 +257,24 @@ describe "Waivers", type: :request do
       end
     end
   end
+
+  describe "POST /admin/waiver/:id" do
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email)
+    end
+    let(:user) { FactoryBot.create(:regular_user) }
+
+    before do
+      waiver_info
+      sign_in(user)
+    end
+
+    context "when authenticated with a non-admin user" do
+      it "returns with a forbidden status and flashes a warning" do
+        post("/admin/waiver/#{waiver_info.id}")
+
+        expect(response.status).to eq(403)
+      end
+    end
+  end
 end

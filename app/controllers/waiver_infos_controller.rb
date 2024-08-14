@@ -142,7 +142,8 @@ class WaiverInfosController < ApplicationController
     # This should be refactored into an exception (or, CanCanCan should be used)
     unless current_account.admin?
       head(:forbidden)
-      return flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
+      flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
+      return
     end
 
     @waiver_info = WaiverInfo.find(waiver_id)
