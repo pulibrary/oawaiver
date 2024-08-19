@@ -14,10 +14,10 @@ class WaiverMailer < ApplicationMailer
   class_attribute :mail_templates
 
   def self.validate_email(address)
-    valid = URI::MailTo::EMAIL_REGEXP.match(address)
+    email_valid = URI::MailTo::EMAIL_REGEXP.match(address)
 
-    raise("Invalid email address: '#{address}'") unless valid
-    valid
+    raise("Invalid email address: '#{address}'") unless email_valid
+    email_valid
   end
 
   # initialize global variables based on Rails.application.config.waiver_mailer_parameters hash
@@ -120,7 +120,7 @@ class WaiverMailer < ApplicationMailer
 
     @waiver_info_url ||= begin
                            pattern = /ID/
-                           model_id = waiver_info.id
+                           model_id = @waiver_info.id
                            value = url.sub(pattern, model_id.to_s)
                            value
                          end
@@ -177,9 +177,6 @@ class WaiverMailer < ApplicationMailer
   end
 
   def granted(cc_address = nil)
-    # self.class.bootstrap
-
-    # @cc = cc_address if cc_address.present?
     if cc_address.present?
       self.class.validate_email(cc_address)
       @cc = cc_address

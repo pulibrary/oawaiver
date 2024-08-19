@@ -33,7 +33,6 @@ RSpec.describe AccountsController, type: :controller do
 
         before do
           sign_in(admin_user)
-          Waiver::Authentication.set_authorized_user(session, admin_user.netid)
         end
 
         it "creates a new User" do
@@ -61,8 +60,6 @@ RSpec.describe AccountsController, type: :controller do
       context "with an existing CAS account for an admin." do
         before do
           sign_in(admin_user)
-
-          Waiver::Authentication.set_authorized_user(session, admin_user.netid)
         end
 
         it "assigns a newly created and unsaved account as @account" do
@@ -93,7 +90,6 @@ RSpec.describe AccountsController, type: :controller do
 
       before do
         sign_in(admin_user)
-        Waiver::Authentication.set_authorized_user(session, admin_user.netid)
       end
 
       it "redirects to the manage_url" do

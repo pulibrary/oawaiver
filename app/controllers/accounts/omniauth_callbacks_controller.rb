@@ -13,10 +13,5 @@ module Accounts
     def access_token
       request.env["omniauth.auth"]
     end
-
-    def cas_failure
-      set_flash_message!(:alert, :failure, kind: OmniAuth::Utils.camelize("cas"), reason: "Failed to authenticate using the Princeton University CAS. Please contact support for assistance.")
-      redirect_to(root_path)
-    end
   end
 end
