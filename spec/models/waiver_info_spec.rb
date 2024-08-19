@@ -89,4 +89,14 @@ RSpec.describe WaiverInfo, type: :model do
       expect(waiver_infos).not_to be_empty
     end
   end
+
+  describe ".all_with_words" do
+    let(:waiver_info) { FactoryBot.create(:waiver_info) }
+
+    it "searches for WaiverInfo models using the :all_word_fields" do
+      waiver_info
+      waiver_infos = described_class.all_with_words("Some Title")
+      expect(waiver_infos).to be_a(Sunspot::Search::StandardSearch)
+    end
+  end
 end
