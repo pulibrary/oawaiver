@@ -493,16 +493,6 @@ RSpec.describe WaiverInfosController, type: :controller do
   end
 
   context "with the range of restricted IP addresses set to 8.8.8.8" do
-    let(:initial_allowed_ips) { Waiver::Authentication.set_allowed_ips("8.8.8.8") }
-
-    before do
-      initial_allowed_ips
-    end
-
-    after do
-      Waiver::Authentication.set_allowed_ips(initial_allowed_ips)
-    end
-
     it "denies access to the client" do
       get "index", format: :json
       expect(response).not_to have_http_status(:success)

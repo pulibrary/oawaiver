@@ -79,4 +79,14 @@ RSpec.describe WaiverInfo, type: :model do
       end
     end
   end
+
+  describe ".find_by_email" do
+    let(:waiver_info) { FactoryBot.create(:waiver_info) }
+
+    it "finds the WaiverInfo using the e-mail address" do
+      waiver_info
+      waiver_infos = described_class.find_by_email(waiver_info.author_email)
+      expect(waiver_infos).not_to be_empty
+    end
+  end
 end

@@ -443,9 +443,7 @@ describe "Waivers", type: :request do
 
     context "when transmitting a POST request as an admin. user" do
       let(:params) do
-        {
-
-        }
+        {}
       end
 
       it "redirects to the admin. edit view" do

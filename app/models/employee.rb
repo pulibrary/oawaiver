@@ -36,16 +36,16 @@ class Employee < ApplicationRecord
   def format_unique_id
     uid = self[:unique_id]
     begin
-      if uid.class == Integer
-        uid = format("%09d", uid)
-      elsif uid.class == String
-        len = uid.length
-        uid = "000000000".slice(0, 9 - uid.length) + uid if len < 9
-      end
+      raise(ArgumentError, "Invalid unique ID: #{uid} (#{uid.class})") unless uid.class == String
+
+      len = uid.length
+      uid = "000000000".slice(0, 9 - uid.length) + uid if len < 9
+
       self.unique_id = uid
-    rescue StandardError => e
-      logger.debug("format_unique_id #{uid} failed with #{e.message}")
+    rescue StandardError => error
+      Rails.logger.warn(error.message)
     end
+
     self
   end
 
@@ -85,8 +85,9 @@ class Employee < ApplicationRecord
       batch_counter = 0
       batch_options = options.slice(:batch_size, :start)
       batch_size = batch_options[:batch_size]
+      include_option = options[:include]
 
-      includes(options[:include]).find_in_batches(batch_size: batch_size) do |records|
+      includes(include_option).find_in_batches(batch_size: batch_size) do |records|
         solr_benchmark(options[:batch_size], batch_counter += 1) do
           Sunspot.index(records.select(&:indexable?))
           Sunspot.commit if options[:batch_commit]
@@ -118,13 +119,6 @@ class Employee < ApplicationRecord
   # return Sunspot::Search object
   def self.all_by_department(word)
     search_by_field(:department, word, nil, @@MAX_EMPLOYEE_MATCH)
-  end
-
-  # search for employees from the given department
-  # paginate results according to given page and per_page parameters
-  # return Sunspot::Search object
-  def self.search_by_department(word, page = nil, per_page = nil)
-    search_by_field(:department, word, page, per_page)
   end
 
   def self.search_by_field(field, word, page, per_page)
