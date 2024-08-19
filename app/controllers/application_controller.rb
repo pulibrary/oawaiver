@@ -7,10 +7,6 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  def logout
-    redirect_to(destroy_account_session_path)
-  end
-
   def manage
     @notes = params["notes"] || ""
     @accounts = Account.where(netid: current_account.netid)
@@ -27,12 +23,8 @@ class ApplicationController < ActionController::Base
   private
 
   rescue_from "Exception" do |exception|
-    if exception.is_a?(ActiveRecord::RecordNotFound)
-      render controller: :application, action: :start
-    else
-      flash[:alert] = "An exception occurred: #{exception.message}"
-      render controller: :application, action: :error
-    end
+    flash[:alert] = "An exception occurred: #{exception.message}"
+    render controller: :application, action: :error
   end
 
   # This override is necessary for OmniauthCallbacksController

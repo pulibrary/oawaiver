@@ -158,4 +158,85 @@ RSpec.describe Employee, type: :model do
     expect(result[:skipped]).to eq(1)
     expect(result[:failed].keys.count).to eq(9)
   end
+
+  describe "#format_unique_id" do
+    subject(:employee) { FactoryBot.build(:employee) }
+    let(:unique_id) { "123456789" }
+
+    it "formats the value and sets the attribute value" do
+      employee.unique_id = unique_id
+      employee.format_unique_id
+      expect(employee.unique_id).to eq("123456789")
+    end
+
+    context "when the unique ID is an integer" do
+      let(:unique_id) { 123_456_789 }
+
+      it "formats the value and sets the attribute value" do
+        employee.unique_id = unique_id.to_i
+        employee.format_unique_id
+        expect(employee.unique_id).to eq("123456789")
+      end
+    end
+
+    context "when the unique ID is an invalid argument" do
+      let(:unique_id) { nil }
+
+      before do
+        allow(Rails.logger).to receive(:warn)
+      end
+
+      it "logs an error" do
+        employee.unique_id = unique_id
+        employee.format_unique_id
+
+        expect(Rails.logger).to have_received(:warn).with("Invalid unique ID:  (NilClass)")
+      end
+    end
+  end
+
+  describe "#solr_index" do
+    let(:opts) do
+      {
+        batch_size: 1,
+        first_id: 1
+      }
+    end
+
+    before do
+      allow(Sunspot).to receive(:index)
+    end
+
+    xit "indexes the models into Solr" do
+      described_class.solr_index(opts)
+
+      expect(Sunspot).to have_received(:index)
+    end
+  end
+
+  describe "#all_by_name" do
+    let(:employee) { FactoryBot.create(:employee_faked) }
+
+    before do
+      employee
+    end
+
+    it "searches for all models by :all_names" do
+      search = described_class.all_by_name(employee.first_name)
+      expect(search).to be_a(Sunspot::Search::StandardSearch)
+    end
+  end
+
+  describe "#all_by_department" do
+    let(:employee) { FactoryBot.create(:employee_faked) }
+
+    before do
+      employee
+    end
+
+    it "searches for all models by :department" do
+      search = described_class.all_by_department(employee.department)
+      expect(search).to be_a(Sunspot::Search::StandardSearch)
+    end
+  end
 end

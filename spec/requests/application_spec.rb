@@ -71,4 +71,28 @@ describe ApplicationController, type: :request do
       expect(response).to redirect_to(destroy_account_session_path)
     end
   end
+
+  describe "GET /manage" do
+    let(:valid_user) { FactoryBot.create(:regular_user) }
+    let(:auth_hash) do
+      {
+        provider: "cas",
+        uid: valid_user.netid
+      }
+    end
+
+    context "when an error is raised" do
+      before do
+        sign_in(valid_user)
+        allow(Account).to receive(:new).and_raise(StandardError)
+      end
+
+      it "renders the error view" do
+        get(manage_path)
+
+        expect(response.status).to eq(200)
+        expect(response.body).to include("An exception occurred")
+      end
+    end
+  end
 end

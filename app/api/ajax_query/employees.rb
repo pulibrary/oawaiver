@@ -23,7 +23,7 @@ module AjaxQuery
     end
     get "get/unique_id" do
       unique_id = params[:id]
-      model = Employee.find_by(unique_id:)
+      model = Employee.find_by(unique_id: unique_id)
 
       present(model, with: Entities::Employees, type: :full)
     end
@@ -35,7 +35,7 @@ module AjaxQuery
     end
     get "get/netid" do
       netid = params[:netid]
-      model = Employee.find_by(netid:)
+      model = Employee.find_by(netid: netid)
 
       present(model, with: Entities::Employees, type: :full)
     end
