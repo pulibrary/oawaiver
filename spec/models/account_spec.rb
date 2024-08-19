@@ -47,4 +47,28 @@ describe Account, type: :model do
       end
     end
   end
+
+  describe "#roles" do
+    let(:account) { FactoryBot.create(:regular_user) }
+
+    it "generates the role for a given user" do
+      expect(account.roles).to eq([described_class::AUTHENTICATED_ROLE])
+    end
+
+    context "when the user is an admin. user" do
+      let(:account) { FactoryBot.create(:admin_user) }
+
+      it "includes the admin role" do
+        expect(account.roles).to include(described_class::ADMIN_ROLE)
+      end
+    end
+
+    context "when no user is specified" do
+      let(:account) { described_class.new(netid: nil) }
+
+      it "only includes the anonymous role" do
+        expect(account.roles).to include(described_class::ANONYMOUS_ROLE)
+      end
+    end
+  end
 end
