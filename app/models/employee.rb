@@ -97,7 +97,6 @@ class Employee < ApplicationRecord
       Sunspot.index! includes(options[:include]).select(&:indexable?)
     end
 
-    # perform a final commit if not committing in batches
     Sunspot.commit unless options[:batch_commit]
   end
 
