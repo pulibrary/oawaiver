@@ -239,4 +239,33 @@ RSpec.describe Employee, type: :model do
       expect(search).to be_a(Sunspot::Search::StandardSearch)
     end
   end
+
+  describe ".reindex" do
+    let(:employee) { FactoryBot.create(:employee_faked) }
+
+    before do
+      employee
+      allow(Sunspot).to receive(:index)
+      allow(Sunspot).to receive(:commit)
+    end
+
+    it "indexes models to Solr using the Sunspot API" do
+      described_class.reindex
+      expect(Sunspot).to have_received(:index)
+      expect(Sunspot).to have_received(:commit)
+    end
+
+    context "when the batch size option is negative" do
+      before do
+        allow(Sunspot).to receive(:index!)
+        allow(Sunspot.config.indexing).to receive(:default_batch_size).and_return(-1)
+      end
+
+      it "indexes models to Solr using the Sunspot API" do
+        described_class.reindex
+        expect(Sunspot).to have_received(:index!)
+        expect(Sunspot).not_to have_received(:commit)
+      end
+    end
+  end
 end
