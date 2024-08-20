@@ -55,21 +55,21 @@ end
 
 group :test do
   gem "capybara"
-  gem "coveralls_reborn", require: false
   gem "faker"
   gem "guard-rspec"
   gem "launchy"
-  gem "simplecov", "~> 0.22.0"
 end
 
 group :development, :test do
   gem "bixby"
   gem "byebug"
+  gem "coveralls_reborn", "~> 0.28"
   gem "database_cleaner-active_record", "~> 2.1"
   gem "factory_bot_rails", "~> 6.3"
   gem "foreman", "~> 0.87"
   gem "pry", "~> 0.14"
   gem "rails-controller-testing"
   gem "rspec-rails", "5.1"
+  gem "simplecov", "~> 0.22"
   gem "yard"
 end
