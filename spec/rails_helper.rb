@@ -7,7 +7,8 @@ require "simplecov"
 SimpleCov.start "rails" do
   multi = SimpleCov::Formatter::MultiFormatter.new([
                                                      SimpleCov::Formatter::SimpleFormatter,
-                                                     SimpleCov::Formatter::HTMLFormatter
+                                                     SimpleCov::Formatter::HTMLFormatter,
+                                                     Coveralls::SimpleCov::Formatter
                                                    ])
   formatter(multi)
 
