@@ -9,8 +9,9 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 
 ### Dependencies Setup
 
-- Ruby 3.0.3
-- Bundler 2.3.11
+- Ruby 3.2.3
+- Bundler 2.3.22
+- NodeJS 18.17.0
 
 ```bash
 $ bundle install
