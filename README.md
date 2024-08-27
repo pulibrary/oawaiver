@@ -3,6 +3,9 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/pulibrary/oawaiver/badge.svg)](https://coveralls.io/github/pulibrary/oawaiver)
 
+![Ruby 3.2.3](https://img.shields.io/badge/ruby-3.2.3-red "Ruby 3.2.3"
+![Node.js 18.17.0](https://img.shields.io/badge/node.js-18.17.0-dark-green "Node.js 18.17.0"
+
 The Open Access (OA) Waiver provides faculty and researchers with the ability to submit and manage access to publications managed by the [Scholarly Communications Office](https://library.princeton.edu/services/scholarly-communications). Currently, Princeton aims to ensure that all published scholarly articles are released under the [Open Access Policy](https://dof.princeton.edu/policies-procedure/policies/open-access), and as such, are available to the general public. This service ensures that faculty and researchers may submit waivers which may restrict access to any articles which may be (or have been) released as Open Access articles.
 
 ## Development
@@ -11,18 +14,14 @@ The Open Access (OA) Waiver provides faculty and researchers with the ability to
 
 - Ruby 3.2.3
 - Bundler 2.3.22
-- NodeJS 18.17.0
+- Node.js 18.17.0
+- Lando 3.20.8
 
 ```bash
 $ bundle install
 ```
 
 #### Lando
-
-- Install Lando from https://github.com/lando/lando/releases (at least 3.x)
-- See .tool-versions for language version requirements (ruby)
-
-Then, please use Lando to run services required for both test and development environments.
 
 Start and initialize database services with `rake servers:start`
 
