@@ -1,8 +1,8 @@
 # Open Access (OA) Waiver
 [![CircleCI](https://circleci.com/gh/pulibrary/oawaiver.svg?style=svg)](https://circleci.com/gh/pulibrary/oawaiver)
 [![Coverage Status](https://coveralls.io/repos/github/pulibrary/oawaiver/badge.svg)](https://coveralls.io/github/pulibrary/oawaiver)
-![Ruby 3.2.3](https://img.shields.io/badge/ruby-3.2.3-CC342D?logo=ruby "Ruby 3.2.3")
-![Node.js 18.17.0](https://img.shields.io/badge/node.js-18.17.0-5FA04E?logo=nodedotjs "Node.js 18.17.0")
+[![Ruby 3.2.3](https://img.shields.io/badge/ruby-3.2.3-CC342D?logo=ruby "Ruby 3.2.3")](https://www.ruby-lang.org/en/news/2024/01/18/ruby-3-2-3-released/)
+[![Node.js 18.17.0](https://img.shields.io/badge/node.js-18.17.0-5FA04E?logo=nodedotjs "Node.js 18.17.0")](https://nodejs.org/en/blog/release/v18.17.0)
 
 The Open Access (OA) Waiver service provides faculty and researchers with the ability to submit and manage access to publications managed by the [Scholarly Communications Office](https://library.princeton.edu/services/scholarly-communications). Currently, Princeton aims to ensure that all published scholarly articles are released under the [Open Access Policy](https://dof.princeton.edu/policies-procedure/policies/open-access), and as such, are available to the general public. This service ensures that faculty and researchers may submit waivers which may restrict access to any articles which may be (or have been) released as Open Access articles.
 
