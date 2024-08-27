@@ -1,7 +1,6 @@
 ---
 version: 2.1
-orbs:
-  coveralls: coveralls/coveralls@2.2.1
+
 parameters:
   ruby-release:
     type: string

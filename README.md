@@ -1,27 +1,35 @@
-# OA Waiver Service
+# Open Access (OA) Waiver
 [![CircleCI](https://circleci.com/gh/pulibrary/oawaiver.svg?style=svg)](https://circleci.com/gh/pulibrary/oawaiver)
-
 [![Coverage Status](https://coveralls.io/repos/github/pulibrary/oawaiver/badge.svg)](https://coveralls.io/github/pulibrary/oawaiver)
+[![Ruby 3.2.3](https://img.shields.io/badge/ruby-3.2.3-CC342D?logo=ruby "Ruby 3.2.3")](https://www.ruby-lang.org/en/news/2024/01/18/ruby-3-2-3-released/)
+[![Node.js 18.17.0](https://img.shields.io/badge/node.js-18.17.0-5FA04E?logo=nodedotjs "Node.js 18.17.0")](https://nodejs.org/en/blog/release/v18.17.0)
 
-The Open Access (OA) Waiver provides faculty and researchers with the ability to submit and manage access to publications managed by the [Scholarly Communications Office](https://library.princeton.edu/services/scholarly-communications). Currently, Princeton aims to ensure that all published scholarly articles are released under the [Open Access Policy](https://dof.princeton.edu/policies-procedure/policies/open-access), and as such, are available to the general public. This service ensures that faculty and researchers may submit waivers which may restrict access to any articles which may be (or have been) released as Open Access articles.
+The Open Access (OA) Waiver service provides faculty and researchers with the ability to submit and manage access to publications managed by the [Scholarly Communications Office](https://library.princeton.edu/services/scholarly-communications). Currently, Princeton aims to ensure that all published scholarly articles are released under the [Open Access Policy](https://dof.princeton.edu/policies-procedure/policies/open-access), and as such, are available to the general public. This service ensures that faculty and researchers may submit waivers which may restrict access to any articles which may be (or have been) released as Open Access articles.
 
 ## Development
 
 ### Dependencies Setup
 
-- Ruby 3.0.3
-- Bundler 2.3.11
+- `ruby 3.2.3`
+- `node.js 18.17.0`
+
+#### [Bundler](https://rubygems.org/gems/bundler/versions/2.3.22)
+
+Please install Gem dependencies with the following:
 
 ```bash
 $ bundle install
 ```
 
-#### Lando
+#### [Yarn](https://github.com/yarnpkg/yarn/releases/tag/v1.22.10)
 
-- Install Lando from https://github.com/lando/lando/releases (at least 3.x)
-- See .tool-versions for language version requirements (ruby)
+Please install NPM dependencies with the following:
 
-Then, please use Lando to run services required for both test and development environments.
+```bash
+$ yarn install
+```
+
+#### [Lando](https://github.com/lando/lando/releases/tag/v3.20.8)
 
 Start and initialize database services with `rake servers:start`
 
@@ -30,7 +38,7 @@ To stop database services: `rake servers:stop` or `lando stop`
 #### Running the Application
 
 ```bash
-$ bundle exec rails server
+$ bundle exec foreman start
 ```
 
 Then, please access the application using [http://localhost:3000/](http://localhost:3000/)
