@@ -10,16 +10,26 @@ The Open Access (OA) Waiver service provides faculty and researchers with the ab
 
 ### Dependencies Setup
 
-- Ruby 3.2.3
-- Bundler 2.3.22
-- Node.js 18.17.0
-- Lando 3.20.8
+- `ruby 3.2.3`
+- `node.js 18.17.0`
+
+#### [Bundler](https://rubygems.org/gems/bundler/versions/2.3.22)
+
+Please install Gem dependencies with the following:
 
 ```bash
 $ bundle install
 ```
 
-#### Lando
+#### [Yarn](https://github.com/yarnpkg/yarn/releases/tag/v1.22.10)
+
+Please install NPM dependencies with the following:
+
+```bash
+$ yarn install
+```
+
+#### [Lando](https://github.com/lando/lando/releases/tag/v3.20.8)
 
 Start and initialize database services with `rake servers:start`
 
@@ -28,7 +38,7 @@ To stop database services: `rake servers:stop` or `lando stop`
 #### Running the Application
 
 ```bash
-$ bundle exec rails server
+$ bundle exec foreman start
 ```
 
 Then, please access the application using [http://localhost:3000/](http://localhost:3000/)
