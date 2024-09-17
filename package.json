@@ -19,7 +19,7 @@
   "devDependencies": {
     "ansi-html": ">=0.0.8",
     "node-forge": ">=1.3.0",
-    "vite": "^5.0.0",
+    "vite": "^5.3.6",
     "vite-plugin-ruby": "^5.0.0"
   },
   "scripts": {
