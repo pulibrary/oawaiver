@@ -163,17 +163,23 @@ GEM
     formatador (1.1.0)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.26.1)
+    google-protobuf (4.27.5)
+      bigdecimal
       rake (>= 13)
-    google-protobuf (4.26.1-aarch64-linux)
+    google-protobuf (4.27.5-aarch64-linux)
+      bigdecimal
       rake (>= 13)
-    google-protobuf (4.26.1-arm64-darwin)
+    google-protobuf (4.27.5-arm64-darwin)
+      bigdecimal
       rake (>= 13)
-    google-protobuf (4.26.1-x86-linux)
+    google-protobuf (4.27.5-x86-linux)
+      bigdecimal
       rake (>= 13)
-    google-protobuf (4.26.1-x86_64-darwin)
+    google-protobuf (4.27.5-x86_64-darwin)
+      bigdecimal
       rake (>= 13)
-    google-protobuf (4.26.1-x86_64-linux)
+    google-protobuf (4.27.5-x86_64-linux)
+      bigdecimal
       rake (>= 13)
     grape (1.8.0)
       activesupport (>= 5)
@@ -363,7 +369,7 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
-    rake (13.2.0)
+    rake (13.2.1)
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
