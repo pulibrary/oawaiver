@@ -401,6 +401,8 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
+    rspec-retry (0.4.6)
+      rspec-core
     rspec-support (3.13.1)
     rubocop (1.28.2)
       parallel (~> 1.10)
@@ -570,6 +572,7 @@ DEPENDENCIES
   railties (~> 7.0.0, < 7.1.0)
   roo (~> 1.13.2)
   rspec-rails (= 5.1)
+  rspec-retry (~> 0.4.5)
   sdoc (~> 1.1)
   simplecov (~> 0.22)
   sunspot_rails (~> 2.6)

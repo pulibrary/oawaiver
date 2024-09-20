@@ -37,6 +37,7 @@ gem "rack", "~> 2.2"
 gem "rack-contrib"
 gem "rails", "~> 7.0.0", "< 7.1.0"
 gem "railties", "~> 7.0.0", "< 7.1.0"
+gem "rspec-retry", "~> 0.4.5"
 gem "sdoc", "~> 1.1", group: :doc
 gem "sunspot_rails", "~> 2.6"
 gem "sunspot_solr", "~> 2.6"

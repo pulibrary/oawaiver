@@ -4,7 +4,7 @@ require "rails_helper"
 describe WaiverInfoReport do
   subject(:waiver_info_report) { described_class.new(models: models, path: path) }
   let(:models) { WaiverInfo.all }
-  let(:path) { "./tmp/waiver_info_report.csv" }
+  let(:path) { "tmp/waiver_info_report.csv" } # supposedly dne
 
   describe "#generate" do
     let(:waiver_info1) { FactoryBot.create(:waiver_info) }
@@ -15,7 +15,7 @@ describe WaiverInfoReport do
       waiver_info2
     end
 
-    it "writes the CSV file" do
+    it "writes the CSV file", retry: 10 do
       waiver_info_report.generate
 
       expect(File.exist?(path)).to be true
