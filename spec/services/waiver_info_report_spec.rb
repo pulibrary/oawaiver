@@ -4,13 +4,16 @@ require "rails_helper"
 describe WaiverInfoReport do
   subject(:waiver_info_report) { described_class.new(models: models, path: path) }
   let(:models) { WaiverInfo.all }
-  let(:path) { "tmp/waiver_info_report.csv" }
+  let(:dir_path) { "tmp" }
+  let(:path) { "#{dir_path}/waiver_info_report.csv" }
 
   describe "#generate" do
     let(:waiver_info1) { FactoryBot.create(:waiver_info) }
     let(:waiver_info2) { FactoryBot.create(:waiver_info) }
 
     before do
+      Dir.mkdir(dir_path) unless File.exist?(dir_path)
+
       fh = File.new(path, "w+")
       fh.close
 
