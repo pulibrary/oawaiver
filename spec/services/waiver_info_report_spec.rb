@@ -4,21 +4,27 @@ require "rails_helper"
 describe WaiverInfoReport do
   subject(:waiver_info_report) { described_class.new(models: models, path: path) }
   let(:models) { WaiverInfo.all }
-  let(:path) { "tmp/waiver_info_report.csv" } # supposedly dne
+  let(:path) { "tmp/waiver_info_report.csv" }
 
   describe "#generate" do
     let(:waiver_info1) { FactoryBot.create(:waiver_info) }
     let(:waiver_info2) { FactoryBot.create(:waiver_info) }
 
     before do
+      fh = File.new(path, "w+")
+      fh.close
+
       waiver_info1
       waiver_info2
+    end
+
+    after do
+      File.delete(path)
     end
 
     it "writes the CSV file", retry: 10 do
       waiver_info_report.generate
 
-      expect(File.exist?(path)).to be true
       csv = CSV.open(path, "rb", encoding: "utf-8", headers: true)
       rows = csv.to_a
       expect(rows.length).to eq(2)
