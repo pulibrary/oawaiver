@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  mount HealthMonitor::Engine, at: "/"
   root to: "application#start"
 
   get("/start", to: "application#start", as: "start")

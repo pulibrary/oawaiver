@@ -226,6 +226,8 @@ describe "Waivers", type: :request do
     before do
       waiver_info
       waiver_info2
+      waiver_info.index!
+
       sign_in(admin_user)
     end
 
@@ -262,6 +264,7 @@ describe "Waivers", type: :request do
     before do
       waiver_info
       waiver_info2
+      stub_request(:post, "#{Sunspot.config.solr.url}/select?wt=json").to_return(status: 404)
       sign_in(admin_user)
     end
 
