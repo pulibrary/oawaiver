@@ -384,8 +384,7 @@ GEM
     responders (3.1.1)
       actionpack (>= 5.2)
       railties (>= 5.2)
-    rexml (3.3.6)
-      strscan
+    rexml (3.3.9)
     roo (1.13.2)
       nokogiri
       rubyzip
@@ -478,7 +477,6 @@ GEM
       net-scp (>= 1.1.2)
       net-sftp (>= 2.1.2)
       net-ssh (>= 2.8.0)
-    strscan (3.1.0)
     sunspot (2.6.0)
       pr_geohash (~> 1.0)
       rsolr (>= 1.1.1, < 3)
