@@ -11,6 +11,8 @@ Rails.application.config.after_initialize do
       c.url = status_uri.to_s
     end
 
+    config.add_custom_provider(CustomProvider)
+
     config.path = :health
 
     config.error_callback = proc do |e|
