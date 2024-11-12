@@ -48,4 +48,34 @@ namespace :deploy do
   end
 end
 
+desc "Marks the server(s) to be removed from the loadbalancer"
+  task :remove_from_nginx do
+    count = 0
+    on roles(:app) do
+      count += 1
+    end
+    if count > 1
+      raise "You must run this command on individual servers utilizing the --hosts= switch"
+    end
+    on roles(:app) do
+      within release_path do
+        execute :touch, "public/remove-from-nginx"
+      end
+    end
+  end
+
+  # You can/ should apply this command to a single host
+  # cap --hosts=pdc-describe-staging1.princeton.edu staging application:serve_from_nginx
+  desc "Marks the server(s) to be removed from the loadbalancer"
+  task :serve_from_nginx do
+    on roles(:app) do
+      within release_path do
+        execute :rm, "-f public/remove-from-nginx"
+      end
+    end
+  end
+end
+
+before "deploy:reverted", "deploy:assets:precompile"
+
 # before "deploy:assets:precompile", "deploy:yarn_build_css"
