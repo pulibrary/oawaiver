@@ -13,7 +13,7 @@ parameters:
     default: "18.17.0"
   working-directory:
     type: string
-    default: '~/oawaiver'
+    default: "~/oawaiver"
 
 executors:
   oawaiver-executor:
@@ -107,7 +107,7 @@ jobs:
       - setup-node
       - persist_to_workspace:
           root: << pipeline.parameters.working-directory >>
-          paths: '*'
+          paths: "*"
 
   lint:
     executor: oawaiver-executor
@@ -116,6 +116,12 @@ jobs:
           at: << pipeline.parameters.working-directory >>
       - setup-bundler
 
+      - run:
+          name: Lint using ESLint
+          command: yarn run lint
+      - run:
+          name: Check formatting using Prettier
+          command: yarn run prettier --check .
       - run:
           name: Lint using RuboCop
           command: bundle exec rubocop --disable-pending-cops
@@ -141,12 +147,10 @@ jobs:
           name: Execute the test suites using RSpec
           command: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN bundle exec rspec spec
       - store_artifacts:
-          path:
-            << pipeline.parameters.working-directory >>/coverage
+          path: << pipeline.parameters.working-directory >>/coverage
           destination: coverage
       - store_artifacts:
-          path:
-            << pipeline.parameters.working-directory >>/tmp/screenshots
+          path: << pipeline.parameters.working-directory >>/tmp/screenshots
           destination: screenshots
 
 workflows:

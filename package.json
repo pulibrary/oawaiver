@@ -20,11 +20,17 @@
   },
   "devDependencies": {
     "ansi-html": ">=0.0.8",
+    "eslint": "^9.18.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-import": "^2.31.0",
     "node-forge": ">=1.3.0",
+    "prettier": "^3.4.2",
     "vite": "^5.3.6",
     "vite-plugin-ruby": "^5.0.0"
   },
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "lint": "yarn run eslint --ignore-pattern app/javascript/entrypoints app/javascript app/assets/javascripts"
   }
 }

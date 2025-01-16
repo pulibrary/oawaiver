@@ -1,4 +1,3 @@
-
 default:
   solr: &default
     hostname: <%= ENV["APP_SOLR_HOST"] || "localhost" %>
