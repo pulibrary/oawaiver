@@ -14,8 +14,8 @@
  *
  */
 
-@import './modules/navbar';
-@import './dspace_theme';
+@import "./modules/navbar";
+@import "./dspace_theme";
 
 .admin_actions {
   display: none;
@@ -36,7 +36,7 @@ $logo-height: 35px; // large = 50px; small = 35px;
 
 .section-content {
   &__waiver {
-    display:none;
+    display: none;
   }
 }
 
@@ -84,7 +84,6 @@ $logo-height: 35px; // large = 50px; small = 35px;
     display: none;
   }
 }
-
 
 // show env_marker unless in production
 .env_marker {

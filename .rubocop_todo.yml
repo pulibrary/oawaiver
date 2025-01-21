@@ -7,67 +7,67 @@ AllCops:
   TargetRubyVersion: 2.6
   NewCops: disable
   Exclude:
-    - 'bin/*'
-    - 'config/environments/**/*'
-    - 'db/**/*'
-    - 'node_modules/**/*'
-    - 'vendor/**/*'
+    - "bin/*"
+    - "config/environments/**/*"
+    - "db/**/*"
+    - "node_modules/**/*"
+    - "vendor/**/*"
 
 Layout/LineLength:
   Exclude:
-    - 'app/views/waiver_infos/show.json.jbuilder'
+    - "app/views/waiver_infos/show.json.jbuilder"
 
 Metrics/BlockNesting:
   Exclude:
-    - 'lib/tasks/import_waivers.rake'
+    - "lib/tasks/import_waivers.rake"
 
 Naming/AccessorMethodName:
   Exclude:
-    - 'app/**/*'
-    - 'config/**/*'
+    - "app/**/*"
+    - "config/**/*"
 
 Naming/ConstantName:
   Exclude:
-    - 'lib/**/*'
+    - "lib/**/*"
 
 Naming/MethodName:
   Exclude:
-    - 'app/**/*'
-    - 'lib/**/*'
+    - "app/**/*"
+    - "lib/**/*"
 
 Naming/VariableName:
   Exclude:
-    - 'app/**/*'
-    - 'config/**/*'
+    - "app/**/*"
+    - "config/**/*"
 
 Rails/HasManyOrHasOneDependent:
   Exclude:
-    - 'app/**/*'
+    - "app/**/*"
 
 Rails/OutputSafety:
   Exclude:
-    - 'app/**/*'
-    - 'lib/**/*'
+    - "app/**/*"
+    - "lib/**/*"
 
 Rails/Validation:
   Exclude:
-    - 'app/**/*'
+    - "app/**/*"
 
 RSpec/ExampleLength:
   Exclude:
-    - 'spec/controllers/waiver_infos_controller_spec.rb'
-    - 'spec/models/employee_spec.rb'
+    - "spec/controllers/waiver_infos_controller_spec.rb"
+    - "spec/models/employee_spec.rb"
 
 RSpec/RepeatedDescription:
   Exclude:
-    - 'spec/controllers/waiver_infos_controller_spec.rb'
+    - "spec/controllers/waiver_infos_controller_spec.rb"
 
 RSpec/RepeatedExample:
   Exclude:
-    - 'spec/controllers/waiver_infos_controller_spec.rb'
+    - "spec/controllers/waiver_infos_controller_spec.rb"
 
 Style/ClassVars:
   Exclude:
-    - 'app/**/*'
-    - 'lib/**/*'
-    - 'config/**/*'
+    - "app/**/*"
+    - "lib/**/*"
+    - "config/**/*"

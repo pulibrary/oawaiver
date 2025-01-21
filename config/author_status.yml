@@ -1,10 +1,9 @@
-
 ajax_path: "api/employees/get_all/name.json"
 ajax_params: "search_term=MATCH"
 status_path: "api/employees/get_all/name.json?search_term=hans"
 get_unique_id_path:
-    html: "employees/get/MATCH"
-    json: "api/employees/get/unique_id.json?id=MATCH"
+  html: "employees/get/MATCH"
+  json: "api/employees/get/unique_id.json?id=MATCH"
 
 # enter the base url of the site where the author app runs
 # or enter '' to indicate that the author app is part of this rails app

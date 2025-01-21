@@ -9,81 +9,81 @@ AllCops:
   TargetRubyVersion: 2.6
   NewCops: disable
   Exclude:
-    - 'bin/*'
-    - 'config/environments/**/*'
-    - 'db/**/*'
-    - 'node_modules/**/*'
-    - 'vendor/**/*'
+    - "bin/*"
+    - "config/environments/**/*"
+    - "db/**/*"
+    - "node_modules/**/*"
+    - "vendor/**/*"
 
 Metrics/AbcSize:
   Exclude:
-    - 'app/controllers/waiver_infos_controller.rb'
-    - 'app/mailers/waiver_mailer.rb'
-    - 'app/models/employee.rb'
-    - 'lib/author_status.rb'
-    - 'lib/tasks/import_waivers.rake'
+    - "app/controllers/waiver_infos_controller.rb"
+    - "app/mailers/waiver_mailer.rb"
+    - "app/models/employee.rb"
+    - "lib/author_status.rb"
+    - "lib/tasks/import_waivers.rake"
 
 Metrics/BlockLength:
   Exclude:
-    - 'app/models/employee.rb'
-    - 'config/routes.rb'
-    - 'lib/tasks/import_authors.rake'
-    - 'lib/tasks/import_waivers.rake'
-    - 'lib/tasks/report.rake'
-    - 'spec/controllers/accounts_controller_spec.rb'
-    - 'spec/controllers/application_controller_spec.rb'
-    - 'spec/controllers/employees_controller_spec.rb'
-    - 'spec/controllers/waiver_infos_controller_spec.rb'
-    - 'spec/models/employee_spec.rb'
-    - 'spec/models/waiver_info_spec.rb'
-    - 'spec/requests/accounts_spec.rb'
-    - 'spec/requests/employees_spec.rb'
-    - 'lib/tasks/oawaiver.rake'
-    - 'lib/capistrano/tasks/oawaiver.rake'
-    - 'spec/mailers/waiver_mailer_spec.rb'
-    - 'spec/requests/waiver_infos_controller_spec.rb'
-    - 'spec/models/account_spec.rb'
-    - 'spec/rails_helper.rb'
+    - "app/models/employee.rb"
+    - "config/routes.rb"
+    - "lib/tasks/import_authors.rake"
+    - "lib/tasks/import_waivers.rake"
+    - "lib/tasks/report.rake"
+    - "spec/controllers/accounts_controller_spec.rb"
+    - "spec/controllers/application_controller_spec.rb"
+    - "spec/controllers/employees_controller_spec.rb"
+    - "spec/controllers/waiver_infos_controller_spec.rb"
+    - "spec/models/employee_spec.rb"
+    - "spec/models/waiver_info_spec.rb"
+    - "spec/requests/accounts_spec.rb"
+    - "spec/requests/employees_spec.rb"
+    - "lib/tasks/oawaiver.rake"
+    - "lib/capistrano/tasks/oawaiver.rake"
+    - "spec/mailers/waiver_mailer_spec.rb"
+    - "spec/requests/waiver_infos_controller_spec.rb"
+    - "spec/models/account_spec.rb"
+    - "spec/rails_helper.rb"
 
 Metrics/ClassLength:
   Exclude:
-    - 'app/controllers/waiver_infos_controller.rb'
-    - 'app/models/employee.rb'
-    - 'lib/author_status.rb'
-    - 'app/mailers/waiver_mailer.rb'
+    - "app/controllers/waiver_infos_controller.rb"
+    - "app/models/employee.rb"
+    - "lib/author_status.rb"
+    - "app/mailers/waiver_mailer.rb"
     - app/lib/author_status.rb
 
 Metrics/CyclomaticComplexity:
   Exclude:
-    - 'app/mailers/waiver_mailer.rb'
-    - 'app/models/employee.rb'
-    - 'app/models/waiver_info.rb'
-    - 'lib/author_status.rb'
-    - 'lib/tasks/import_waivers.rake'
+    - "app/mailers/waiver_mailer.rb"
+    - "app/models/employee.rb"
+    - "app/models/waiver_info.rb"
+    - "lib/author_status.rb"
+    - "lib/tasks/import_waivers.rake"
 
 Metrics/MethodLength:
   Exclude:
-    - 'app/controllers/waiver_infos_controller.rb'
-    - 'app/mailers/waiver_mailer.rb'
-    - 'app/models/employee.rb'
-    - 'lib/author_status.rb'
-    - 'lib/tasks/import_waivers.rake'
+    - "app/controllers/waiver_infos_controller.rb"
+    - "app/mailers/waiver_mailer.rb"
+    - "app/models/employee.rb"
+    - "lib/author_status.rb"
+    - "lib/tasks/import_waivers.rake"
     - app/lib/author_status.rb
 
 Metrics/PerceivedComplexity:
   Exclude:
-    - 'lib/tasks/import_waivers.rake'
-    - 'app/mailers/waiver_mailer.rb'
-    - 'app/models/employee.rb'
-    - 'lib/author_status.rb'
+    - "lib/tasks/import_waivers.rake"
+    - "app/mailers/waiver_mailer.rb"
+    - "app/models/employee.rb"
+    - "lib/author_status.rb"
 
 RSpec/ExampleLength:
   Exclude:
-    - 'spec/controllers/waiver_infos_controller_spec.rb'
-    - 'spec/models/employee_spec.rb'
-    - 'spec/requests/employees_spec.rb'
-    - 'spec/mailers/waiver_mailer_spec.rb'
-    - 'spec/requests/waiver_infos_controller_spec.rb'
+    - "spec/controllers/waiver_infos_controller_spec.rb"
+    - "spec/models/employee_spec.rb"
+    - "spec/requests/employees_spec.rb"
+    - "spec/mailers/waiver_mailer_spec.rb"
+    - "spec/requests/waiver_infos_controller_spec.rb"
 
 Style/StringLiterals:
   EnforcedStyle: double_quotes

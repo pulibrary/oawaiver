@@ -13,14 +13,16 @@
 //= require dspace_scripts
 //= require_tree .
 
-function disable_return_in_forms() {
-  $('form.disable_returns').on("keyup keypress", function(e) {
+function disableReturnInForms() {
+  $('form.disable_returns').on('keyup keypress', (e) => {
     const code = e.keyCode || e.which;
-    if (code  == 13) {
+    if (code === 13) {
       e.preventDefault();
       return false;
     }
+
+    return true;
   });
 }
 
-$(document).ready(disable_return_in_forms);
+$(document).ready(disableReturnInForms);
