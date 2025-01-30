@@ -133,9 +133,6 @@ jobs:
           at: << pipeline.parameters.working-directory >>
       - setup-bundler
       - setup-node
-      # This is required for `rails db:schema:load`
-      - run: sudo apt-get update
-      - run: sudo apt-get install -y postgresql-client || true
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m

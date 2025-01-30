@@ -130,7 +130,8 @@ Rails.application.configure do
 
   config.action_mailer.smtp_settings = {
     address: action_mailer_host,
-    port: action_mailer_port.to_i
+    port: action_mailer_port.to_i,
+    enable_starttls: false
   }
   config.action_mailer.default_options = {
     from: 'no-reply@princeton.edu'
