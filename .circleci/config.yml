@@ -10,7 +10,7 @@ parameters:
     default: "2.3.22"
   node-release:
     type: string
-    default: "18.17.0"
+    default: "22.13.1"
   working-directory:
     type: string
     default: "~/oawaiver"
