@@ -580,6 +580,7 @@ DEPENDENCIES
   net-pop
   net-smtp
   net-ssh (= 7.0.0.beta1)
+  nokogiri (>= 1.18.3)
   omniauth (>= 2.0.0)
   omniauth-cas (~> 3.0)
   pg
