@@ -35,7 +35,7 @@ gem "pg"
 gem "propshaft", "~> 0.8"
 gem "psych", "~> 3.3", "< 4"
 gem "puma", "~> 5.6"
-gem "rack", "~> 2.2"
+gem "rack", ">= 2.2.13"
 gem "rack-contrib"
 gem "rails", "~> 7.0.0", "< 7.1.0"
 gem "railties", "~> 7.0.0", "< 7.1.0"
@@ -49,6 +49,7 @@ gem "will_paginate", "~> 3.3"
 gem "progress_bar"
 ## Used to XLSX files
 gem "roo", "~> 1.13.2"
+gem "uri", ">= 0.13.2"
 
 group :development do
   gem "capistrano", "~> 3.10", require: false

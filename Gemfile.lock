@@ -502,7 +502,7 @@ GEM
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.5.0)
-    uri (0.13.2)
+    uri (1.0.3)
     vite_rails (3.0.17)
       railties (>= 5.1, < 8)
       vite_ruby (~> 3.0, >= 3.2.2)
@@ -589,7 +589,7 @@ DEPENDENCIES
   pry (~> 0.14)
   psych (~> 3.3, < 4)
   puma (~> 5.6)
-  rack (~> 2.2)
+  rack (>= 2.2.13)
   rack-contrib
   rails (~> 7.0.0, < 7.1.0)
   rails-controller-testing
@@ -601,6 +601,7 @@ DEPENDENCIES
   simplecov (~> 0.22)
   sunspot_rails (~> 2.6)
   sunspot_solr (~> 2.6)
+  uri (>= 0.13.2)
   vite_rails (~> 3.0)
   webmock
   will_paginate (~> 3.3)
