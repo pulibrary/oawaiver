@@ -4,10 +4,10 @@ version: 2.1
 parameters:
   ruby-release:
     type: string
-    default: "3.2.3"
+    default: "3.4.5"
   bundler-release:
     type: string
-    default: "2.3.22"
+    default: "2.5.6"
   node-release:
     type: string
     default: "22.13.1"
