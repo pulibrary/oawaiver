@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
 module AjaxQuery
-  class About < Grape::API
+  class About < API
     use Rack::JSONP
 
-    desc "return about information including version"
-    get "" do
+    def show
       result = { "revision" => Waiver::Application.config.revision }
-      present result
+
+      render json: result
     end
   end
 end
