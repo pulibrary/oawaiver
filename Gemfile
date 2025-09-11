@@ -23,7 +23,7 @@ gem "health-monitor-rails", "12.4.0"
 gem "honeybadger", "~> 5.8"
 gem "jbuilder", "~> 2.0"
 gem "jquery-rails", "~> 4.5"
-gem "kaminari", "~> 1.2"
+gem "kaminari"
 gem "mail"
 gem "net-imap"
 gem "net-pop"
@@ -33,17 +33,21 @@ gem "nokogiri"
 gem "omniauth"
 gem "omniauth-cas"
 gem "pg"
+
 # gem "propshaft", "~> 0.8"
-gem "psych", "~> 3.3", "< 4"
+gem "psych"
 # gem "puma", "~> 5.6"
 gem "rack"
 gem "rack-contrib"
+
 gem "rails", "~> 7.2.2", "< 8.0"
 gem "railties", "~> 7.2.2", "< 8.0"
+
 gem "rspec-retry"
 # gem "sdoc", "~> 1.1", group: :doc
 gem "sunspot_rails"
 gem "sunspot_solr"
+
 gem "vite_rails", "~> 3.0"
 gem "will_paginate"
 # Rake Task dependency
