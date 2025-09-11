@@ -78,9 +78,9 @@ GEM
     airbrussh (1.5.3)
       sshkit (>= 1.6.1, != 1.7.0)
     ast (2.4.3)
-    base64 (0.1.2)
+    base64 (0.3.0)
     bcrypt (3.1.20)
-    bcrypt_pbkdf (1.1.1)
+    bcrypt_pbkdf (1.1.1-arm64-darwin)
     benchmark (0.4.1)
     bigdecimal (3.2.3)
     bixby (5.0.2)
@@ -160,35 +160,14 @@ GEM
       logger
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
-    ffi (1.17.2-aarch64-linux-gnu)
-    ffi (1.17.2-aarch64-linux-musl)
-    ffi (1.17.2-arm-linux-gnu)
-    ffi (1.17.2-arm-linux-musl)
     ffi (1.17.2-arm64-darwin)
-    ffi (1.17.2-x86_64-linux-gnu)
-    ffi (1.17.2-x86_64-linux-musl)
     foreman (0.90.0)
       thor (~> 1.4)
     formatador (1.2.0)
       reline
     globalid (1.2.1)
       activesupport (>= 6.1)
-    google-protobuf (4.32.0)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.32.0-aarch64-linux-gnu)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.32.0-aarch64-linux-musl)
-      bigdecimal
-      rake (>= 13)
     google-protobuf (4.32.0-arm64-darwin)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.32.0-x86_64-linux-gnu)
-      bigdecimal
-      rake (>= 13)
-    google-protobuf (4.32.0-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
     guard (2.19.1)
@@ -209,9 +188,9 @@ GEM
       rspec (>= 2.99.0, < 4.0)
     hashdiff (1.2.1)
     hashie (5.0.0)
-    health-monitor-rails (12.4.0)
+    health-monitor-rails (12.9.0)
       railties (>= 6.1)
-    honeybadger (5.29.1)
+    honeybadger (6.1.0)
       logger
       ostruct
     i18n (1.14.7)
@@ -282,19 +261,7 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.18.9-aarch64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.9-aarch64-linux-musl)
-      racc (~> 1.4)
-    nokogiri (1.18.9-arm-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.9-arm-linux-musl)
-      racc (~> 1.4)
     nokogiri (1.18.9-arm64-darwin)
-      racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-linux-gnu)
-      racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-linux-musl)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -313,12 +280,7 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
-    pg (1.6.2)
-    pg (1.6.2-aarch64-linux)
-    pg (1.6.2-aarch64-linux-musl)
     pg (1.6.2-arm64-darwin)
-    pg (1.6.2-x86_64-linux)
-    pg (1.6.2-x86_64-linux-musl)
     pp (0.6.2)
       prettyprint
     pr_geohash (1.0.0)
@@ -448,19 +410,7 @@ GEM
     rubocop-rspec (2.11.1)
       rubocop (~> 1.19)
     ruby-progressbar (1.13.0)
-    sass-embedded (1.92.1-aarch64-linux-gnu)
-      google-protobuf (~> 4.31)
-    sass-embedded (1.92.1-aarch64-linux-musl)
-      google-protobuf (~> 4.31)
-    sass-embedded (1.92.1-arm-linux-gnueabihf)
-      google-protobuf (~> 4.31)
-    sass-embedded (1.92.1-arm-linux-musleabihf)
-      google-protobuf (~> 4.31)
     sass-embedded (1.92.1-arm64-darwin)
-      google-protobuf (~> 4.31)
-    sass-embedded (1.92.1-x86_64-linux-gnu)
-      google-protobuf (~> 4.31)
-    sass-embedded (1.92.1-x86_64-linux-musl)
       google-protobuf (~> 4.31)
     securerandom (0.4.1)
     shellany (0.0.1)
@@ -525,17 +475,7 @@ GEM
     zeitwerk (2.7.3)
 
 PLATFORMS
-  aarch64-linux
-  aarch64-linux-gnu
-  aarch64-linux-musl
-  arm-linux-gnu
-  arm-linux-gnueabihf
-  arm-linux-musl
-  arm-linux-musleabihf
   arm64-darwin-24
-  x86_64-linux
-  x86_64-linux-gnu
-  x86_64-linux-musl
 
 DEPENDENCIES
   abbrev (~> 0.1.2)
@@ -544,8 +484,8 @@ DEPENDENCIES
   activemodel (~> 7.2.2, < 8.0)
   activerecord (~> 7.2.2, < 8.0)
   activesupport (~> 7.2.2, < 8.0)
-  base64 (~> 0.1.1)
-  bcrypt_pbkdf (~> 1.1)
+  base64
+  bcrypt_pbkdf
   bixby
   bundler (~> 2.3)
   byebug
@@ -554,18 +494,18 @@ DEPENDENCIES
   capistrano-rails (~> 1.4)
   capybara
   coveralls_reborn (~> 0.28)
-  dartsass-rails (~> 0.5)
+  dartsass-rails
   database_cleaner-active_record (~> 2.1)
   devise (~> 4.9)
-  ed25519 (~> 1.3)
+  ed25519
   factory_bot_rails (~> 6.3)
   faker
   foreman (~> 0.87)
   guard-rspec
-  health-monitor-rails (= 12.4.0)
-  honeybadger (~> 5.8)
-  jbuilder (~> 2.0)
-  jquery-rails (~> 4.5)
+  health-monitor-rails
+  honeybadger
+  jbuilder
+  jquery-rails
   kaminari
   launchy
   mail
@@ -595,4 +535,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.6.9
+   2.4.19
