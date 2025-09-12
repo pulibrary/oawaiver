@@ -3,6 +3,7 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
+# gem "abbrev", "~> 0.1.2"
 gem "actionpack", "~> 7.2.2"
 gem "actionview", "~> 7.2.2", "< 8.0"
 gem "activemodel", "~> 7.2.2", "< 8.0"
@@ -48,7 +49,7 @@ gem "rspec-retry"
 gem "sunspot_rails"
 gem "sunspot_solr"
 
-gem "vite_rails", "~> 3.0"
+gem "vite_rails"
 gem "will_paginate"
 # Rake Task dependency
 # gem "progress_bar"
@@ -82,5 +83,3 @@ group :development, :test do
   gem "webmock"
   gem "yard"
 end
-
-gem "abbrev", "~> 0.1.2"
