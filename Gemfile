@@ -35,8 +35,8 @@ gem "rails", "~> 7.2.2", "< 8.0"
 gem "railties", "~> 7.2.2", "< 8.0"
 
 # gem "sdoc", "~> 1.1", group: :doc
-gem "sunspot_rails"
-gem "sunspot_solr"
+gem "sunspot_rails", "~> 2.7", ">= 2.7.1"
+gem "sunspot_solr", "~> 2.7", ">= 2.7.1"
 
 gem "vite_rails"
 gem "will_paginate"
@@ -46,9 +46,8 @@ gem "will_paginate"
 # gem "roo", "~> 1.13.2"
 
 group :development do
-  gem "capistrano", "~> 3.10", require: false
-  gem "capistrano-passenger", require: false
-  gem "capistrano-rails", "~> 1.4", require: false
+  gem "capistrano", "~> 3.19", require: false
+  gem "capistrano-rails", "~> 1.7", require: false
 end
 
 group :test do
@@ -58,9 +57,9 @@ group :test do
 end
 
 group :development, :test do
-  gem "coveralls_reborn", "~> 0.28"
+  gem "coveralls_reborn", "~> 0.29"
   gem "database_cleaner-active_record", "~> 2.2"
-  gem "factory_bot_rails", "~> 6.3"
+  gem "factory_bot_rails", "~> 6.5"
   gem "foreman", "~> 0.87"
   gem "rails-controller-testing"
   gem "rspec-rails", "8.0"

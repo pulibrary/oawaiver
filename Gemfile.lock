@@ -92,8 +92,6 @@ GEM
       sshkit (>= 1.9.0)
     capistrano-bundler (2.1.1)
       capistrano (~> 3.1)
-    capistrano-passenger (0.2.1)
-      capistrano (~> 3.0)
     capistrano-rails (1.7.0)
       capistrano (~> 3.1)
       capistrano-bundler (>= 1.1, < 3)
@@ -493,16 +491,15 @@ DEPENDENCIES
   base64
   bcrypt_pbkdf
   bundler (~> 2.6)
-  capistrano (~> 3.10)
-  capistrano-passenger
-  capistrano-rails (~> 1.4)
+  capistrano (~> 3.19)
+  capistrano-rails (~> 1.7)
   capybara
-  coveralls_reborn (~> 0.28)
+  coveralls_reborn (~> 0.29)
   dartsass-rails
   database_cleaner-active_record (~> 2.2)
   devise (~> 4.9)
   ed25519
-  factory_bot_rails (~> 6.3)
+  factory_bot_rails (~> 6.5)
   faker
   foreman (~> 0.87)
   health-monitor-rails
@@ -524,8 +521,8 @@ DEPENDENCIES
   rubocop-rails (~> 2.33, >= 2.33.3)
   rubocop-rspec (~> 3.7)
   simplecov
-  sunspot_rails
-  sunspot_solr
+  sunspot_rails (~> 2.7, >= 2.7.1)
+  sunspot_solr (~> 2.7, >= 2.7.1)
   vite_rails
   webmock
   will_paginate
