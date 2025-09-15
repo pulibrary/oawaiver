@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require "rspec/retry"
 
 require "webmock/rspec"
 
@@ -22,16 +21,6 @@ require "webmock/rspec"
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  # show retry status in spec process
-  config.verbose_retry = true
-  # show exception that triggers a retry if verbose_retry is set to true
-  config.display_try_failure_messages = true
-
-  # run retry only on features
-  config.around :each, :js do |ex|
-    ex.run_with_retry retry: 3
-  end
-
   config.before :example do |_ex|
     stub_request(:post, "#{Sunspot.config.solr.url}/update?wt=json").to_return(status: 200)
     response_body = {

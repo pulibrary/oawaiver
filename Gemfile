@@ -16,21 +16,10 @@ gem "dartsass-rails"
 gem "devise", "~> 4.9"
 gem "ed25519"
 
-# gem "grape", "~> 1.8"
-# gem "grape-entity", "~> 0.9"
-# gem "grape-swagger", "~> 1.4"
-# gem "grape-swagger-rails", "~> 0.4"
-
 gem "health-monitor-rails"
 gem "honeybadger"
 gem "jbuilder"
-# gem "jquery-rails"
-# gem "kaminari"
 gem "mail"
-gem "net-imap"
-gem "net-pop"
-gem "net-smtp"
-gem "net-ssh"
 gem "nokogiri"
 gem "omniauth"
 gem "omniauth-cas"
@@ -65,7 +54,6 @@ end
 group :test do
   gem "capybara"
   gem "faker"
-  gem "guard-rspec"
   gem "launchy"
 end
 
@@ -78,7 +66,7 @@ group :development, :test do
   gem "foreman", "~> 0.87"
   # gem "pry", "~> 0.14"
   gem "rails-controller-testing"
-  gem "rspec-rails", "5.1"
+  gem "rspec-rails", "8.0"
   gem "simplecov"
   gem "webmock"
   gem "yard"
