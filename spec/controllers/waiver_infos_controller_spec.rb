@@ -70,10 +70,12 @@ RSpec.describe WaiverInfosController, type: :controller do
         }
       end
       let(:waiver1) do
-        FactoryBot.create(:waiver_info, requester: admin_user, requester_email: admin_user.email, title: "test-search-title")
+        FactoryBot.create(:waiver_info, requester: admin_user, requester_email: admin_user.email,
+                                        title: "test-search-title")
       end
       let(:waiver2) do
-        FactoryBot.create(:waiver_info, requester: admin_user, requester_email: admin_user.email, title: "test-search-title")
+        FactoryBot.create(:waiver_info, requester: admin_user, requester_email: admin_user.email,
+                                        title: "test-search-title")
       end
       let(:waiver_info_params) do
         {
@@ -99,7 +101,7 @@ RSpec.describe WaiverInfosController, type: :controller do
         expect(response).to have_http_status(:success)
 
         found_waiver_infos = assigns(:waiver_infos)
-        expect(found_waiver_infos).not_to be nil
+        expect(found_waiver_infos).not_to be_nil
         expect(found_waiver_infos).to include(waiver1)
         expect(found_waiver_infos).to include(waiver2)
       end
@@ -395,7 +397,8 @@ RSpec.describe WaiverInfosController, type: :controller do
           edit_waiver_path = edit_by_admin_path(id: waiver.id)
           expect(response).to redirect_to(edit_waiver_path)
 
-          expect(rendered_flash).to have_received(:[]=).with(:alert, "Waiver information could not be successfully updated: Author unique id must be 9 digits.")
+          expect(rendered_flash).to have_received(:[]=).with(:alert,
+                                                             "Waiver information could not be successfully updated: Author unique id must be 9 digits.")
         end
       end
     end

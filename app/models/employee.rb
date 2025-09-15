@@ -42,8 +42,8 @@ class Employee < ApplicationRecord
       uid = "000000000".slice(0, 9 - uid.length) + uid if len < 9
 
       self.unique_id = uid
-    rescue StandardError => error
-      Rails.logger.warn(error.message)
+    rescue StandardError => e
+      Rails.logger.warn(e.message)
     end
 
     self

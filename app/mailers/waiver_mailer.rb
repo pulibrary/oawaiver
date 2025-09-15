@@ -17,6 +17,7 @@ class WaiverMailer < ApplicationMailer
     email_valid = URI::MailTo::EMAIL_REGEXP.match(address)
 
     raise("Invalid email address: '#{address}'") unless email_valid
+
     email_valid
   end
 
@@ -119,11 +120,11 @@ class WaiverMailer < ApplicationMailer
     return if @waiver_info.nil? || !@waiver_info.persisted?
 
     @waiver_info_url ||= begin
-                           pattern = /ID/
-                           model_id = @waiver_info.id
-                           value = url.sub(pattern, model_id.to_s)
-                           value
-                         end
+      pattern = /ID/
+      model_id = @waiver_info.id
+      value = url.sub(pattern, model_id.to_s)
+      value
+    end
   end
 
   def mail_templates
@@ -131,7 +132,9 @@ class WaiverMailer < ApplicationMailer
   end
 
   def granted_mail_template
-    raise("No \"granted\" template is specified within the e-mail templates: #{mail_templates}") unless mail_templates.key?(:granted)
+    unless mail_templates.key?(:granted)
+      raise("No \"granted\" template is specified within the e-mail templates: #{mail_templates}")
+    end
 
     @granted_mail_template ||= mail_templates[:granted]
   end
@@ -149,7 +152,9 @@ class WaiverMailer < ApplicationMailer
   end
 
   def subject_template
-    raise("No subject header specified within the e-mail template: #{granted_mail_template}") unless granted_mail_template.key?(:subject)
+    unless granted_mail_template.key?(:subject)
+      raise("No subject header specified within the e-mail template: #{granted_mail_template}")
+    end
 
     @subject_template ||= granted_mail_template[:subject]
   end

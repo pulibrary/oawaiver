@@ -273,7 +273,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
   config.omniauth :cas, host: "fed.princeton.edu", url: "https://fed.princeton.edu/cas"
-  OmniAuth.config.allowed_request_methods = [:get, :post]
+  OmniAuth.config.allowed_request_methods = %i[get post]
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

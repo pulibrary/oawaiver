@@ -1,7 +1,4 @@
-require: rubocop-rspec
-
-inherit_gem:
-  bixby: bixby_default.yml
+plugins: rubocop-rspec
 
 inherit_from: .rubocop_todo.yml
 

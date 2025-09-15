@@ -8,7 +8,9 @@ describe "Waivers", type: :request do
   describe "GET /waiver/:id" do
     context "when authenticated as a non-admin user" do
       let(:user) { FactoryBot.create(:regular_user) }
-      let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }
+      let(:waiver_info) do
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email)
+      end
 
       before do
         waiver_info
@@ -17,6 +19,7 @@ describe "Waivers", type: :request do
 
       context "when the waiver is owned by the user account" do
         let(:waiver_info) { FactoryBot.create(:waiver_info, requester: user, requester_email: user.email) }
+
         it "renders the show template" do
           get(waiver_info_path(waiver_info.id))
 
@@ -35,9 +38,16 @@ describe "Waivers", type: :request do
 
   describe "GET /waiver/requester/me" do
     let(:user) { FactoryBot.create(:regular_user) }
-    let(:waiver_info) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email) }
-    let(:waiver_info2) { FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, title: "Some 2 Title") }
-    let(:waiver_info3) { FactoryBot.create(:waiver_info, requester: user.netid, requester_email: user.email, title: "Some 3 Title") }
+    let(:waiver_info) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email)
+    end
+    let(:waiver_info2) do
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                      title: "Some 2 Title")
+    end
+    let(:waiver_info3) do
+      FactoryBot.create(:waiver_info, requester: user.netid, requester_email: user.email, title: "Some 3 Title")
+    end
 
     before do
       waiver_info
@@ -61,7 +71,9 @@ describe "Waivers", type: :request do
     end
 
     context "when authenticated as a valid user" do
-      let(:waiver_info4) { FactoryBot.create(:waiver_info, requester: user.netid, requester_email: user.email, title: "Some 4 Title") }
+      let(:waiver_info4) do
+        FactoryBot.create(:waiver_info, requester: user.netid, requester_email: user.email, title: "Some 4 Title")
+      end
 
       before do
         waiver_info4
@@ -151,7 +163,7 @@ describe "Waivers", type: :request do
         expect(waiver_info.author_email).to eq("js1@princeton.edu")
         expect(waiver_info.title).to eq("test title")
         expect(waiver_info.journal).to eq("test journal")
-        expect(waiver_info.journal_issn).to be nil
+        expect(waiver_info.journal_issn).to be_nil
         expect(waiver_info.notes).to eq("test notes")
       end
 
@@ -192,9 +204,6 @@ describe "Waivers", type: :request do
           }
         end
 
-        before do
-        end
-
         it "adds the error messages" do
           post(create_waiver_info_path, params: params)
 
@@ -209,10 +218,12 @@ describe "Waivers", type: :request do
     let(:author_dept2) { "Physics" }
 
     let(:waiver_info) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                      author_department: author_dept)
     end
     let(:waiver_info2) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept2)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                      author_department: author_dept2)
     end
     let(:search_term) { author_dept }
     let(:params) do
@@ -247,10 +258,12 @@ describe "Waivers", type: :request do
     let(:author_dept) { "Chemistry" }
     let(:author_dept2) { "Physics" }
     let(:waiver_info) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                      author_department: author_dept)
     end
     let(:waiver_info2) do
-      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, author_department: author_dept2)
+      FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                      author_department: author_dept2)
     end
     let(:search_term) { author_dept }
     let(:params) do
@@ -336,7 +349,9 @@ describe "Waivers", type: :request do
     let(:waiver_info) do
       FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
     end
-    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:employee2) do
+      FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain")
+    end
     let(:waiver_info2) do
       FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
     end
@@ -360,7 +375,9 @@ describe "Waivers", type: :request do
     let(:waiver_info) do
       FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
     end
-    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:employee2) do
+      FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain")
+    end
     let(:waiver_info2) do
       FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
     end
@@ -375,10 +392,12 @@ describe "Waivers", type: :request do
       let(:journal) { "Ipsum" }
       let(:journal2) { "lorem" }
       let(:waiver_info) do
-        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, journal: journal)
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                        journal: journal)
       end
       let(:waiver_info2) do
-        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email, journal: journal2)
+        FactoryBot.create(:waiver_info, requester: admin_user.netid, requester_email: admin_user.email,
+                                        journal: journal2)
       end
       let(:params) do
         {
@@ -434,7 +453,9 @@ describe "Waivers", type: :request do
     let(:waiver_info) do
       FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
     end
-    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:employee2) do
+      FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain")
+    end
     let(:waiver_info2) do
       FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
     end
@@ -463,7 +484,9 @@ describe "Waivers", type: :request do
     let(:waiver_info) do
       FactoryBot.create(:waiver_info, requester: employee.unique_id, requester_email: employee.email)
     end
-    let(:employee2) { FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain") }
+    let(:employee2) do
+      FactoryBot.create(:employee, unique_id: "999999999", netid: "test.user", email: "testuser@localhost.localdomain")
+    end
     let(:waiver_info2) do
       FactoryBot.create(:waiver_info, requester: employee2.unique_id, requester_email: employee.email)
     end

@@ -51,7 +51,9 @@ class AuthorStatus
     return if @base_url.blank?
 
     %w[html json].each do |format|
-      raise("Missing the AuthorStatus '#{format}' configuration entry for :get_unique_id_path.") unless get_unique_id_path.key?(format)
+      unless get_unique_id_path.key?(format)
+        raise("Missing the AuthorStatus '#{format}' configuration entry for :get_unique_id_path.")
+      end
     end
   end
 

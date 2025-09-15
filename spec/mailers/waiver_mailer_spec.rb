@@ -74,7 +74,7 @@ describe WaiverMailer, type: :mailer do
       let(:waiver_info) { nil }
 
       it "generates the URL for the WaiverInfo ID" do
-        expect(waiver_mailer.waiver_info_url).to be nil
+        expect(waiver_mailer.waiver_info_url).to be_nil
       end
     end
 
@@ -82,7 +82,7 @@ describe WaiverMailer, type: :mailer do
       let(:waiver_info) { FactoryBot.build(:waiver_info) }
 
       it "generates the URL for the WaiverInfo ID" do
-        expect(waiver_mailer.waiver_info_url).to be nil
+        expect(waiver_mailer.waiver_info_url).to be_nil
       end
     end
   end

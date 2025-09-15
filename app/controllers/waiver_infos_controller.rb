@@ -130,10 +130,10 @@ class WaiverInfosController < ApplicationController
     else
       render(:new_waiver_info)
     end
-  rescue StandardError => error
+  rescue StandardError => e
     @waiver_info.destroy
     @waiver_info.errors.add(:base, "Could not send an email")
-    @waiver_info.errors.add(:base, error.message)
+    @waiver_info.errors.add(:base, e.message)
     @waiver_info.errors.add(:base, "Did not create the Waiver - Please try again")
 
     render :new_waiver_info
@@ -144,7 +144,8 @@ class WaiverInfosController < ApplicationController
     # This should be refactored into an exception (or, CanCanCan should be used)
     unless current_account.admin?
       head(:forbidden)
-      flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
+      flash[:alert] =
+        "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
       return
     end
 
@@ -171,7 +172,8 @@ class WaiverInfosController < ApplicationController
     # This should be refactored into an exception (or, CanCanCan should be used)
     unless current_account.admin?
       head(:forbidden)
-      return flash[:alert] = "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
+      return flash[:alert] =
+               "User account #{current_account} is not an administrator. Please contact an administrator for assistance."
     end
 
     @waiver_info = WaiverInfo.find(waiver_id)

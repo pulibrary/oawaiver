@@ -4,7 +4,7 @@ require "rails_helper"
 
 describe AuthorStatus do
   let(:config_file_path) { Rails.root.join("config", "author_status.yml") }
-  let(:config_keys) { ["ajax_path", "ajax_params", "status_path", "get_unique_id_path", "base_url"] }
+  let(:config_keys) { %w[ajax_path ajax_params status_path get_unique_id_path base_url] }
 
   it "loads configuration from a config file" do
     # Note that the config file is generally loaded in an initializer at

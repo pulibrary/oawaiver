@@ -12,8 +12,8 @@ namespace :oawaiver do
 
         begin
           upload!(sql_file_path, remote_file_path)
-        rescue StandardError => scp_error
-          $stderr.puts(scp_error.message)
+        rescue StandardError => e
+          warn(e.message)
         end
       end
     end

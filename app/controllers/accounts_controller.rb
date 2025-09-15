@@ -9,6 +9,7 @@ class AccountsController < ApplicationController
     @account = Account.new(account_params)
 
     return redirect_to manage_url, notice: "Account successfully created for #{@account.netid}" if @account.save
+
     redirect_to manage_url, error: "Could not create a new account for #{@account.netid}"
   end
 

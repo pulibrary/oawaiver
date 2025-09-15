@@ -51,8 +51,8 @@ module Waiver
       # binding.pry
       begin
         WaiverMailer.bootstrap
-      rescue StandardError => error
-        Rails.logger.error(error)
+      rescue StandardError => e
+        Rails.logger.error(e)
       end
     end
   end

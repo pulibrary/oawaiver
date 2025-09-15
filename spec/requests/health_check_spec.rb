@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 RSpec.describe "Health Check", type: :request do
@@ -11,7 +12,9 @@ RSpec.describe "Health Check", type: :request do
         response_body = {
           responseHeader: { status: 0 }
         }
-        stub_request(:get, "#{uri.scheme}://#{uri.hostname}:#{uri.port}/solr/admin/cores?action=STATUS").to_return(status: 200, body: response_body.to_json)
+        stub_request(:get, "#{uri.scheme}://#{uri.hostname}:#{uri.port}/solr/admin/cores?action=STATUS").to_return(
+          status: 200, body: response_body.to_json
+        )
       end
 
       it "has a health check" do
@@ -29,7 +32,9 @@ RSpec.describe "Health Check", type: :request do
         response_body = {
           responseHeader: { status: 500 }
         }
-        stub_request(:get, "#{uri.scheme}://#{uri.hostname}:#{uri.port}/solr/admin/cores?action=STATUS").to_return(status: 200, body: response_body.to_json)
+        stub_request(:get, "#{uri.scheme}://#{uri.hostname}:#{uri.port}/solr/admin/cores?action=STATUS").to_return(
+          status: 200, body: response_body.to_json
+        )
       end
 
       it "errors when a service is down" do

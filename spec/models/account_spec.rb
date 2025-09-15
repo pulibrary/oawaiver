@@ -43,7 +43,7 @@ describe Account, type: :model do
       it "returns a nil value" do
         account = described_class.from_omniauth(nil)
 
-        expect(account).to be nil
+        expect(account).to be_nil
       end
     end
   end

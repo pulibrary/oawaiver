@@ -84,14 +84,7 @@ GEM
     bcrypt_pbkdf (1.1.1-x86_64-darwin)
     benchmark (0.4.1)
     bigdecimal (3.2.3)
-    bixby (5.0.2)
-      rubocop (= 1.28.2)
-      rubocop-ast
-      rubocop-performance
-      rubocop-rails
-      rubocop-rspec
     builder (3.3.0)
-    byebug (12.0.0)
     capistrano (3.19.2)
       airbrussh (>= 1.0.0)
       i18n
@@ -203,10 +196,12 @@ GEM
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
     json (2.13.2)
+    language_server-protocol (3.17.0.5)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
       logger (~> 1.6)
+    lint_roller (1.1.0)
     logger (1.7.0)
     loofah (2.24.1)
       crass (~> 1.0.2)
@@ -371,27 +366,29 @@ GEM
       rspec-mocks (~> 3.13)
       rspec-support (~> 3.13)
     rspec-support (3.13.5)
-    rubocop (1.28.2)
+    rubocop (1.80.2)
+      json (~> 2.3)
+      language_server-protocol (~> 3.17.0.2)
+      lint_roller (~> 1.1.0)
       parallel (~> 1.10)
-      parser (>= 3.1.0.0)
+      parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
-      regexp_parser (>= 1.8, < 3.0)
-      rexml
-      rubocop-ast (>= 1.17.0, < 2.0)
+      regexp_parser (>= 2.9.3, < 3.0)
+      rubocop-ast (>= 1.46.0, < 2.0)
       ruby-progressbar (~> 1.7)
-      unicode-display_width (>= 1.4.0, < 3.0)
+      unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.46.0)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
-    rubocop-performance (1.19.1)
-      rubocop (>= 1.7.0, < 2.0)
-      rubocop-ast (>= 0.4.0)
-    rubocop-rails (2.15.2)
+    rubocop-rails (2.33.3)
       activesupport (>= 4.2.0)
+      lint_roller (~> 1.1)
       rack (>= 1.1)
-      rubocop (>= 1.7.0, < 2.0)
-    rubocop-rspec (2.11.1)
-      rubocop (~> 1.19)
+      rubocop (>= 1.75.0, < 2.0)
+      rubocop-ast (>= 1.44.0, < 2.0)
+    rubocop-rspec (3.7.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     ruby-progressbar (1.13.0)
     sass-embedded (1.92.1-aarch64-linux-gnu)
       google-protobuf (~> 4.31)
@@ -443,7 +440,9 @@ GEM
       sync
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    unicode-display_width (2.6.0)
+    unicode-display_width (3.2.0)
+      unicode-emoji (~> 4.1)
+    unicode-emoji (4.1.0)
     uri (1.0.3)
     useragent (0.16.11)
     vite_rails (3.0.19)
@@ -493,16 +492,14 @@ DEPENDENCIES
   activesupport (~> 7.2.2, < 8.0)
   base64
   bcrypt_pbkdf
-  bixby
   bundler (~> 2.6)
-  byebug
   capistrano (~> 3.10)
   capistrano-passenger
   capistrano-rails (~> 1.4)
   capybara
   coveralls_reborn (~> 0.28)
   dartsass-rails
-  database_cleaner-active_record (~> 2.1)
+  database_cleaner-active_record (~> 2.2)
   devise (~> 4.9)
   ed25519
   factory_bot_rails (~> 6.3)
@@ -524,6 +521,8 @@ DEPENDENCIES
   rails-controller-testing
   railties (~> 7.2.2, < 8.0)
   rspec-rails (= 8.0)
+  rubocop-rails (~> 2.33, >= 2.33.3)
+  rubocop-rspec (~> 3.7)
   simplecov
   sunspot_rails
   sunspot_solr

@@ -21,7 +21,7 @@ require "webmock/rspec"
 
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
-  config.before :example do |_ex|
+  config.before do |_ex|
     stub_request(:post, "#{Sunspot.config.solr.url}/update?wt=json").to_return(status: 200)
     response_body = {
       docs: []

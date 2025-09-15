@@ -18,12 +18,12 @@ class WaiverInfo < ApplicationRecord
   validates_presence_of :title, :journal, presence: true
 
   validates_format_of :author_email,
-                      with: /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
+                      with: /\b[A-Z0-9._%a-z-]+@(?:[A-Z0-9a-z-]+\.)+[A-Za-z]{2,4}\z/
   validates_format_of :requester_email,
-                      with: /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/
+                      with: /\b[A-Z0-9._%a-z-]+@(?:[A-Z0-9a-z-]+\.)+[A-Za-z]{2,4}\z/
 
   validates_format_of :cc_email,
-                      with: /\b[A-Z0-9._%a-z\-]+@(?:[A-Z0-9a-z\-]+\.)+[A-Za-z]{2,4}\z/,
+                      with: /\b[A-Z0-9._%a-z-]+@(?:[A-Z0-9a-z-]+\.)+[A-Za-z]{2,4}\z/,
                       allow_nil: true
 
   validates_format_of :author_unique_id,
@@ -33,8 +33,9 @@ class WaiverInfo < ApplicationRecord
 
   validates :author_unique_id, presence: true, if: :faculty?
 
-  attr_accessor :author_preferred_name; # not stored to db - used in waiver_infos/_edit_form
-  attr_accessor :cc_email; # not stored to db - used in waiver_infos/_edit_form
+  attr_accessor :author_preferred_name, :cc_email
+
+  # not stored to db - used in waiver_infos/_edit_form; # not stored to db - used in waiver_infos/_edit_form
 
   # store requester, requester_email, and author_email in lower case
   def lower_case_fields
@@ -112,11 +113,10 @@ class WaiverInfo < ApplicationRecord
   # return Sunspot::Search object
   def self.search_with_words(words, page, per_page)
     per_page ||= self.per_page
-    s = WaiverInfo.search do
+    WaiverInfo.search do
       fulltext words, fields: [:all_word_fields]
       order_by :author_last_name
       paginate page: page, per_page: per_page
     end
-    s
   end
 end

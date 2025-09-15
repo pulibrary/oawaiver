@@ -15,7 +15,7 @@ RSpec.describe Employee, type: :model do
     end
   end
 
-  it("can't create with empty preferred_name ") do
+  it("can't create with empty preferred_name") do
     field = :preferred_name
     obj = FactoryBot.build(:employee, field => "  ")
     expect(obj.valid?).to eq(false)
@@ -32,9 +32,9 @@ RSpec.describe Employee, type: :model do
   %i[unique_id netid email].each do |field|
     it("#{field} is unique") do
       obj = FactoryBot.build(:employee,
-                              unique_id: "123123123",
-                              netid: "netid",
-                              email: "netid@princeon.edu")
+                             unique_id: "123123123",
+                             netid: "netid",
+                             email: "netid@princeon.edu")
       expect(obj.save).to eq(true)
       obj = obj.dup
       obj.unique_id = "321321321" unless field == :unique_id
@@ -50,14 +50,14 @@ RSpec.describe Employee, type: :model do
     %i[upcase downcase].each do |fct|
       it("unique #{field}: #{fct} or not is the same") do
         obj = FactoryBot.build(:employee,
-                                unique_id: "123123123",
-                                netid: "netId",
-                                email: "walter.FRITX@bier.de")
+                               unique_id: "123123123",
+                               netid: "netId",
+                               email: "walter.FRITX@bier.de")
         expect(obj.save).to eq(true)
         dup = FactoryBot.build(:employee,
-                                unique_id: "312312312",
-                                netid: "xId",
-                                email: "xyz@bier.de")
+                               unique_id: "312312312",
+                               netid: "xId",
+                               email: "xyz@bier.de")
         other = (obj.send field).send fct
         dup.netid = other if field == :netid
         dup.email = other if field == :email
@@ -161,6 +161,7 @@ RSpec.describe Employee, type: :model do
 
   describe "#format_unique_id" do
     subject(:employee) { FactoryBot.build(:employee) }
+
     let(:unique_id) { "123456789" }
 
     it "formats the value and sets the attribute value" do

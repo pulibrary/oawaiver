@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 require "rails_helper"
 
 describe WaiverInfoReport do
   subject(:waiver_info_report) { described_class.new(models: models, path: path) }
+
   let(:models) { WaiverInfo.all }
   let(:dir_path) { "tmp" }
   let(:path) { "#{dir_path}/waiver_info_report.csv" }

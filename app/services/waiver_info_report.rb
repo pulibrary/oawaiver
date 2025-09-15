@@ -2,19 +2,19 @@
 
 class WaiverInfoReport
   def self.headers
-    [
-      "created_at",
-      "updated_at",
-      "requester_email",
-      "author_first_name",
-      "author_last_name",
-      "author_status",
-      "author_department",
-      "author_email",
-      "title",
-      "journal",
-      "journal_issn",
-      "notes"
+    %w[
+      created_at
+      updated_at
+      requester_email
+      author_first_name
+      author_last_name
+      author_status
+      author_department
+      author_email
+      title
+      journal
+      journal_issn
+      notes
     ]
   end
 

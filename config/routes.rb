@@ -11,7 +11,8 @@ Rails.application.routes.draw do
   devise_for :accounts, controllers: { omniauth_callbacks: "accounts/omniauth_callbacks" }
   devise_scope :account do
     # This should be directing to account_cas_omniauth_authorize_path
-    get("accounts/auth/cas", to: "accounts/omniauth_authorize#passthru", defaults: { provider: :cas }, as: :new_account_session)
+    get("accounts/auth/cas", to: "accounts/omniauth_authorize#passthru", defaults: { provider: :cas },
+                             as: :new_account_session)
     # Deprecated
     get("sign_in", to: redirect("accounts/auth/cas"))
     get("login", to: redirect("accounts/auth/cas"))

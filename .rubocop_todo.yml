@@ -1,7 +1,4 @@
-require: rubocop-rspec
-
-inherit_gem:
-  bixby: bixby_default.yml
+plugins: rubocop-rspec
 
 AllCops:
   TargetRubyVersion: 2.6
@@ -39,19 +36,6 @@ Naming/VariableName:
   Exclude:
     - "app/**/*"
     - "config/**/*"
-
-Rails/HasManyOrHasOneDependent:
-  Exclude:
-    - "app/**/*"
-
-Rails/OutputSafety:
-  Exclude:
-    - "app/**/*"
-    - "lib/**/*"
-
-Rails/Validation:
-  Exclude:
-    - "app/**/*"
 
 RSpec/ExampleLength:
   Exclude:

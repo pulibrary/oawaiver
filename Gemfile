@@ -58,15 +58,14 @@ group :test do
 end
 
 group :development, :test do
-  gem "bixby"
-  gem "byebug"
   gem "coveralls_reborn", "~> 0.28"
-  gem "database_cleaner-active_record", "~> 2.1"
+  gem "database_cleaner-active_record", "~> 2.2"
   gem "factory_bot_rails", "~> 6.3"
   gem "foreman", "~> 0.87"
-  # gem "pry", "~> 0.14"
   gem "rails-controller-testing"
   gem "rspec-rails", "8.0"
+  gem "rubocop-rails", "~> 2.33", ">= 2.33.3"
+  gem "rubocop-rspec", "~> 3.7"
   gem "simplecov"
   gem "webmock"
   gem "yard"

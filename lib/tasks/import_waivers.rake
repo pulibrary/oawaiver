@@ -258,7 +258,11 @@ namespace :import do
       # return [accepted?, reason]
       def accept_author?(author, hsh)
         return [false, "empty"] if author.empty? || author["last_name"].empty?
-        return [false, "rejected on account of last_name mismatch, '#{author['last_name']}'"] if normalize(author["last_name"]) != normalize(hsh[:author_last_name])
+
+        if normalize(author["last_name"]) != normalize(hsh[:author_last_name])
+          return [false,
+                  "rejected on account of last_name mismatch, '#{author['last_name']}'"]
+        end
 
         # check whether first names are the same or one is prefic of the other
         accept = normalize(author["first_name"]) == normalize(hsh[:author_first_name])
@@ -270,7 +274,8 @@ namespace :import do
         a_dept = normalize_department_name(author["department"])
         h_dept = normalize_department_name(hsh[:author_department])
         if a_dept == h_dept
-          [true, "accepted on account of first_name #{hsh[:author_first_name]}, last_name #{hsh[:author_last_name]}, and department #{hsh[:author_department]}"]
+          [true,
+           "accepted on account of first_name #{hsh[:author_first_name]}, last_name #{hsh[:author_last_name]}, and department #{hsh[:author_department]}"]
         else
           [false, "rejected on account of department mismatch, '#{author['department']}'"]
         end
