@@ -3,7 +3,6 @@
 source "https://rubygems.org"
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-# gem "abbrev", "~> 0.1.2"
 gem "actionpack", "~> 7.2.2"
 gem "actionview", "~> 7.2.2", "< 8.0"
 gem "activemodel", "~> 7.2.2", "< 8.0"
@@ -12,19 +11,21 @@ gem "activesupport", "~> 7.2.2", "< 8.0"
 
 gem "base64"
 gem "bcrypt_pbkdf"
-gem "bundler", "~> 2.3"
+gem "bundler", "~> 2.6"
 gem "dartsass-rails"
 gem "devise", "~> 4.9"
 gem "ed25519"
+
 # gem "grape", "~> 1.8"
 # gem "grape-entity", "~> 0.9"
 # gem "grape-swagger", "~> 1.4"
 # gem "grape-swagger-rails", "~> 0.4"
+
 gem "health-monitor-rails"
 gem "honeybadger"
 gem "jbuilder"
-gem "jquery-rails"
-gem "kaminari"
+# gem "jquery-rails"
+# gem "kaminari"
 gem "mail"
 gem "net-imap"
 gem "net-pop"
@@ -44,7 +45,6 @@ gem "rack-contrib"
 gem "rails", "~> 7.2.2", "< 8.0"
 gem "railties", "~> 7.2.2", "< 8.0"
 
-gem "rspec-retry"
 # gem "sdoc", "~> 1.1", group: :doc
 gem "sunspot_rails"
 gem "sunspot_solr"
@@ -76,10 +76,10 @@ group :development, :test do
   gem "database_cleaner-active_record", "~> 2.1"
   gem "factory_bot_rails", "~> 6.3"
   gem "foreman", "~> 0.87"
-  gem "pry", "~> 0.14"
+  # gem "pry", "~> 0.14"
   gem "rails-controller-testing"
   gem "rspec-rails", "5.1"
-  gem "simplecov", "~> 0.22"
+  gem "simplecov"
   gem "webmock"
   gem "yard"
 end

@@ -229,23 +229,7 @@ GEM
     jbuilder (2.14.1)
       actionview (>= 7.0.0)
       activesupport (>= 7.0.0)
-    jquery-rails (4.6.0)
-      rails-dom-testing (>= 1, < 3)
-      railties (>= 4.2.0)
-      thor (>= 0.14, < 2.0)
     json (2.13.2)
-    kaminari (1.2.2)
-      activesupport (>= 4.1.0)
-      kaminari-actionview (= 1.2.2)
-      kaminari-activerecord (= 1.2.2)
-      kaminari-core (= 1.2.2)
-    kaminari-actionview (1.2.2)
-      actionview
-      kaminari-core (= 1.2.2)
-    kaminari-activerecord (1.2.2)
-      activerecord
-      kaminari-core (= 1.2.2)
-    kaminari-core (1.2.2)
     launchy (3.1.1)
       addressable (~> 2.8)
       childprocess (~> 5.0)
@@ -257,7 +241,7 @@ GEM
     loofah (2.24.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    lumberjack (1.4.1)
+    lumberjack (1.4.2)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -268,6 +252,7 @@ GEM
     method_source (1.1.0)
     mini_mime (1.1.5)
     minitest (5.25.5)
+    mize (0.6.1)
     mutex_m (0.3.0)
     nenv (0.3.0)
     net-http (0.6.0)
@@ -287,21 +272,21 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.18.9-aarch64-linux-gnu)
+    nokogiri (1.18.10-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.9-aarch64-linux-musl)
+    nokogiri (1.18.10-aarch64-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.18.9-arm-linux-gnu)
+    nokogiri (1.18.10-arm-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.9-arm-linux-musl)
+    nokogiri (1.18.10-arm-linux-musl)
       racc (~> 1.4)
-    nokogiri (1.18.9-arm64-darwin)
+    nokogiri (1.18.10-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-darwin)
+    nokogiri (1.18.10-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-linux-gnu)
+    nokogiri (1.18.10-x86_64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.18.9-x86_64-linux-musl)
+    nokogiri (1.18.10-x86_64-linux-musl)
       racc (~> 1.4)
     notiffany (0.1.3)
       nenv (~> 0.1)
@@ -331,7 +316,7 @@ GEM
       prettyprint
     pr_geohash (1.0.0)
     prettyprint (0.2.0)
-    prism (1.4.0)
+    prism (1.5.1)
     pry (0.15.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -397,7 +382,7 @@ GEM
     rdoc (6.14.2)
       erb
       psych (>= 4.0.0)
-    regexp_parser (2.11.2)
+    regexp_parser (2.11.3)
     reline (0.6.2)
       io-console (~> 0.5)
     responders (3.1.1)
@@ -431,8 +416,6 @@ GEM
       rspec-expectations (~> 3.10)
       rspec-mocks (~> 3.10)
       rspec-support (~> 3.10)
-    rspec-retry (0.6.2)
-      rspec-core (> 3.3)
     rspec-support (3.13.5)
     rubocop (1.28.2)
       parallel (~> 1.10)
@@ -501,8 +484,9 @@ GEM
       tins (~> 1)
     thor (1.4.0)
     timeout (0.4.3)
-    tins (1.43.0)
+    tins (1.44.1)
       bigdecimal
+      mize (~> 0.6)
       sync
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -557,7 +541,7 @@ DEPENDENCIES
   base64
   bcrypt_pbkdf
   bixby
-  bundler (~> 2.3)
+  bundler (~> 2.6)
   byebug
   capistrano (~> 3.10)
   capistrano-passenger
@@ -575,8 +559,6 @@ DEPENDENCIES
   health-monitor-rails
   honeybadger
   jbuilder
-  jquery-rails
-  kaminari
   launchy
   mail
   net-imap
@@ -587,7 +569,6 @@ DEPENDENCIES
   omniauth
   omniauth-cas
   pg
-  pry (~> 0.14)
   psych
   rack
   rack-contrib
@@ -595,8 +576,7 @@ DEPENDENCIES
   rails-controller-testing
   railties (~> 7.2.2, < 8.0)
   rspec-rails (= 5.1)
-  rspec-retry
-  simplecov (~> 0.22)
+  simplecov
   sunspot_rails
   sunspot_solr
   vite_rails
