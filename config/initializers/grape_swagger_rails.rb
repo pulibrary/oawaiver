@@ -6,8 +6,12 @@
 #
 # rest_api_path = Rails.root.join("app", "api", "**", "*rb")
 # Dir.glob(rest_api_path).each { |path| require(path) }
-api_path = Rails.root.join("app", "api", "ajax_query.rb")
-api_paths = [api_path]
+ajax_api_path = Rails.root.join("app", "api", "ajax_query.rb")
+entities_api_path = Rails.root.join("app", "api", "ajax_query", "entities.rb")
+api_paths = [
+  ajax_api_path,
+  entities_api_path
+]
 api_paths.each do |path|
   require(path)
 end
