@@ -15,7 +15,7 @@ gem "bundler", "~> 2.6"
 gem "dartsass-rails"
 gem "devise", "~> 4.9"
 gem "ed25519"
-
+gem "grape", "~> 2.4"
 gem "health-monitor-rails"
 gem "honeybadger"
 gem "jbuilder"

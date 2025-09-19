@@ -137,6 +137,23 @@ GEM
     docile (1.4.1)
     drb (2.2.3)
     dry-cli (1.3.0)
+    dry-core (1.1.0)
+      concurrent-ruby (~> 1.0)
+      logger
+      zeitwerk (~> 2.6)
+    dry-inflector (1.2.0)
+    dry-logic (1.6.0)
+      bigdecimal
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.1)
+      zeitwerk (~> 2.6)
+    dry-types (1.8.3)
+      bigdecimal (~> 3.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0)
+      dry-inflector (~> 1.0)
+      dry-logic (~> 1.4)
+      zeitwerk (~> 2.6)
     ed25519 (1.4.0)
     erb (5.0.2)
     erubi (1.13.1)
@@ -178,6 +195,12 @@ GEM
     google-protobuf (4.32.1-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
+    grape (2.4.0)
+      activesupport (>= 6.1)
+      dry-types (>= 1.1)
+      mustermann-grape (~> 1.1.0)
+      rack (>= 2)
+      zeitwerk
     hashdiff (1.2.1)
     hashie (5.0.0)
     health-monitor-rails (12.9.0)
@@ -217,6 +240,10 @@ GEM
     mini_mime (1.1.5)
     minitest (5.25.5)
     mize (0.6.1)
+    mustermann (3.0.4)
+      ruby2_keywords (~> 0.0.1)
+    mustermann-grape (1.1.0)
+      mustermann (>= 1.0.0)
     mutex_m (0.3.0)
     net-http (0.6.0)
       uri
@@ -393,6 +420,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     sass-embedded (1.92.1-aarch64-linux-gnu)
       google-protobuf (~> 4.31)
     sass-embedded (1.92.1-aarch64-linux-musl)
@@ -515,6 +543,7 @@ DEPENDENCIES
   factory_bot_rails (~> 6.5)
   faker
   foreman (~> 0.87)
+  grape (~> 2.4)
   health-monitor-rails
   honeybadger
   jbuilder
