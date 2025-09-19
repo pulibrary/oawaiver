@@ -33,6 +33,7 @@ gem "rack-contrib"
 
 gem "rails", "~> 7.2.2", "< 8.0"
 gem "railties", "~> 7.2.2", "< 8.0"
+gem "sprockets-rails"
 
 # gem "sdoc", "~> 1.1", group: :doc
 gem "sunspot_rails", "~> 2.7", ">= 2.7.1"
@@ -61,6 +62,7 @@ group :development, :test do
   gem "database_cleaner-active_record", "~> 2.2"
   gem "factory_bot_rails", "~> 6.5"
   gem "foreman", "~> 0.87"
+  gem "pry-byebug"
   gem "rails-controller-testing"
   gem "rspec-rails", "8.0"
   gem "rubocop-rails", "~> 2.33", ">= 2.33.3"

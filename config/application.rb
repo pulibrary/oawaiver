@@ -15,18 +15,19 @@ module Waiver
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
-    config.load_defaults 6.1
+    # config.load_defaults 6.1
     # -- all .rb files in that directory are automatically loaded.
 
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'
     config.time_zone = "Eastern Time (US & Canada)"
+    config.active_record.use_yaml_unsafe_load = true
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :en
-    config.eager_load_paths << Rails.root.join("extras")
+    # config.eager_load_paths << Rails.root.join("extras")
 
     config.generators do |g|
       g.test_framework :rspec,
@@ -44,11 +45,9 @@ module Waiver
 
     config.after_initialize do
       waiver_mailer_config_path = Rails.root.join("config", "waiver_mail.yml")
-      waiver_mailer_parameters = YAML.load_file(waiver_mailer_config_path)
+      waiver_mailer_parameters = YAML.load_file(waiver_mailer_config_path, aliases: true)
       Rails.application.config.waiver_mailer_parameters = waiver_mailer_parameters
 
-      # require 'pry'
-      # binding.pry
       begin
         WaiverMailer.bootstrap
       rescue StandardError => e
