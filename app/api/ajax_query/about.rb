@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
+require "grape"
+
 module AjaxQuery
-  class About < API
+  class About < Grape::API
+    default_format :json
     use Rack::JSONP
 
-    def show
+    get "/" do
       result = { "revision" => Waiver::Application.config.revision }
 
-      render json: result
+      present(result)
     end
   end
 end
