@@ -8,6 +8,7 @@ gem "actionview", "~> 7.2.2", "< 8.0"
 gem "activemodel", "~> 7.2.2", "< 8.0"
 gem "activerecord", "~> 7.2.2", "< 8.0"
 gem "activesupport", "~> 7.2.2", "< 8.0"
+
 gem "base64", "~> 0.1.1"
 gem "bcrypt_pbkdf", "~> 1.1"
 gem "bundler", "~> 2.3"
@@ -28,27 +29,27 @@ gem "net-imap"
 gem "net-pop"
 gem "net-smtp"
 gem "net-ssh"
-gem "nokogiri", ">= 1.18.3"
-gem "omniauth", ">= 2.0.0"
-gem "omniauth-cas", "~> 3.0"
+gem "nokogiri"
+gem "omniauth"
+gem "omniauth-cas"
 gem "pg"
-gem "propshaft", "~> 0.8"
+# gem "propshaft", "~> 0.8"
 gem "psych", "~> 3.3", "< 4"
-gem "puma", "~> 5.6"
-gem "rack", "~> 2.2"
+# gem "puma", "~> 5.6"
+gem "rack"
 gem "rack-contrib"
 gem "rails", "~> 7.2.2", "< 8.0"
 gem "railties", "~> 7.2.2", "< 8.0"
-gem "rspec-retry", "~> 0.4.5"
-gem "sdoc", "~> 1.1", group: :doc
-gem "sunspot_rails", "~> 2.6"
-gem "sunspot_solr", "~> 2.6"
+gem "rspec-retry"
+# gem "sdoc", "~> 1.1", group: :doc
+gem "sunspot_rails"
+gem "sunspot_solr"
 gem "vite_rails", "~> 3.0"
-gem "will_paginate", "~> 3.3"
+gem "will_paginate"
 # Rake Task dependency
-gem "progress_bar"
+# gem "progress_bar"
 ## Used to XLSX files
-gem "roo", "~> 1.13.2"
+# gem "roo", "~> 1.13.2"
 
 group :development do
   gem "capistrano", "~> 3.10", require: false
@@ -77,3 +78,5 @@ group :development, :test do
   gem "webmock"
   gem "yard"
 end
+
+gem "abbrev", "~> 0.1.2"
