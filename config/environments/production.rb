@@ -24,17 +24,19 @@ Rails.application.configure do
   # Apache or NGINX already handles this.
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present?
 
+  # Deprecated in Rails 7; use public_file_server.enabled instead.
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_files = false
+  # Kept false by default because we rely on the web server.
+  # config.serve_static_files is removed; rely on config.public_file_server.enabled
 
   # Compress CSS using a preprocessor.
   # config.assets.css_compressor = :sass
 
-  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  # Sprockets pipeline is not used (Propshaft + Vite). Ensure no fallback.
   config.assets.compile = false
 
-  # Generates digests for asset URLs.
-  config.assets.digest = true
+  # Fingerprinting handled by Propshaft/Vite in Rails 7.
+  # config.assets.digest is deprecated; leaving for backward compatibility no-op.
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
