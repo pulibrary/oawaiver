@@ -5,6 +5,9 @@ RSpec.describe "Health Check", type: :request do
   describe "GET /health" do
     context "when the service is up" do
       before do
+        # Stub database provider to avoid external connectivity assumptions in test
+        allow_any_instance_of(HealthMonitor::Providers::Database).to receive(:check!).and_return(true) if defined?(HealthMonitor::Providers::Database)
+
         url = Sunspot.config.solr.url
         uri = URI(url)
 
