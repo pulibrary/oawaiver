@@ -1,0 +1,57 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
+  "env": {
+    "DEVBOX_COREPACK_ENABLED": "true",
+    "TMPDIR": "/private/tmp/oawaiver",
+    "LD_LIBRARY_PATH": "$PWD/.devbox/nix/profile/default/lib",
+    "FONTCONFIG_PATH": "$PWD/.devbox/nix/profile/default/etc/fonts"
+  },
+  "packages": [
+    "ruby_3_3",
+    "nodejs",
+    "yarn",
+    "postgresql",
+    "libxml2",
+    "libxslt",
+    "openssl",
+    "readline",
+    "libffi",
+    "libyaml",
+    "zlib",
+    "pkg-config",
+    "gcc",
+    "gnumake",
+    "git",
+    "rsync"
+  ],
+  "env": {
+    "BUNDLE_PATH": ".bundle",
+    "BUNDLE_BIN": "bin",
+    "PATH": "bin:$PATH",
+    "RAILS_ENV": "development"
+  },
+  "shell": {
+    "init_hook": [
+      "ruby -v",
+      "node -v || true",
+      "yarn -v || true",
+      "gem --version",
+      "if [ ! -x bin/bundle ]; then gem install bundler -v 2.5.6 --no-document; fi",
+      "bundle config set path \"$BUNDLE_PATH\"",
+      "bundle config set bin \"$BUNDLE_BIN\""
+    ],
+    "scripts": {
+      "setup": "gem install bundler -v 2.5.6 --no-document && bundle install && if [ -f package.json ]; then yarn install; fi",
+      "rails:server": "bundle exec rails server -b 0.0.0.0 -p 3000",
+      "vite:dev": "bundle exec rake vite:dev",
+      "vite:build": "bundle exec rake vite:build",
+      "solr:start": "bundle exec rake sunspot:solr:start",
+      "solr:stop": "bundle exec rake sunspot:solr:stop",
+      "solr:reindex": "bundle exec rake sunspot:reindex",
+      "test": "bundle exec rspec",
+      "cap:staging": "bundle exec cap staging deploy",
+      "cap:prod": "bundle exec cap production deploy"
+    }
+  }
+}
+
