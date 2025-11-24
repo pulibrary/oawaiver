@@ -1,22 +1,21 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
   "packages": [
-    "ruby_3_3",
-    "nodejs",
-    "yarn",
-    "postgresql",
-    "libxml2",
-    "libxslt",
-    "openssl",
-    "readline",
-    "libffi",
-    "libyaml",
-    "zlib",
-    "pkg-config",
-    "gcc",
-    "gnumake",
-    "git",
-    "rsync"
+    "ruby_3_3@latest",
+    "nodejs@latest",
+    "yarn@latest",
+    "postgresql@latest",
+    "libxml2@latest",
+    "libxslt@latest",
+    "openssl@latest",
+    "readline@latest",
+    "libffi@latest",
+    "libyaml@latest",
+    "zlib@latest",
+    "pkg-config@latest",
+    "gnumake@latest",
+    "git@latest",
+    "rsync@latest"
   ],
   "env": {
     "DEVBOX_COREPACK_ENABLED": "true",
@@ -24,8 +23,8 @@
     "LD_LIBRARY_PATH": "$PWD/.devbox/nix/profile/default/lib",
     "FONTCONFIG_PATH": "$PWD/.devbox/nix/profile/default/etc/fonts",
     "BUNDLE_PATH": ".bundle",
-    "BUNDLE_BIN": "bin",
-    "PATH": "bin:$PATH",
+    "BUNDLE_BIN": ".binstubs",
+    "PATH": ".binstubs:bin:$PATH",
     "RAILS_ENV": "development"
   },
   "shell": {
@@ -34,7 +33,7 @@
       "node -v || true",
       "yarn -v || true",
       "gem --version",
-      "if [ ! -x bin/bundle ]; then gem install bundler -v 2.5.6 --no-document; fi",
+      "sh -lc 'gem list -i bundler -v 2.5.6 >/dev/null || gem install bundler -v 2.5.6 --no-document'",
       "bundle config set path \"$BUNDLE_PATH\"",
       "bundle config set bin \"$BUNDLE_BIN\""
     ],
