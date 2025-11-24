@@ -1,11 +1,5 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.0/.schema/devbox.schema.json",
-  "env": {
-    "DEVBOX_COREPACK_ENABLED": "true",
-    "TMPDIR": "/private/tmp/oawaiver",
-    "LD_LIBRARY_PATH": "$PWD/.devbox/nix/profile/default/lib",
-    "FONTCONFIG_PATH": "$PWD/.devbox/nix/profile/default/etc/fonts"
-  },
   "packages": [
     "ruby_3_3",
     "nodejs",
@@ -25,6 +19,10 @@
     "rsync"
   ],
   "env": {
+    "DEVBOX_COREPACK_ENABLED": "true",
+    "TMPDIR": "/private/tmp/oawaiver",
+    "LD_LIBRARY_PATH": "$PWD/.devbox/nix/profile/default/lib",
+    "FONTCONFIG_PATH": "$PWD/.devbox/nix/profile/default/etc/fonts",
     "BUNDLE_PATH": ".bundle",
     "BUNDLE_BIN": "bin",
     "PATH": "bin:$PATH",
@@ -50,7 +48,9 @@
       "solr:reindex": "bundle exec rake sunspot:reindex",
       "test": "bundle exec rspec",
       "cap:staging": "bundle exec cap staging deploy",
-      "cap:prod": "bundle exec cap production deploy"
+      "cap:prod": "bundle exec cap production deploy",
+      "prettier:check": "yarn run prettier --check . || yarn run format:check",
+      "prettier:fix": "yarn run prettier --write . || yarn run format"
     }
   }
 }
