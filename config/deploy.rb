@@ -31,6 +31,17 @@ set :linked_dirs, fetch(:linked_dirs, []).push("log", "vendor/bundle")
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
+# net-ssh cipher negotiation workaround (client list is empty otherwise)
+set :ssh_options, (fetch(:ssh_options, {})).merge(
+  encryption: %w[
+    chacha20-poly1305@openssh.com
+    aes256-gcm@openssh.com
+    aes128-gcm@openssh.com
+    aes256-ctr
+    aes192-ctr
+    aes128-ctr
+  ]
+)
 
 # Default value for keep_releases is 5
 # set :keep_releases, 5
