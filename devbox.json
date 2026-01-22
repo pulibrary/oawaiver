@@ -4,19 +4,15 @@
     "nodejs@22.13.1",
     "yarn@1.22.10",
     "libffi",
-
     "postgresql@16",
     "libpq",
-
     "pkg-config",
     "gcc",
     "gnumake",
-
     "openssl",
     "zlib",
     "readline",
     "libyaml",
-
     "libxml2",
     "libxslt"
   ],
@@ -27,10 +23,8 @@
       "export BUNDLE_RETRY=3",
       "export FFI_USE_SYSTEM_LIBFFI=1",
       "FFI_PREFIX=\"$(pkg-config --variable=prefix libffi 2>/dev/null || true)\"; if [ -n \"$FFI_PREFIX\" ]; then export CPPFLAGS=\"-I$FFI_PREFIX/include $CPPFLAGS\"; export LDFLAGS=\"-L$FFI_PREFIX/lib $LDFLAGS\"; bundle config set --local build.ffi \"--with-ffi-dir=$FFI_PREFIX\" >/dev/null; fi",
-
       "# Ensure bundler stays on the 2.3.x line (Gemfile pins ~> 2.3)",
       "if ! bundle -v 2>/dev/null | grep -q '^Bundler version 2\\.3\\.'; then gem install bundler -v '~> 2.3' --no-document; fi",
-
       "bundle config set --local path \"$BUNDLE_PATH\" >/dev/null",
       "bundle config set --local jobs \"$BUNDLE_JOBS\" >/dev/null",
       "bundle config set --local retry \"$BUNDLE_RETRY\" >/dev/null"
@@ -38,7 +32,7 @@
     "scripts": {
       "setup": [
         "bundle install",
-        "yarn install --frozen-lockfile || yarn install",
+        "yarn install --frozen-lockfile --ignore-engines || yarn install --ignore-engines",
         "bin/rails db:prepare"
       ],
       "server": "bundle exec rails server -p ${PORT:-3000}",
