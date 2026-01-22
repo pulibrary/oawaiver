@@ -38,6 +38,7 @@ gem "sdoc", "~> 1.1", group: :doc
 gem "sunspot_rails", "~> 2.6"
 gem "sunspot_solr", "~> 2.6"
 gem "vite_rails", "~> 3.0"
+gem "vite_ruby", "~> 3.5.0"
 gem "will_paginate", "~> 3.3"
 # Rake Task dependency
 gem "progress_bar"
