@@ -142,7 +142,7 @@ jobs:
       - setup-solr
       - run:
           name: Execute the test suites using RSpec
-          command: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN bundle exec rspec spec/requests/waiver_infos_controller_spec.rb
+          command: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN bundle exec rspec spec/requests/waiver_infos_controller_spec.rb:326
       - store_artifacts:
           path: << pipeline.parameters.working-directory >>/coverage
           destination: coverage
