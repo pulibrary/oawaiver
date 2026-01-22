@@ -614,7 +614,7 @@ DEPENDENCIES
   base64 (~> 0.1.1)
   bcrypt_pbkdf (~> 1.1)
   bixby
-  bundler (~> 2.5.6)
+  bundler (>= 2.5.6)
   byebug
   capistrano (~> 3.10)
   capistrano-passenger
