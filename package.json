@@ -38,9 +38,6 @@
     "@parcel/watcher-darwin-arm64": "^2.5.4",
     "@rollup/rollup-darwin-arm64": "^4.56.0"
   },
-  "peerDependencies": {
-    "node": ">=14.0.0"
-  },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
     "lint": "yarn run eslint --ignore-pattern app/javascript/entrypoints app/javascript app/assets/javascripts"
