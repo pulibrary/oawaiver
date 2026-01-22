@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 gem "base64", "~> 0.1.1"
 gem "bcrypt_pbkdf", "~> 1.1"
-gem "bundler", "~> 2.5.6"
+gem "bundler", ">= 2.5.6"
 gem "dartsass-rails", "~> 0.5"
 gem "devise", "~> 4.9"
 gem "ed25519", "~> 1.3"
