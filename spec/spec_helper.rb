@@ -27,6 +27,10 @@ RSpec.configure do |config|
   # show exception that triggers a retry if verbose_retry is set to true
   config.display_try_failure_messages = true
 
+  config.before :suite, :request do
+    Rails.application.reload_routes! if Devise.mappings.empty?
+  end
+
   # run retry only on features
   config.around :each, :js do |ex|
     ex.run_with_retry retry: 3
