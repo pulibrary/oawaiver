@@ -31,6 +31,11 @@
     ],
     "scripts": {
       "setup": [
+        "if [ ! -f .devbox/virtenv/postgresql/data/PG_VERSION ]; then initdb -D .devbox/virtenv/postgresql/data; fi",
+        "devbox services restart postgresql",
+        "echo 'Waiting for PostgreSQL to initialize...'",
+        "until pg_isready -h 127.0.0.1 -p 5432; do sleep 1; done",
+        "createuser -s oawaiver 2>/dev/null || echo 'Role oawaiver already exists'",
         "bundle install",
         "yarn install --frozen-lockfile --ignore-engines || yarn install --ignore-engines",
         "bin/rails db:prepare"
