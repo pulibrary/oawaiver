@@ -109,6 +109,7 @@ commands:
             zip -1 -r solr_config.zip ./*
             curl -H "Content-Type: application/octet-stream" --data-binary @solr_config.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=oawaiver"
             curl -H 'Content-Type: application/json' http://localhost:8983/api/collections/ -d '{create: {name: oawaiver-core-test, config: oawaiver, numShards: 1}}'
+
   build-vite:
     description: "Generate the Vite build"
     steps:
@@ -126,6 +127,7 @@ jobs:
       - checkout
       - setup-bundler
       - setup-node
+      - build-vite
       - persist_to_workspace:
           root: << pipeline.parameters.working-directory >>
           paths: "*"
