@@ -25,8 +25,9 @@ executors:
           BUNDLE_RETRY: 3
           BUNDLE_PATH: vendor/bundle
           RAILS_ENV: test
-          APP_DB_HOST: 0.0.0.0
-          APP_SOLR_HOST: 0.0.0.0
+          APP_DB_HOST: localhost
+          DB_HOST: localhost
+          APP_SOLR_HOST: localhost
     working_directory: << pipeline.parameters.working-directory >>
 
   oawaiver-executor:
@@ -34,7 +35,6 @@ executors:
       - image: cimg/ruby:<< pipeline.parameters.ruby-release >>-browsers
         environment:
           <<: *docker_env_default
-          DB_HOST: localhost
           DB_PASSWORD: ""
           APP_DB: oawaiver_test
           APP_DB_USERNAME: oawaiver
@@ -48,27 +48,6 @@ executors:
       - image: solr:8.4
         command: bin/solr -cloud -noprompt -f -p 8983
 
-      - image: mailhog/mailhog:latest
-    working_directory: << pipeline.parameters.working-directory >>
-
-  oawaiver-executor-deprecated:
-    docker:
-      - image: cimg/ruby:<< pipeline.parameters.ruby-release >>-browsers
-        environment:
-          BUNDLER_VERSION: << pipeline.parameters.bundler-release >>
-          BUNDLE_JOBS: 3
-          BUNDLE_RETRY: 3
-          BUNDLE_PATH: vendor/bundle
-          RAILS_ENV: test
-          APP_DB_HOST: 0.0.0.0
-          APP_SOLR_HOST: 0.0.0.0
-      - image: postgres:15
-        environment:
-          POSTGRES_USER: oawaiver
-          POSTGRES_DB: oawaiver_test
-          POSTGRES_HOST_AUTH_METHOD: trust
-      - image: solr:8.4
-        command: bin/solr -cloud -noprompt -f -p 8983
       - image: mailhog/mailhog:latest
     working_directory: << pipeline.parameters.working-directory >>
 
