@@ -109,6 +109,13 @@ commands:
             zip -1 -r solr_config.zip ./*
             curl -H "Content-Type: application/octet-stream" --data-binary @solr_config.zip "http://localhost:8983/solr/admin/configs?action=UPLOAD&name=oawaiver"
             curl -H 'Content-Type: application/json' http://localhost:8983/api/collections/ -d '{create: {name: oawaiver-core-test, config: oawaiver, numShards: 1}}'
+  build-vite:
+    description: "Generate the Vite build"
+    steps:
+      - run:
+          name: Build the Vite manifests
+          command: |
+            bin/vite build --mode=development
 
 jobs:
   build:
@@ -154,9 +161,7 @@ jobs:
           name: Wait for Solr
           command: dockerize -wait tcp://localhost:8983 -timeout 1m
       - setup-solr
-      - run:
-          name: Build Vite
-          command: bin/vite build --development
+      - build-vite
       - run:
           name: Execute the test suites using RSpec
           command: COVERALLS_REPO_TOKEN=$COVERALLS_REPO_TOKEN bundle exec rspec spec/requests/waiver_infos_controller_spec.rb
