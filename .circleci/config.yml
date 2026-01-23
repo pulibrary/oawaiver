@@ -4,7 +4,7 @@ version: 2.1
 parameters:
   ruby-release:
     type: string
-    default: "3.2.3"
+    default: "3.2.10"
   bundler-release:
     type: string
     default: "2.5.6"
