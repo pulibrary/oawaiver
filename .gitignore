@@ -43,3 +43,10 @@ node_modules
 /coverage
 
 .yardoc/
+
+# devbox
+.corepack/
+.postgres/
+.solr/
+.tmp/
+vendor/bundle/
