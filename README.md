@@ -1,4 +1,5 @@
 # Open Access (OA) Waiver
+
 [![CircleCI](https://circleci.com/gh/pulibrary/oawaiver.svg?style=svg)](https://circleci.com/gh/pulibrary/oawaiver)
 [![Coverage Status](https://coveralls.io/repos/github/pulibrary/oawaiver/badge.svg)](https://coveralls.io/github/pulibrary/oawaiver)
 [![Ruby 3.2.3](https://img.shields.io/badge/ruby-3.2.3-CC342D?logo=ruby "Ruby 3.2.3")](https://www.ruby-lang.org/en/news/2024/01/18/ruby-3-2-3-released/)
@@ -8,92 +9,169 @@ The Open Access (OA) Waiver service provides faculty and researchers with the ab
 
 ## Development
 
-### Dependencies Setup
+### Prerequisites
 
-- `ruby 3.2.3`
-- `node.js 22.13.1`
+This application expects:
 
-#### [Bundler](https://rubygems.org/gems/bundler/versions/2.3.22)
+- Ruby `3.2.3`
+- Node.js `22.13.1`
+- Yarn `1.x`
+- A Postgres database (typically via Lando in local development)
 
-Please install Gem dependencies with the following:
+You can satisfy Ruby/Node/Yarn either via **Devbox** (recommended) or by installing them yourself.
 
-```bash
-$ bundle install
+---
+
+### Option A: Devbox (recommended)
+
+This repo includes a `devbox.json` which provides a consistent Ruby/Node/Yarn toolchain and common native dependencies (e.g. for `pg`, `nokogiri`, `ffi`).
+
+1. Install Devbox:
+   - <https://www.jetpack.io/devbox>
+
+2. Start a shell with the repo toolchain:
+
+  ```bash
+  devbox shell
+  ```
+
+3. Install dependencies and prepare the database:
+
+  ```sh
+  devbox run setup
+  ```
+
+4. Start the app:
+
+  ```sh
+  devbox run server
+  ```
+
+Then access the application at: [http://localhost:3000](http://localhost:3000)
+> Tip: Devbox shells are isolated. If you use direnv, add .envrc with use devbox so the environment loads automatically.
+
+---
+
+### Option B: Manual toolchain install
+
+If you don’t want to use Devbox, install the versions from .tool-versions:
+
+- Ruby 3.2.3
+
+- Node.js 22.13.1
+
+- Yarn 1.22.x
+
+Then install dependencies:
+
+#### Bundler
+
+```sh
+bundle install
 ```
 
-#### [Yarn](https://github.com/yarnpkg/yarn/releases/tag/v1.22.10)
+#### Yarn
 
-Please install NPM dependencies with the following:
-
-```bash
-$ yarn install
+```sh
+yarn install
 ```
 
-#### [Lando](https://github.com/lando/lando/releases/tag/v3.20.8)
+#### Database services (Lando)
 
-Start and initialize database services with `rake servers:start`
+We use Lando to start and initialize local database services:
 
-To stop database services: `rake servers:stop` or `lando stop`
-
-#### Running the Application
-
-```bash
-$ bundle exec foreman start
+```sh
+bundle exec rake servers:start
 ```
 
-Then, please access the application using [http://localhost:3000/](http://localhost:3000/)
+To stop services:
 
-### Running the Test Suites
-```bash
-$ bundle exec rake db:setup
+```sh
+bundle exec rake servers:stop
+# or
+lando stop
 ```
 
-## Deployment
+---
 
-In order to deploy the Rails app. to the `staging` environment, please invoke:
-```bash
-$ bundle exec cap staging deploy
+#### Running the application
+
+From a Devbox shell (recommended) or with the toolchain installed:
+
+```sh
+bundle exec foreman start
+```
+
+Then access the application at: [http://localhost:3000](http://localhost:3000/)
+
+---
+
+#### Running the test suites
+
+Prepare the database (if needed):
+
+```sh
+bundle exec rake db:setup
+```
+
+Run specs:
+
+```sh
+bundle exec rspec
+```
+
+#### Deployment
+
+To deploy the Rails app to the staging environment:
+
+```sh
+bundle exec cap staging deploy
 ```
 
 To create a tagged release use the [steps in the RDSS handbook](https://github.com/pulibrary/rdss-handbook/blob/main/release_process.md)
 
-### Staging Mail
-Please note that mail will not be delivered on the stagig server.  This is expected behavior.
+#### Staging mail
 
-## Administration
-### Solr Indexing
+Please note that mail will not be delivered on the staging server. This is expected behavior.
 
-In order to reindex the data models into the Solr Collection, please invoke the following:
+#### Administration
 
-```bash
-$ bundle exec rake oawaiver:solr:reindex
+##### Solr indexing
+
+To reindex the data models into the Solr collection:
+
+```sh
+bundle exec rake oawaiver:solr:reindex
 ```
 
-For reindexing on the remote server environments, please invoke:
+For reindexing on remote server environments:
 
-```bash
-$ bundle exec cap $RAILS_ENV oawaiver:solr:reindex
+```sh
+bundle exec cap $RAILS_ENV oawaiver:solr:reindex
 ```
 
-### Managing Roles for User Accounts
+#### Managing roles for user accounts
 
-#### Local Deployments
-For adding administrative privileges, please use the following:
+##### Local deployments
 
-```bash
-$ bundle exec rake oawaiver:accounts:add_admin_role[$NET_ID]
+Add administrative privileges:
+
+```sh
+bundle exec rake oawaiver:accounts:add_admin_role[$NET_ID]
 ```
 
-For removing administrative privileges, please invoke:
-```bash
-$ bundle exec rake oawaiver:accounts:remove_admin_role[$NET_ID]
+Remove administrative privileges:
+
+```sh
+bundle exec rake oawaiver:accounts:remove_admin_role[$NET_ID]
 ```
 
-#### Remote Deployments
-```bash
-$ bundle exec cap staging oawaiver:accounts:add_admin_role[$NET_ID]
+Remote deployments
+
+```sh
+bundle exec cap staging oawaiver:accounts:add_admin_role[$NET_ID]
 ```
 
-```bash
-$ bundle exec cap staging oawaiver:accounts:remove_admin_role[$NET_ID]
+```sh
+bundle exec cap staging oawaiver:accounts:remove_admin_role[$NET_ID]
 ```
