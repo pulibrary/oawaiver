@@ -22,5 +22,6 @@ Rails.application.config.after_initialize do
       Rails.logger.error "Health check failed with: #{e.message}"
       Honeybadger.notify(e) unless e.is_a?(HealthMonitor::Providers::FileAbsenceException)
     end
+    config.no_database
   end
 end
