@@ -61,7 +61,7 @@ Rails.application.configure do
   config.log_level = :info
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different logger for distributed setups.
   # config.logger = ActiveSupport::TaggedLogging.new(SyslogLogger.new)
@@ -127,8 +127,8 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.delivery_method = :smtp
-  action_mailer_host = ENV['SMTP_HOST'] || 'lib-ponyexpr-prod.princeton.edu'
-  action_mailer_port = ENV['SMTP_PORT'] || 25
+  action_mailer_host = ENV["SMTP_HOST"] || "lib-ponyexpr-prod.princeton.edu"
+  action_mailer_port = ENV["SMTP_PORT"] || 25
 
   config.action_mailer.smtp_settings = {
     address: action_mailer_host,
@@ -136,7 +136,9 @@ Rails.application.configure do
     enable_starttls: false
   }
   config.action_mailer.default_options = {
-    from: 'no-reply@princeton.edu'
+    from: "no-reply@princeton.edu"
   }
   config.action_mailer.raise_delivery_errors = false
+
+  config.secret_key_base = ENV["APP_SECRET_KEY_BASE"]
 end
